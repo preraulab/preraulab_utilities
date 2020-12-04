@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><link rel="stylesheet" href="help_files/matlab-report-styles.css" type="text/css" /><script type="text/javascript" language="JavaScript" src="help_files/matlabreports.js"></script><title>Help Report</title></head><body><div class="report-head">Help Report</div><p><div class="report-desc">The Help Report presents a summary view of the help component of your MATLAB files  (<a href="matlab:helpview([docroot '/techdoc/matlab_env/matlab_env.map'], 'matlab_env_help_rpt')">Learn More</a>).</div><table border="0"><tr><td><input type="button" value="Rerun This Report" id="rerunThisReport" onclick="runreport('helprpt(\'/autofs/cluster/purdonlab/code/matlab/utils\',\'dir\')');" /></td><td><input type="button" value="Run Report on Current Folder" id="runReportOnCurrent" onclick="runreport('helprpt');" /></td></tr></table><form method="post" action="matlab:internal.matlab.codetools.reports.handleForm"><input type="hidden" name="reporttype" value="helprpt" /><table cellspacing="8"><tr><td><input type="checkbox" name="helpSubfunsDisplayMode" checked onChange="this.form.submit()" />Show class methods</td><td><input type="checkbox" name="h1DisplayMode" checked onChange="this.form.submit()" />Description</td><td><input type="checkbox" name="exampleDisplayMode" checked onChange="this.form.submit()" />Examples</td></tr><tr><td><input type="checkbox" name="helpDisplayMode" checked onChange="this.form.submit()" />Show all help</td><td><input type="checkbox" name="seeAlsoDisplayMode" checked onChange="this.form.submit()" />See also</td><td><input type="checkbox" name="copyrightDisplayMode" checked onChange="this.form.submit()" />Copyright</td></tr></table></form>Report for folder /autofs/cluster/purdonlab/code/matlab/utils<p><strong>MATLAB File List</strong><br/><table cellspacing="0" cellpadding="2" border="0"><tr><td valign="top" class="td-linetop"><a href="matlab: edit(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fccc.m'))"><span class="mono">ccc</span></a></td><td class="td-linetopleft"><pre> Clears all, closes all figures, and clears the screen</pre><pre> Clears all, closes all figures, and clears the screen
+<br/></pre><span style="background: #FFC0C0">No examples</span><br/><span style="background: #FFC0C0">No See Also line</span><br/><span style="background: #FFC0C0">No copyright line</span><br/></td></tr><tr><td valign="top" class="td-linetop"><a href="matlab: edit(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Ffindclosest.m'))"><span class="mono">findclosest</span></a></td><td class="td-linetopleft"><pre> FINDCLOSEST  Compares two vectors A and B, and finds the elements in A closest to B</pre><pre> FINDCLOSEST  Compares two vectors A and B, and finds the elements in A closest to B
+ 
+    Usage:
+        [vals inds]=findclosest(A, B)
+  
+    Input:
+    A: 1xN vector of numeric values
+    B: 1XM vector of numeric values to compare to those in A
+  
+    Output:
+    vals: the values of the elements in A that are closest to B
+    inds: the indices of the values in A to which those in B are closest
+  
+    Example:
+  
+          %Create data sets
+          A=[-1 5 74 2 9 -45 23 75 23]
+          B=[-3.4 5.6 9.45 -100]
+  
+          %Define events
+          [vals inds]=findclosest(A, B)
+ 
+    Copyright 2011 Michael J. Prerau, Ph.D.
+    
+    Last modified 01/13/2011
+ ********************************************************************)
+<br/></pre><pre><a href="matlab: opentoline(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Ffindclosest.m'),14)">14:</a>  
+Example:
+</pre><span style="background: #FFC0C0">No See Also line</span><br/><pre><span style="font-size: 11">%   Copyright 2011 Michael J. Prerau, Ph.D.</span></pre></td></tr><tr><td valign="top" class="td-linetop"><a href="matlab: edit(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fhline.m'))"><span class="mono">hline</span></a></td><td class="td-linetopleft"><pre> HLINE  Draw a horizontal line</pre><pre> HLINE  Draw a horizontal line
+ 
+    Usage:
+    [h] = hline(yval, width, color)
+  
+    Input:
+    yval: y coordinate of line
+    width: width of line
+    color: color of line
+  
+    Output:
+    h: handle for line
+  
+    Example:
+          % Create a new figure
+          figure;
+          % Draw a thin blue line at y=1
+          h=hline(1,0.5,'b');
+ 
+    See also vline, line
+ 
+    Copyright 2011 Michael J. Prerau, Ph.D.
+    
+    Last modified 9/21/2011
+ ********************************************************************
+<br/></pre><pre><a href="matlab: opentoline(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fhline.m'),14)">14:</a>  
+Example:
+% Create a new figure
+figure;
+% Draw a thin blue line at y=1
+h=hline(1,0.5,'b');
+</pre><pre><a href="matlab: opentoline(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fhline.m'),20)">20:</a> See also vline, line</pre><pre><span style="font-size: 11">%   Copyright 2011 Michael J. Prerau, Ph.D.</span></pre></td></tr><tr><td valign="top" class="td-linetop"><a href="matlab: edit(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fhowfast.m'))"><span class="mono">howfast</span></a></td><td class="td-linetopleft"><pre>  HOW FAST IS YOUR GRAPHICS CARD?</pre><pre>  HOW FAST IS YOUR GRAPHICS CARD?
+  Michael Kleder, June 2005
+<br/></pre><span style="background: #FFC0C0">No examples</span><br/><span style="background: #FFC0C0">No See Also line</span><br/><span style="background: #FFC0C0">No copyright line</span><br/></td></tr><tr><td valign="top" class="td-linetop"><a href="matlab: edit(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fksplot.m'))"><span class="mono">ksplot</span></a></td><td class="td-linetopleft"><pre> KSPLOT  Computes KS plots for a point process with spike train given by spike and conditional intensity given by lambda (in spikes/timestep)</pre><pre> KSPLOT  Computes KS plots for a point process with spike train given by spike and conditional intensity given by lambda (in spikes/timestep)
+ 
+    Usage:
+        ks = ksplot(lambda, spike)
+  
+    Input:
+    lambda: number for intensity (e^b)
+    spike: &lt;trials&gt; x &lt;time&gt; matrix of spike trains per trial
+  
+    Example:
+          
+ 
+    Copyright 2011 Michael J. Prerau, Ph.D.
+    
+    Last modified 07/11/2011
+ ********************************************************************
+<br/></pre><pre><a href="matlab: opentoline(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fksplot.m'),10)">10:</a>  
+Example:
+</pre><span style="background: #FFC0C0">No See Also line</span><br/><pre><span style="font-size: 11">%   Copyright 2011 Michael J. Prerau, Ph.D.
+</span></pre></td></tr><tr><td valign="top" class="td-linetop"><a href="matlab: edit(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fredbluemap.m'))"><span class="mono">redbluemap</span></a></td><td class="td-linetopleft"><pre>  Red and blue color map</pre><pre>  Red and blue color map
+<br/></pre><span style="background: #FFC0C0">No examples</span><br/><span style="background: #FFC0C0">No See Also line</span><br/><span style="background: #FFC0C0">No copyright line</span><br/></td></tr><tr><td valign="top" class="td-linetop"><a href="matlab: edit(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fshadebounds.m'))"><span class="mono">shadebounds</span></a></td><td class="td-linetopleft"><pre> SHADEBOUNDS  Plots a curve and shaded confidence intervals</pre><pre> SHADEBOUNDS  Plots a curve and shaded confidence intervals
+ 
+    Usage:
+        shadebounds(x, mid, hi, lo, cmid, cbounds, edgecolor)
+  
+    Input:
+    x: the xvalue of the curve
+    mid: the yvalue of the curve
+    hi: the upper bounds of the curve
+    lo: the lower bounds of the curve
+    cmid: the curve color
+    cbounds: the shaded bounds color
+    edgecolor: defines the bounds edge color
+  
+    Example:
+          
+ 
+    Copyright 2011 Michael J. Prerau, Ph.D.
+    
+    Last modified 07/11/2011
+ ********************************************************************
+<br/></pre><pre><a href="matlab: opentoline(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fshadebounds.m'),15)">15:</a>  
+Example:
+</pre><span style="background: #FFC0C0">No See Also line</span><br/><pre><span style="font-size: 11">%   Copyright 2011 Michael J. Prerau, Ph.D.
+</span></pre></td></tr><tr><td valign="top" class="td-linetop"><a href="matlab: edit(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fsplitvec.m'))"><span class="mono">splitvec</span></a></td><td class="td-linetopleft"><pre>  [out1, out2, ...] = splitvec(V, FUN, type1, type2, ...)</pre><pre>  [out1, out2, ...] = splitvec(V, FUN, type1, type2, ...)
+  [out1, out2, ...] = splitvec(V, COL, type1, type2, ...)
+ 
+  Purpose: Partition an input vector V into smaller series of subvectors
+           of consecutive elements based on split points
+ 
+  EXAMPLE:
+        &gt; s = splitvec([1 1 1 2 2 3])
+        &gt; s returned is: {[1 1 1] [2 2] [3]}
+ 
+  INPUT:
+    V: main argument, array of the length n.
+       It can be also matrix, in this case splitvec works along the first
+       dimension
+ 
+    FUN: Typical value 'equal' 'consecutive', 'reverse'
+        It can be a customized function that - when apply on V - returns 
+        a logical array of length n (or n-1), contains *true* at the same
+        location where the LAST element of a series (i.e., right before the
+        break occurs). Example:
+                    V: [5 5 5 2 2 3 3 3 4]
+               FUN(V): [0 0 1 0 1 0 0 1 1]
+        - By default FUN is 'equal': @(v) any(diff(v,1,dim),2)~=0
+          Group by series of equal elements. DIM is 2 for row vector
+          1 otherwise.
+        - Set FUN to 'consecutive': diff(V(:,1)-(1:n)')~=0 to split
+          into series of consecutive integers (n denotes size(V,1))
+        - Set FUN to 'reverse': diff(V(:,1)-(n:-1:1)')~=0 to split
+          in series of the reverse ordered integers
+    COL: Alternatively if the second parameter is an integer indexes,
+         the 'EQUAL' grouping will be carried out based only on the
+         specified column-indexes COL
+ 
+    TYPE&lt;k&gt; can take one of the string values:
+        - 'split': Split the vector V in cell. It is the DEFAULT output
+        - 'first' 'begining': index of the first element of a series,
+        - 'last' 'end': index of the last element of a series,
+        - 'firstval' 'firstelem': value of the first element,
+        - 'lastval' 'lastelem': value of the first element,
+        - 'length': the length of the series,
+        - 'bracket': the braket of the form [first last] of the series,
+        - 'loc' 'location' 'index', 'indice': the row indices (first:last)
+           of all series.
+    User could provide a customized function handle for TYPE&lt;k&gt;.
+        The function takes as input a subarray of V (one splitted series)
+        and return a result.
+          Example: 
+            splitvec([1 2 3 1 2],'cons',@(x) mean(x.^2))
+        - Additional input arguments are passed by the cell function
+          handle form
+          Example:
+            splitvec([1 2 3 1 2],'cons',{@(x,p) mean(x.^p) 4})
+        - Use splitvec(..., typefun, 'UniformOutput', false) to return
+          composite output result in cell array.
+ 
+  OUTPUT:
+    See Type, by default V is splitted in series, stored in cell array.
+ 
+  See also: sortrows, ismember, unique
+ 
+  Author: Bruno Luong
+  History:
+    17-May-2009 original
+    28-May-2009: multiple-column grouping
+    21-June-2009: correct bug when function handle is passed in second
+                  input.
+    07-Jul-2009: correct bug for empty array, group function
+                 Add output types: 'firstval' 'lastval'
+    02-Feb-2010: correct bug when 'loc' is required when working
+                 down the columns of matrix (NUMEL(V) -&gt; SIZE(V,1)) 
+<br/></pre><pre><a href="matlab: opentoline(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fsplitvec.m'),7)">&nbsp;7:</a>  
+EXAMPLE:
+> s = splitvec([1 1 1 2 2 3])
+> s returned is: {[1 1 1] [2 2] [3]}
+</pre><pre><a href="matlab: opentoline(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fsplitvec.m'),59)">59:</a> See also: sortrows, ismember, unique</pre><span style="background: #FFC0C0">No copyright line</span><br/></td></tr><tr><td valign="top" class="td-linetop"><a href="matlab: edit(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fvline.m'))"><span class="mono">vline</span></a></td><td class="td-linetopleft"><pre> VLINE  Draw a vertical line</pre><pre> VLINE  Draw a vertical line
+ 
+    Usage:
+    [h] = vline(xval, width, color)
+  
+    Input:
+    xval: x coordinate of line
+    width: width of line
+    color: color of line
+  
+    Output:
+    h: handle for line
+  
+    Example:
+          % Create a new figure
+          figure;
+          % Draw a thick red line at x=1
+          h=vline(1,3,'r');
+ 
+    See also hline, line
+ 
+    Copyright 2011 Michael J. Prerau, Ph.D.
+    
+    Last modified 9/21/2011
+ ********************************************************************
+<br/></pre><pre><a href="matlab: opentoline(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fvline.m'),14)">14:</a>  
+Example:
+% Create a new figure
+figure;
+% Draw a thick red line at x=1
+h=vline(1,3,'r');
+</pre><pre><a href="matlab: opentoline(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fvline.m'),20)">20:</a> See also hline, line</pre><pre><span style="font-size: 11">%   Copyright 2011 Michael J. Prerau, Ph.D.</span></pre></td></tr><tr><td valign="top" class="td-linetop"><a href="matlab: edit(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fwmean.m'))"><span class="mono">wmean</span></a></td><td class="td-linetopleft"><pre> WMEAN   Weighted Average or mean value.</pre><pre> WMEAN   Weighted Average or mean value.
+    For vectors, WMEAN(X,W) is the weighted mean value of the elements in X
+    using non-negative weights W. For matrices, WMEAN(X,W) is a row vector 
+    containing the weighted mean value of each column.  For N-D arrays, 
+    WMEAN(X,W) is the weighted mean value of the elements along the first 
+    non-singleton dimension of X.
+ 
+    Each element of X requires a corresponding weight, and hence the size 
+    of W must match that of X.
+ 
+    WMEAN(X,W,DIM) takes the weighted mean along the dimension DIM of X. 
+ 
+    Class support for inputs X and W:
+       float: double, single
+ 
+    Example:
+        x = rand(5,2);
+        w = rand(5,2);
+        wmean(x,w)
+<br/></pre><pre><a href="matlab: opentoline(urldecode('%2Fautofs%2Fcluster%2Fpurdonlab%2Fcode%2Fmatlab%2Futils%2Fwmean.m'),16)">16:</a>  
+Example:
+x = rand(5,2);
+w = rand(5,2);
+wmean(x,w)
+</pre><span style="background: #FFC0C0">No See Also line</span><br/><span style="background: #FFC0C0">No copyright line</span><br/></td></tr></table></body></html>

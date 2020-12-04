@@ -1,0 +1,1 @@
+tic; myprctile(randn(1,1e7),50); toc
