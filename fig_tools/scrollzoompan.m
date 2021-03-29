@@ -57,12 +57,12 @@ end
 
 %Get full data limits depending on direction
 if strcmpi(dir,'x')
-    xl=xlim(ax(1));   
-
+    xl=xlim;
+    
     amin=xl(1);
     amax=xl(2);
 else
-    yl=xlim(ax(1));
+    yl=ylim;
     
     amin=yl(1);
     amax=yl(2);
@@ -86,8 +86,8 @@ handle.shift_down=false;
 guidata(gcf,handle);
 
 %Create zoom slider
-zslider = uicontrol('style','slider','units','normalized','position',[.05 .025 .9 .025],'slider',[1 5]/amax,'min',amin,'max',amax,'value',amax);
-pslider = uicontrol('style','slider','units','normalized','position',[.05 .055 .9 .025],'slider',[1 5]/amax,'min',amin,'max',amax,'value',(amax-amin)/2+amin,'sliderstep',(amax-amin)/amax*[.5 1]);
+zslider = uicontrol('style','slider','units','normalized','position',[.05 .025 .9 .025],'min',amin,'max',amax,'value',amax);
+pslider = uicontrol('style','slider','units','normalized','position',[.05 .055 .9 .025],'min',amin,'max',amax,'value',amax/2);
 
 %Add listeners for continuous value changes
 zl=addlistener(zslider,'ContinuousValueChange',@(src,evnt)zoom_slider(ax, zslider, pslider, dir,zoom_fcn));
@@ -120,7 +120,7 @@ annotation(gcf,'textbox',...
 %-----------------------------------------------------------
 function zoom_slider(ax, zslider, pslider, dir, zoom_fcn)
 %Keep the window center with window width determined by slider value
-newlims=get(pslider,'value')+(get(zslider,'value')-get(zslider,'min'))/2*[-1 1];
+newlims=get(pslider,'value')+get(zslider,'value')/2*[-1 1];
 
 amin=get(zslider,'min');
 amax=get(zslider,'max');
@@ -131,12 +131,12 @@ if newlims(2)<=newlims(1)
 end
 
 %Set sliderbounds so that you can't go past limits
-if get(pslider,'value')-abs(diff(xlim(ax(1))))/2<amin
-    newpos=amin+abs(diff(xlim(ax(1))))/2;
+if get(pslider,'value')-abs(diff(xlim(ax)))/2<amin
+    newpos=amin+abs(diff(xlim(ax)))/2;
     set(pslider,'value', newpos);
     newlims(1)=amin;
-elseif get(pslider,'value')+abs(diff(xlim(ax(1))))/2>amax
-    newpos=amax-abs(diff(xlim(ax(1))))/2;
+elseif get(pslider,'value')+abs(diff(xlim(ax)))/2>amax
+    newpos=amax-abs(diff(xlim(ax)))/2;
     set(pslider,'value', newpos);
     newlims(2)=amax;
 end
@@ -144,16 +144,15 @@ end
 %Compute the new limits
 if strcmpi(dir,'x')
     set(ax,'xlim',newlims);
-    set(pslider,'sliderstep',diff(xlim(ax(1)))/amax*[.5 1]);
+    set(pslider,'sliderstep',diff(xlim)/amax*[.5 1]);
 else
     set(ax,'ylim',newlims);
-    set(pslider,'sliderstep',diff(xlim(ax(1)))/amax*[.5 1]);
+    set(pslider,'sliderstep',diff(ylim)/amax*[.5 1]);
 end
 
 if ~isempty(zoom_fcn)
     feval(zoom_fcn);
 end
-
 
 %-----------------------------------------------------------
 %           CALLBACK TO HANDLE TIME SCALE SCROLL
@@ -165,21 +164,21 @@ amax=get(pslider,'max');
 %Set the limits to the slider value center
 if strcmpi(dir,'x')
     %Set sliderbounds so that you can't go past limits
-    if get(pslider,'value')-abs(diff(xlim(ax(1))))/2<amin
-        set(pslider,'value',amin+abs(diff(xlim(ax(1))))/2);
-    elseif get(pslider,'value')+abs(diff(xlim(ax(1))))/2>amax
-        set(pslider,'value',amax-abs(diff(xlim(ax(1))))/2);
+    if get(pslider,'value')-abs(diff(xlim(ax)))/2<amin
+        set(pslider,'value',amin+abs(diff(xlim(ax)))/2);
+    elseif get(pslider,'value')+abs(diff(xlim(ax)))/2>amax
+        set(pslider,'value',amax-abs(diff(xlim(ax)))/2);
     end
     
-    set(ax, 'xlim', get(pslider,'value')+[-1 1]*abs(diff(xlim(ax(1))))/2);
+    set(ax, 'xlim', get(pslider,'value')+[-1 1]*abs(diff(xlim(ax)))/2);
 else
     %Set sliderbounds so that you can't go past limits
-    if get(pslider,'value')-abs(diff(xlim(ax(1))))/2<amin
-        set(pslider,'value',amin+abs(diff(xlim(ax(1))))/2);
-    elseif get(pslider,'value')+abs(diff(xlim(ax(1))))/2>amax
-        set(pslider,'value',amax-abs(diff(xlim(ax(1))))/2);
+    if get(pslider,'value')-abs(diff(ylim(ax)))/2<amin
+        set(pslider,'value',amin+abs(diff(ylim(ax)))/2);
+    elseif get(pslider,'value')+abs(diff(ylim(ax)))/2>amax
+        set(pslider,'value',amax-abs(diff(ylim(ax)))/2);
     end
-    set(ax, 'ylim', get(pslider,'value')+[-1 1]*abs(diff(xlim(ax(1))))/2);
+    set(ax, 'ylim', get(pslider,'value')+[-1 1]*abs(diff(ylim(ax)))/2);
 end
 
 if ~isempty(pan_fcn)
@@ -203,7 +202,7 @@ if ~(handle.shift_down)
         set(pslider,'value',max(get(pslider,'value')*(1-.025*callbackdata.VerticalScrollAmount),amin));
         pan_slider(ax, pslider, dir, pan_fcn)
     end
-%Zoom if shift is pressed
+    %Zoom if shift is pressed
 else
     amin=get(zslider,'min');
     amax=get(zslider,'max');
@@ -231,21 +230,38 @@ switch event.Key
         amax=get(pslider,'max');
         set(pslider,'value',min(get(pslider,'value')*(1+.025),amax));
         pan_slider(ax, pslider, dir, pan_fcn);
-    %Scroll right    
+        %Scroll right
     case 'leftarrow'
         amin=get(pslider,'min');
         set(pslider,'value',max(get(pslider,'value')*(1-.025),amin));
         pan_slider(ax, pslider, dir, pan_fcn)
-    %Zoom in  
+        %Zoom in
     case 'downarrow'
         amin=get(zslider,'min');
         set(zslider,'value',max(get(zslider,'value')*(1-.025),amin));
         zoom_slider(ax, zslider, pslider, dir, zoom_fcn);
-    %Zoom out
+        %Zoom out
     case 'uparrow'
         amax=get(zslider,'max');
         set(zslider,'value',min(get(zslider,'value')*(1+.025),amax));
         zoom_slider(ax, zslider, pslider, dir, zoom_fcn);
+    case 'z'
+        %Get the initials of the scorer to be used for saving
+        prompt={'Enter Window Size:';};
+        name='Set Window Size';
+        numlines=1;
+        defaultanswer={''};
+        answer=inputdlg(prompt,name,numlines,defaultanswer);
+        
+        new_width = str2double(answer{1});
+        if isnan(new_width)
+            return;
+        end
+        
+        amax=get(zslider,'max');
+        set(zslider,'value',new_width);
+        zoom_slider(ax, zslider, pslider, dir, zoom_fcn);
+        
 end
 
 guidata(gcf,handle);
