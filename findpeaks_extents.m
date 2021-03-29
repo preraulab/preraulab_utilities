@@ -182,14 +182,13 @@ if nargout > 0
   else
     [Ypk,Xpk] = assignOutputs(y,x,iPk,yIsRow,xIsRow);
   end    
-else
-  % no output arguments specified. plot and optionally annotate
-  hAxes = plotSignalWithPeaks(x,y,iPk);
-  if strcmp(annotate,'extents')
+end
+
+% generate a plot
+if strcmp(annotate,'extents')
+    hAxes = plotSignalWithPeaks(x,y,iPk);
     plotExtents(hAxes,x,y,iPk,bPk,bxPk,byPk,wxPk,refW);
-  end
-  
-  scalePlot(hAxes);
+    scalePlot(hAxes);
 end
 
 %--------------------------------------------------------------------------
@@ -984,7 +983,7 @@ end
 function hAxes = plotSignalWithPeaks(x,y,iPk)
 
 % plot signal
-hLine = plot(x,y,'Tag','Signal');
+hLine = plot(x,y,'Tag','Signal','LineWidth', 2);
 hAxes = ancestor(hLine,'Axes');
 % turn on grid
 grid on;
@@ -999,7 +998,92 @@ hLine = line(hLine.XData(iPk),y(iPk),'Parent',hAxes, ...
 
 % if using MATLAB use offset inverted triangular marker
 plotpkmarkers(hLine,y(iPk));
-   
+
+function plotpkmarkers(hLine, y)
+%PLOTPKMARKERS  handler to offset peak markers by the size of the marker
+%
+%   This function is for internal use only.
+%
+%   If the figure zoom ActionPostCallback event cannot be overridden
+%   warn user that we can't override and use (centered) circular markers
+%   for peaks.
+%
+%   Otherwise, use inverted triangular markers and offset them by the size
+%   of the marker, taking care to recompute the offsets upon size change
+%   and figure zoom.
+
+%   Copyright 2014 The MathWorks, Inc.
+
+if ~isempty(y) && ~isempty(hLine) && ishghandle(hLine)
+  hFig = ancestor(hLine,'figure');
+  hZoom = zoom(hFig);  
+  cbActionPostZoom = get(hZoom,'ActionPostCallback');
+  cbZoom = createZoomCallback();
+  if isempty(cbActionPostZoom) || isequal(char(cbActionPostZoom),char(cbZoom))
+    % offset markers when figure zoom is invoked.
+    if isempty(cbActionPostZoom)
+      set(hZoom, 'ActionPostCallback', cbZoom);
+    end
+    
+    % use solid inverted triangular markers
+    set(hLine, 'Marker', 'v');
+    set(hLine, 'MarkerSize', 10);
+    set(hLine, 'MarkerFaceColor', get(hLine,'Color'));
+
+    % create callback to offset the peak markers
+    setappdata(hLine, 'YPos', y);
+    cbSizeChange = createSizeChangeCallback(hLine);
+    
+    % offset markers on a SizeChange/SizeChanged event.
+    if ~isprop(hFig,'TransientSizeChangedListener')
+      pi = addprop(hFig,'TransientSizeChangedListener');
+      pi.Transient = true;
+    end
+    ll = event.listener(hFig, 'SizeChanged', cbSizeChange);
+    hFig.TransientSizeChangedListener = ll;
+
+    %Offset the markers now.
+    cbSizeChange(hLine);
+  else
+    % zoom post-action callback has already been overridden
+    warning(message('signal:findpeaks:CantOffsetPeakMarkers'));
+  end
+end
+
+function fcn = createSizeChangeCallback(hLine)
+fcn = @(obj, evt) offsetPeakMarkers(hLine);
+
+function fcn = createZoomCallback()
+fcn = @(hFig, hAxes) offsetPeakMarkersByAxes(hFig, hAxes);
+
+% offset all peak markers contained within an axes
+function offsetPeakMarkersByAxes(~, evt)
+if isfield(evt,'Axes') && ishghandle(evt.Axes)
+  hLines = findall(evt.Axes,'Type','line','Tag','Peak');
+  for i=1:numel(hLines)
+    offsetPeakMarkers(hLines(i));
+  end
+end
+
+% offset the markers in the line
+function offsetPeakMarkers(hLine)
+if ishghandle(hLine)
+  % Fetch the data needed to compute the offset line
+  y = getappdata(hLine, 'YPos');
+  hAxes = ancestor(hLine, 'axes');
+  yMarkerOffset = get(hLine,'MarkerSize');
+  axesPos = getpixelposition(hAxes);
+  yLim = get(hAxes,'YLim');
+
+  % bump the line y data by the marker size
+  yOffset = yMarkerOffset * diff(yLim) ./ axesPos(4);
+  yOld = get(hLine, 'YData');
+  yNew = y + yOffset;
+  if ~isequaln(yOld, yNew)
+    set(hLine,'YData', y + yOffset);
+  end
+end
+
 %--------------------------------------------------------------------------
 function plotExtents(hAxes,x,y,iPk,bPk,bxPk,byPk,wxPk,refW)
 
@@ -1067,11 +1151,11 @@ n = length(x1);
 if isnumeric(x1)
   line(reshape([x1(:).'; x2(:).'; NaN(1,n)], 3*n, 1), ...
        reshape([y1(:).'; y2(:).'; NaN(1,n)], 3*n, 1), ...
-       'Color',c,'Parent',hAxes,'tag',tag);
+       'Color',c,'Parent',hAxes,'tag',tag, 'LineWidth', 2);
 elseif coder.target('MATLAB') && isdatetime(x1)
   line(reshape([x1(:).'; x2(:).'; NaT(1,n)], 3*n, 1), ...
        reshape([y1(:).'; y2(:).'; NaN(1,n)], 3*n, 1), ...
-       'Color',c,'Parent',hAxes,'tag',tag);
+       'Color',c,'Parent',hAxes,'tag',tag, 'LineWidth', 2);
 end
 
 %--------------------------------------------------------------------------
