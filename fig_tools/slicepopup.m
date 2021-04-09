@@ -76,12 +76,20 @@ pop_title=title('');
 
 %Detrmine which way the data is sliced 1=y 0=x
 
-data_vect=data(:);
+if ~isempty(data) 
+data_vect = data(:);
+else
+ hIm = findall(mainax_h,'type','image');
+    assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');   
+    
+    data_vect = hIm.CData(:);
+end
 
 datadir=strcmp(slicedir,'y');
 
 %Set popup y limits to be be based on the z-values of the data
-set(popax_h,'nextplot','replacechildren','ylim',[min(data_vect) max(data_vect)]);
+% set(popax_h,'nextplot','replacechildren','ylim',[min(data_vect) max(data_vect)]);
+set(popax_h,'nextplot','replacechildren');
 if datadir
     set(popax_h,'xlim',[min(y_vals),max(y_vals)],'ylim',prctile(data_vect,[.5 99.5]));
 else
@@ -155,6 +163,14 @@ set(0,'currentfigure',get(get(gcbo,'parent'),'parent'));
 %                  PLOTS SLICE DATA
 %-----------------------------------------------------------
 function plot_slicedata(~, ~, mainfig_h, mainax_h, popax_h, x_vals, y_vals, data, datadir, pop_title, t_label)
+if isempty(data)
+     hIm = findall(mainax_h,'type','image');
+    assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');   
+    
+    data = hIm.CData;
+end
+
+
 %Get the current mousepoint within the main axes
 pt=get(mainax_h(1),'currentpoint');
 
