@@ -28,7 +28,7 @@ function clim = climscale(hObj, ptiles, outliers)
 if nargin==0 || isempty(hObj)
     hObj=gca;
 end
-assert(isa(hObj,'matlab.graphics.primitive.Image') || isa(hObj,'matlab.graphics.axis.Axes'),['First input must be axis or image handle. Input was ' class(hObj)])
+assert(ishandle(hObj) || isa(hObj,'matlab.graphics.primitive.Image') || isa(hObj,'matlab.graphics.axis.Axes'),['First input must be axis or image handle. Input was ' class(hObj)])
 
 %Set default percentiles
 if nargin<2 || isempty(ptiles)
