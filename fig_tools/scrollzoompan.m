@@ -53,7 +53,8 @@ if nargin<4
     pan_fcn=[];
 end
 
-
+%Get current figure
+fig_h = get(ax,'parent');
 
 %Get full data limits depending on direction
 if strcmpi(dir,'x')
@@ -81,9 +82,9 @@ if ~isnan(bounds(2))
     amax=bounds(2);
 end
 
-handle=guidata(gcf);
+handle=guidata(fig_h);
 handle.shift_down=false;
-guidata(gcf,handle);
+guidata(fig_h,handle);
 
 %Create zoom slider
 zslider = uicontrol('style','slider','units','normalized','position',[.05 .025 .9 .025],'min',amin,'max',amax,'value',amax);
@@ -92,18 +93,18 @@ pslider = uicontrol('style','slider','units','normalized','position',[.05 .055 .
 %Add listeners for continuous value changes
 zl=addlistener(zslider,'ContinuousValueChange',@(src,evnt)zoom_slider(ax, zslider, pslider, dir,zoom_fcn));
 pl=addlistener(pslider,'ContinuousValueChange',@(src,evnt)pan_slider(ax, pslider, dir,pan_fcn));
-set(gcf,'WindowKeyPressFcn',{@handle_keys,ax, zslider, pslider, dir, zoom_fcn, pan_fcn},'WindowKeyReleaseFcn',@key_off);
+set(fig_h,'WindowKeyPressFcn',{@handle_keys,ax, zslider, pslider, dir, zoom_fcn, pan_fcn},'WindowKeyReleaseFcn',@key_off);
 
-set(gcf,'WindowScrollWheelFcn',{@figScroll,ax, zslider, pslider, dir, zoom_fcn, pan_fcn});
+set(fig_h,'WindowScrollWheelFcn',{@figScroll,ax, zslider, pslider, dir, zoom_fcn, pan_fcn});
 
-annotation(gcf,'textbox',...
+annotation(fig_h,'textbox',...
     [0.0286396181384249 0.054140127388535 0.019689737470167 0.023416135881104],...
     'String',{'Pan'},...
     'FitBoxToText','off',...
     'LineStyle','none');
 
 % Create textbox
-annotation(gcf,'textbox',...
+annotation(fig_h,'textbox',...
     [0.0238663484486874 0.0265392781316348 0.0238663484486873 0.023416135881104],...
     'String',{'Zoom'},...
     'FitBoxToText','off',...
@@ -189,7 +190,7 @@ end
 %           CALLBACK TO HANDLE SCROLL WHEEL
 %-----------------------------------------------------------
 function figScroll(~,callbackdata,ax, zslider, pslider, dir, zoom_fcn, pan_fcn)
-handle=guidata(gcf);
+handle=guidata(get(ax,'parent'));
 
 %Scroll if shift not pressed
 if ~(handle.shift_down)
@@ -219,7 +220,7 @@ end
 %           SCROLL AND ZOOM WITH KEYS
 %-----------------------------------------------------------
 function handle_keys(~,event,ax, zslider, pslider, dir, zoom_fcn, pan_fcn)
-handle=guidata(gcf);
+handle=guidata(get(ax,'parent'));
 
 %Check if shift is bing pressed
 handle.shift_down=(strcmpi(event.Key,'shift'));
@@ -253,12 +254,15 @@ switch event.Key
         defaultanswer={''};
         answer=inputdlg(prompt,name,numlines,defaultanswer);
         
+        if isempty(answer)
+            return;
+        end
+        
         new_width = str2double(answer{1});
         if isnan(new_width)
             return;
         end
-        
-        amax=get(zslider,'max');
+
         set(zslider,'value',new_width);
         zoom_slider(ax, zslider, pslider, dir, zoom_fcn);
         

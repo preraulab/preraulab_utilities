@@ -187,7 +187,7 @@ else %if x slice
     [~, i]=min(abs(y_vals-pt(1,2)));
     
     %Plote slice and update title
-    plot(popax_h,x_valssqueeze(data(i,:,:))','linewidth',2);
+    plot(popax_h,x_vals,squeeze(data(i,:,:))','linewidth',2);
     set(pop_title,'string',[t_label ' = ' num2str(y_vals(i))]);
 end
 drawnow;
