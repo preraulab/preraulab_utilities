@@ -267,7 +267,7 @@ switch event.Key
         if isnan(new_width)
             return;
         end
-        
+
         set(zslider,'value',new_width);
         zoom_slider(ax, zslider, pslider, dir, zoom_fcn);
         
