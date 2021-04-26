@@ -164,6 +164,7 @@ set(0,'currentfigure',get(get(gcbo,'parent'),'parent'));
 function plot_slicedata(~, ~, mainfig_h, mainax_h, popax_h, x_vals, y_vals, data, datadir, pop_title, t_label)
 hIm = findall(mainax_h,'type','image');
 
+%Handle change in data
 if isempty(data) || ~all(size(hIm.CData) == size(data))
     hIm = findall(mainax_h,'type','image');
     assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');
