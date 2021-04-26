@@ -36,20 +36,20 @@ function [zslider, pslider, zl, pl]=scrollzoompan(ax,dir,zoom_fcn,pan_fcn, bound
 %********************************************************************
 
 %Set default axes to current
-if nargin==0
+if nargin<=1
     ax=gca;
 end
 
 %Set default direction to x
-if nargin<2
+if nargin<=2
     dir=lower('x');
 end
 
-if nargin<3
+if nargin<=3
     zoom_fcn=[];
 end
 
-if nargin<4
+if nargin<=4
     pan_fcn=[];
 end
 
