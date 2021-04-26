@@ -56,19 +56,19 @@ function [popfig_h, popax_h]=slicepopup(mainfig_h, mainax_h, x_vals, y_vals, dat
 %-----------------------------------------------------------
 
 if nargin<11 || isempty(popax_h)
-%Set initial popup visibility
-if vis_on
-    %Create popup and save handle
-    popfig_h=figure('position',[0 0 500 400],'visible','on');
+    %Set initial popup visibility
+    if vis_on
+        %Create popup and save handle
+        popfig_h=figure('position',[0 0 500 400],'visible','on');
+    else
+        %Create popup and save handle
+        popfig_h=figure('position',[0 0 500 400],'visible','off');
+    end
+    
+    %Get popup axes handle
+    popax_h=gca;
 else
-    %Create popup and save handle
-    popfig_h=figure('position',[0 0 500 400],'visible','off');
-end
-
-%Get popup axes handle
-popax_h=gca;
-else
-popfig_h=get(popax_h,'parent');  
+    popfig_h=get(popax_h,'parent');
 end
 
 %Get handle of the popup title
@@ -76,11 +76,11 @@ pop_title=title('');
 
 %Detrmine which way the data is sliced 1=y 0=x
 
-if ~isempty(data) 
-data_vect = data(:);
+if ~isempty(data)
+    data_vect = data(:);
 else
- hIm = findall(mainax_h,'type','image');
-    assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');   
+    hIm = findall(mainax_h,'type','image');
+    assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');
     
     data_vect = hIm.CData(:);
 end
@@ -163,13 +163,19 @@ set(0,'currentfigure',get(get(gcbo,'parent'),'parent'));
 %                  PLOTS SLICE DATA
 %-----------------------------------------------------------
 function plot_slicedata(~, ~, mainfig_h, mainax_h, popax_h, x_vals, y_vals, data, datadir, pop_title, t_label)
-if isempty(data)
-     hIm = findall(mainax_h,'type','image');
-    assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');   
+hIm = findall(mainax_h,'type','image');
+
+if isempty(data) || ~all(size(hIm.CData) == size(data))
+    disp('Here thing');
+    hIm = findall(mainax_h,'type','image');
+    assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');
     
     data = hIm.CData;
+    y_vals = hIm.YData;
+    x_vals = hIm.XData;
+    
+    set(mainfig_h,'windowbuttonmotionfcn',{@plot_slicedata,mainfig_h, mainax_h, popax_h, x_vals, y_vals, data, datadir, pop_title, t_label});
 end
-
 
 %Get the current mousepoint within the main axes
 pt=get(mainax_h(1),'currentpoint');
@@ -193,7 +199,7 @@ end
 drawnow;
 
 %Resets focus to the main figure
-set(0,'currentfigure',mainfig_h)
+set(0,'currentfigure',mainfig_h);
 
 
 %-----------------------------------------------------------
