@@ -8,7 +8,7 @@
 %   mainax_h: handle to axis on main figure containing the 2D data
 %   x_vals: 1XM list of data x-value (relating to cols)
 %   y_vals: 1XN list of data y-value (relating to rows)
-%   data: NxM matrix of data
+%   data: NxM matrix of data, if no data is specified it tries to find the image
 %   x_label,y_label,z_label: Strings for the axis labels
 %   slicedir: direction the data will be sliced, 'x' or 'y'
 %   vis_on: sets initial popup visibility, 1=visible 0=invisible (default 1)
@@ -44,13 +44,11 @@
 %
 %       msgbox('Use "Popop Tools" window to toggle popup menu and to change popup axes.');
 %
-%   See also plot_eeg, plot_spect, plot_spect3d
+%   Copyright 2021 Michael J. Prerau, Ph.D.
 %
-%   Copyright 2011 Michael J. Prerau, Ph.D.
-%
-%   Last modified 02/02/2011
+%   Last modified 02/02/2021
 %********************************************************************
-function [popfig_h, popax_h]=slicepopup(mainfig_h, mainax_h, x_vals, y_vals, data,x_label, y_label, z_label, slicedir, vis_on, popax_h)
+function [popfig_h, popax_h]=slicepopup(mainfig_h, mainax_h, x_vals, y_vals, data, x_label, y_label, z_label, slicedir, vis_on, popax_h)
 %-----------------------------------------------------------
 %                    SETUP POPUP WINDOW
 %-----------------------------------------------------------
@@ -74,26 +72,27 @@ end
 %Get handle of the popup title
 pop_title=title('');
 
-%Detrmine which way the data is sliced 1=y 0=x
-
-if ~isempty(data)
-    data_vect = data(:);
-else
+%Get data if empty
+if isempty(data)
     hIm = findall(mainax_h,'type','image');
     assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');
+    assert(~isempty(hIm),'No image found!');
     
-    data_vect = hIm.CData(:);
+    data = hIm.CData;
+    y_vals = hIm.YData;
+    x_vals = hIm.XData;
 end
 
+%Determine which way the data is sliced 1=y 0=x
 datadir=strcmp(slicedir,'y');
 
 %Set popup y limits to be be based on the z-values of the data
 % set(popax_h,'nextplot','replacechildren','ylim',[min(data_vect) max(data_vect)]);
 set(popax_h,'nextplot','replacechildren');
 if datadir
-    set(popax_h,'xlim',[min(y_vals),max(y_vals)],'ylim',prctile(data_vect,[.5 99.5]));
+    set(popax_h,'xlim',[min(y_vals),max(y_vals)],'ylim',prctile(data(:),[.5 99.5]));
 else
-    set(popax_h,'ylim',[min(x_vals), max(y_vals)],'xlim',prctile(data_vect,[.5 99.5]));
+    set(popax_h,'ylim',[min(x_vals), max(y_vals)],'xlim',prctile(data(:),[.5 99.5]));
 end
 
 %Set the appropriate labels for the popup
@@ -166,7 +165,6 @@ function plot_slicedata(~, ~, mainfig_h, mainax_h, popax_h, x_vals, y_vals, data
 hIm = findall(mainax_h,'type','image');
 
 if isempty(data) || ~all(size(hIm.CData) == size(data))
-    disp('Here thing');
     hIm = findall(mainax_h,'type','image');
     assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');
     
@@ -186,14 +184,14 @@ if datadir %if y slice
     [~, i]=min(abs(x_vals-pt(1,1)));
     
     %Plot slice and update title
-    plot(popax_h,y_vals,squeeze(data(:,i,:))','linewidth',2);
+    plot(popax_h,y_vals,data(:,i),'linewidth',2);
     set(pop_title,'string',[t_label ' = ' num2str(x_vals(i))]);
 else %if x slice
     %Get the closest x-value to mouse point
     [~, i]=min(abs(y_vals-pt(1,2)));
     
     %Plote slice and update title
-    plot(popax_h,x_vals,squeeze(data(i,:,:))','linewidth',2);
+    plot(popax_h,x_vals,data(i,:),'linewidth',2);
     set(pop_title,'string',[t_label ' = ' num2str(y_vals(i))]);
 end
 drawnow;
