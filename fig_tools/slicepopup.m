@@ -81,6 +81,8 @@ if isempty(data)
     data = hIm.CData;
     y_vals = hIm.YData;
     x_vals = hIm.XData;
+else
+    hIm = [];
 end
 
 %Determine which way the data is sliced 1=y 0=x
@@ -112,7 +114,7 @@ ylabel(z_label);
 %                SETUP MENUS AND CALLBACKS
 %-----------------------------------------------------------
 %Call the plotting function every time mouse is moved over the main window
-set(mainfig_h,'windowbuttonmotionfcn',{@plot_slicedata,mainfig_h, mainax_h, popax_h, x_vals, y_vals, data, datadir, pop_title, t_label});
+set(mainfig_h,'windowbuttonmotionfcn',{@plot_slicedata,mainfig_h, mainax_h, popax_h,popfig_h, x_vals, y_vals, data, datadir, pop_title, t_label, hIm});
 
 %Add menu on main axes
 m=uimenu(mainfig_h,'Label','Popup Tools');
@@ -161,11 +163,13 @@ set(0,'currentfigure',get(get(gcbo,'parent'),'parent'));
 %-----------------------------------------------------------
 %                  PLOTS SLICE DATA
 %-----------------------------------------------------------
-function plot_slicedata(~, ~, mainfig_h, mainax_h, popax_h, x_vals, y_vals, data, datadir, pop_title, t_label)
-hIm = findall(mainax_h,'type','image');
+function plot_slicedata(~, ~, mainfig_h, mainax_h, popax_h, popfig_h, x_vals, y_vals, data, datadir, pop_title, t_label, hIm)
+if strcmp(popfig_h.Visible,'off')
+    return;
+end
 
 %Handle change in data
-if isempty(data) || ~all(size(hIm.CData) == size(data))
+if isempty(data) || (~isempty(hIm) && ~all(size(hIm.CData) == size(data)))
     hIm = findall(mainax_h,'type','image');
     assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');
     

@@ -1,4 +1,4 @@
-function [zslider, pslider, zl, pl]=scrollzoompan(ax,dir,zoom_fcn,pan_fcn, bounds)
+function [zslider, pslider, zl, pl]=scrollzoompan(ax, dir, zoom_fcn, pan_fcn, bounds)
 %SCROLLZOOMPAN  Adds pan and zoom scroll bars to an axis
 %               mouse wheel = pan, shift + mouse wheel = zoom
 %
@@ -30,27 +30,29 @@ function [zslider, pslider, zl, pl]=scrollzoompan(ax,dir,zoom_fcn,pan_fcn, bound
 %     imagesc(peaks(1000));
 %     scrollzoompan(gca,'y');
 %
-%   Copyright 2021 Michael J. Prerau, Ph.D.
+%   Copyright 2021 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
+%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
 %
 %   Last modified 04/26/2021
 %********************************************************************
 
 %Set default axes to current
-if nargin<=1
+if nargin==0
     ax=gca;
 end
 
 %Set default direction to x
-if nargin<=2
+if nargin<2
     dir=lower('x');
 end
 
 %Set blank callbacks
-if nargin<=3
+if nargin<3
     zoom_fcn=[];
 end
 
-if nargin<=4
+if nargin<4
     pan_fcn=[];
 end
 
@@ -97,7 +99,7 @@ pslider = uicontrol('style','slider','units','normalized','position',[.05 .055 .
 
 %Add listeners for continuous value changes
 zl=addlistener(zslider,'ContinuousValueChange',@(src,evnt)zoom_slider(ax, zslider, pslider, dir,zoom_fcn));
-pl=addlistener(pslider,'ContinuousValueChange',@(src,evnt)pan_slider(ax, pslider, dir,pan_fcn));
+pl=addlistener(pslider,'ContinuousValueChange',@(src,evnt)pan_slider(ax, pslider, dir, pan_fcn));
 set(fig_h,'WindowKeyPressFcn',{@handle_keys,ax, zslider, pslider, dir, zoom_fcn, pan_fcn},'WindowKeyReleaseFcn',@key_off);
 
 set(fig_h,'WindowScrollWheelFcn',{@figScroll,ax, zslider, pslider, dir, zoom_fcn, pan_fcn});
