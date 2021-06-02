@@ -107,6 +107,7 @@ p.addOptional('units','normalized',@(x)any(strcmpi(x,{'normalized', 'inches', 'c
 p.addOptional('merge','');
 p.addOptional('orient','portrait', @(x)any(validatestring(x,{'portrait','landscape'})));
 p.addOptional('type', []);
+p.addOptional('numberaxes', false);
 
 p.parse(varargin{:});
 
@@ -116,6 +117,7 @@ units=p.Results.units;
 merge=p.Results.merge;
 orientation=p.Results.orient;
 paper_type=p.Results.type;
+numberaxes = p.Results.numberaxes;
 
 %Check for one argument
 if nargin==1
@@ -139,7 +141,7 @@ end
 
 set(mainfig,'units',units);
 set(mainfig,'paperpositionmode','auto');
-%Set up axes
+%Set up axesaxis_handles
 axis_handles=create_axes(mainfig, margins(1),margins(2),margins(3),margins(4), margins(5), num_cols, num_rows, units);
 
 %Disable interaction for merged
@@ -253,6 +255,14 @@ else
     %If not adjusting, add the merge menu to the main figure toolbar
     f = uimenu('Label','Merge Axes');
     uimenu(f,'Label','Merge...','Callback',@(src,evnt)merge_axes);
+    
+% Add numbers to axes for easy identification
+if numberaxes
+    for ii = 1:length(axis_handles)
+        title(axis_handles(ii), num2str(ii));
+    end
+end
+
 end
 
 %*****************************************************
