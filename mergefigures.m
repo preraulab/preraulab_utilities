@@ -1,55 +1,187 @@
-function f_new = mergefigures(f1,f2)
-
-set(f1,'units','normalized');
-set(f2,'units','normalized');
-
-f_new=figure;
-figdesign(1,1,'type','usletter','orient','landscape');
-set(f_new,'units','normalized');
-clf;
-
-c1=get(f1,'children');
-c1=c1(strcmp(get(c1,'type'),'axes'));
-
-for i=1:length(c1)
-    if(strcmpi(c1(i).Type ,'axes'))
-        C=copyobj(c1(i),f_new);
-        
-        xl=get(C,'xlim');
-        set(C,'xlim',xl);
-        
-        yl=get(C,'ylim');
-        set(C,'ylim',yl);
-                
-        set(C,'units','normalized');
-        C.Position(1)=C.Position(1)/2;
-        C.Position(3)=C.Position(3)/2;
-        
-        
-        C.YAxis.FontSize=C.YAxis.FontSize*.8;
-        C.XAxis.FontSize=C.XAxis.FontSize*.8;
-    end
+function fh_new = mergefigures(fh1,fh2, ratio, stacking)
+%MERGEFIGURES  Merges two existing figures into one figure with specified
+%direction and ratio
+%
+%   Usage:
+%   fh_new = mergefigures (RUNS DEMO)
+%   fh_new = mergefigures(fh1, fh2, ratio, stacking)
+%
+%   Input:
+%   fh1 and fh2: handles to two figures
+%   ratio: Ratio of fh1 to fh2 size in the merged figure (default: .5)
+%   stacking: Stacking direction 'LR' (left right) or 'UD' (up down) (default: LR)
+%
+%   Output:
+%   fh_new: Handle to new figure
+%
+%   Example:
+%
+%     close all;
+%     fh1 = figure;
+%     imagesc(peaks(500));
+%     fh2 = figure;
+%     plot(randn(1,1000));
+%     
+%     %60/40 left right split
+%     mergefigures(fh1, fh2, .6, 'LR');
+%     %20/80 left right split
+%     mergefigures(fh1, fh2, .2, 'LR');
+%     %60/40 up down split
+%     mergefigures(fh1, fh2, .6, 'UD');
+%     %20/80 up down split
+%     mergefigures(fh1, fh2, .2, 'UD');
+%
+%
+%   Copyright 2021 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
+%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+%
+%   Last modified 10/15/2021
+%********************************************************************
+if nargin == 0
+    close all;
+    fh1 = figure;
+    imagesc(peaks(500));
+    fh2 = figure;
+    plot(randn(1,1000));
+    
+    mergefigures(fh1,fh2, .6, 'lr');
+    mergefigures(fh1,fh2, .2, 'lr');
+    mergefigures(fh1,fh2, .6, 'ud');
+    mergefigures(fh1,fh2, .2, 'ud');
+    
+    delete(fh1);
+    delete(fh2);
+    return;
+end
+%% Handle inputs
+if nargin<2
+    error('Must input two handles to figures');
 end
 
-c2=get(f2,'children');
+if ~ishandle(fh1) || ~isa(fh1,'matlab.ui.Figure')
+    error('Input for f1 and f2 must be figure handles');
+end
+
+if ~ishandle(fh2) || ~isa(fh2,'matlab.ui.Figure')
+    error('Input for f1 and f2 must be figure handles');
+end
+
+if nargin < 3 || isempty(ratio)
+    ratio = .5;
+elseif ratio<=0 || ratio>=1
+    error('Ratio must be between 0 and 1');
+end
+
+if nargin<4 || isempty(stacking)
+    stacking = 'LR';
+end
+
+switch lower(stacking)
+    case 'lr'
+        LRdir = true;
+    case 'ud'
+        LRdir = false;
+    otherwise
+        error('Stacking must be LR or UD');
+end
+%%
+
+%Set units to normalized to make all scaling easier
+set(fh1,'units','normalized');
+set(fh2,'units','normalized');
+
+%Create new figure for merged figures
+fh_new=figure;
+set(fh_new,'paperorientation','portrait','paperunits','inches','papertype','usletter')
+set(fh_new,'units','inches','position',[0 0 get(fh_new,'papersize')],'color','w');
+set(fh_new,'units','normalized');
+
+%Get all the children
+c1=get(fh1,'children');
+c1=c1(strcmp(get(c1,'type'),'axes'));
+c2=get(fh2,'children');
 c2=c2(strcmp(get(c2,'type'),'axes'));
 
-for i=1:length(c2)
-    if(strcmpi(c2(i).Type ,'axes'))
-        C=copyobj(c2(i),f_new);
-        
-        xl=get(C,'xlim');
-        set(C,'xlim',xl);
-        
-        yl=get(C,'ylim');
-        set(C,'ylim',yl);
-        
-        set(C,'units','normalized');
-        C.Position(1)=C.Position(1)/2;
-        C.Position(3)=C.Position(3)/2;
-        C.Position(1)=C.Position(1)+.5;
-        
-        C.YAxis.FontSize=C.YAxis.FontSize*.8;
-        C.XAxis.FontSize=C.XAxis.FontSize*.8;
+%Setup for Left Right merge
+if LRdir
+    for i=1:length(c1)
+        if(strcmpi(c1(i).Type ,'axes'))
+            C=copyobj(c1(i),fh_new);
+            
+            xl=get(C,'xlim');
+            set(C,'xlim',xl);
+            
+            yl=get(C,'ylim');
+            set(C,'ylim',yl);
+            
+            set(C,'units','normalized');
+            C.Position(1)=C.Position(1)*ratio;
+            C.Position(3)=C.Position(3)*ratio;
+            
+            
+            C.YAxis.FontSize=C.YAxis.FontSize*.8;
+            C.XAxis.FontSize=C.XAxis.FontSize*.8;
+        end
+    end
+    
+    for i=1:length(c2)
+        if(strcmpi(c2(i).Type ,'axes'))
+            C=copyobj(c2(i),fh_new);
+            
+            xl=get(C,'xlim');
+            set(C,'xlim',xl);
+            
+            yl=get(C,'ylim');
+            set(C,'ylim',yl);
+            
+            set(C,'units','normalized');
+            C.Position(1)=C.Position(1)*(1-ratio);
+            C.Position(3)=C.Position(3)*(1-ratio);
+            C.Position(1)=C.Position(1)+ratio;
+            
+            C.YAxis.FontSize=C.YAxis.FontSize*.8;
+            C.XAxis.FontSize=C.XAxis.FontSize*.8;
+        end
+    end
+else %Setup for Up Down merge
+    for i=1:length(c1)
+        if(strcmpi(c1(i).Type ,'axes'))
+            C=copyobj(c1(i),fh_new);
+            
+            xl=get(C,'xlim');
+            set(C,'xlim',xl);
+            
+            yl=get(C,'ylim');
+            set(C,'ylim',yl);
+            
+            set(C,'units','normalized');
+            C.Position(2)=C.Position(2)*ratio;
+            C.Position(4)=C.Position(4)*ratio;
+            
+            
+            C.YAxis.FontSize=C.YAxis.FontSize*.8;
+            C.XAxis.FontSize=C.XAxis.FontSize*.8;
+        end
+    end
+    
+    for i=1:length(c2)
+        if(strcmpi(c2(i).Type ,'axes'))
+            C=copyobj(c2(i),fh_new);
+            
+            xl=get(C,'xlim');
+            set(C,'xlim',xl);
+            
+            yl=get(C,'ylim');
+            set(C,'ylim',yl);
+            
+            set(C,'units','normalized');
+            C.Position(2)=C.Position(2)*(1-ratio);
+            C.Position(4)=C.Position(4)*(1-ratio);
+            C.Position(2)=C.Position(2)+ratio;
+            
+            C.YAxis.FontSize=C.YAxis.FontSize*.8;
+            C.XAxis.FontSize=C.XAxis.FontSize*.8;
+        end
     end
 end
