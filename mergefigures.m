@@ -104,88 +104,64 @@ c2 = copyobj(get(fh2,'children'),fh_new);
 if LRdir
     for i=1:length(c1)
         C=c1(i);
-        switch C.Type
-            case 'axes'
-                xl=get(C,'xlim');
-                set(C,'xlim',xl);
-                
-                yl=get(C,'ylim');
-                set(C,'ylim',yl);
-                
-                set(C,'units','normalized');
-                C.Position(1)=C.Position(1)*ratio;
-                C.Position(3)=C.Position(3)*ratio;
-                
-                C.YAxis.FontSize=C.YAxis.FontSize*.8;
-                C.XAxis.FontSize=C.XAxis.FontSize*.8;
-            case 'colorbar'
-               % looks like it's automatically adjusted with axes  
+        if strcmp(C.Type, 'axes')
+            set(C,'units','normalized');
+            C.Position(1)=C.Position(1)*ratio;
+            C.Position(3)=C.Position(3)*ratio;
+            
+            C.YAxis.FontSize=C.YAxis.FontSize*.8;
+            C.XAxis.FontSize=C.XAxis.FontSize*.8;
+        elseif strcmp(C.Type, 'colorbar')
+        elseif ~isprop(C, 'Position')
+            delete(C)
         end
     end
     
     for i=1:length(c2)
         C=c2(i);
-        switch C.Type
-            case 'axes'
-                xl=get(C,'xlim');
-                set(C,'xlim',xl);
-                
-                yl=get(C,'ylim');
-                set(C,'ylim',yl);
-                
-                set(C,'units','normalized');
-                C.Position(1)=C.Position(1)*(1-ratio);
-                C.Position(3)=C.Position(3)*(1-ratio);
-                C.Position(1)=C.Position(1)+ratio;
-                
-                C.YAxis.FontSize=C.YAxis.FontSize*.8;
-                C.XAxis.FontSize=C.XAxis.FontSize*.8;
-            case 'colorbar'
-                % looks like it's automatically adjusted with axes
+        if strcmp(C.Type, 'axes')
+            set(C,'units','normalized');
+            C.Position(1)=C.Position(1)*(1-ratio);
+            C.Position(3)=C.Position(3)*(1-ratio);
+            C.Position(1)=C.Position(1)+ratio;
+            
+            C.YAxis.FontSize=C.YAxis.FontSize*.8;
+            C.XAxis.FontSize=C.XAxis.FontSize*.8;
+        elseif strcmp(C.Type, 'colorbar')
+        elseif ~isprop(C, 'Position')
+            delete(C)
         end
     end
     
 else %Setup for Up Down merge
     for i=1:length(c1)
         C=c1(i);
-        switch C.Type
-            case 'axes'                
-                xl=get(C,'xlim');
-                set(C,'xlim',xl);
-                
-                yl=get(C,'ylim');
-                set(C,'ylim',yl);
-                
-                set(C,'units','normalized');
-                C.Position(2)=C.Position(2)*ratio;
-                C.Position(4)=C.Position(4)*ratio;
-                
-                C.YAxis.FontSize=C.YAxis.FontSize*.8;
-                C.XAxis.FontSize=C.XAxis.FontSize*.8;
-            case 'colorbar'
-                % looks like it's automatically adjusted with axes
+        if strcmp(C.Type, 'axes')
+            set(C,'units','normalized');
+            C.Position(2)=C.Position(2)*ratio;
+            C.Position(4)=C.Position(4)*ratio;
+            
+            C.YAxis.FontSize=C.YAxis.FontSize*.8;
+            C.XAxis.FontSize=C.XAxis.FontSize*.8;
+        elseif strcmp(C.Type, 'colorbar')
+        elseif ~isprop(C, 'Position')
+            delete(C)
         end
     end
     
     for i=1:length(c2)
         C=c2(i);
-        switch C.Type
-            case 'axes'
-                xl=get(C,'xlim');
-                set(C,'xlim',xl);
-                
-                yl=get(C,'ylim');
-                set(C,'ylim',yl);
-                
-                set(C,'units','normalized');
-                C.Position(2)=C.Position(2)*(1-ratio);
-                C.Position(4)=C.Position(4)*(1-ratio);
-                C.Position(2)=C.Position(2)+ratio;
-                
-                C.YAxis.FontSize=C.YAxis.FontSize*.8;
-                C.XAxis.FontSize=C.XAxis.FontSize*.8;
-            case 'colorbar'
-                % looks like it's automatically adjusted with axes
+        if strcmp(C.Type, 'axes')
+            set(C,'units','normalized');
+            C.Position(2)=C.Position(2)*(1-ratio);
+            C.Position(4)=C.Position(4)*(1-ratio);
+            C.Position(2)=C.Position(2)+ratio;
+            
+            C.YAxis.FontSize=C.YAxis.FontSize*.8;
+            C.XAxis.FontSize=C.XAxis.FontSize*.8;
+        elseif strcmp(C.Type, 'colorbar')
+        elseif ~isprop(C, 'Position')
+            delete(C)
         end
     end
 end
