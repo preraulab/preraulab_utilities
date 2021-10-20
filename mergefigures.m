@@ -108,7 +108,7 @@ if LRdir
             C.FontSize=C.FontSize*.8;
         end
         
-        if strcmpi(class(C),'matlab.ui.container.Menu') | strcmpi(class(C),'uimenu')
+        if strcmpi(class(C),'matlab.ui.container.Menu') || strcmpi(class(C),'uimenu')
             delete(C);
             continue;
         end
