@@ -105,12 +105,8 @@ if LRdir
     for i=1:length(c1)
         C=c1(i);
         if strcmp(C, 'FontSize')
-            C.FontSize=C.FontSize*.8;
-        end
-        
-        if strcmpi(class(C),'matlab.ui.container.Menu') | strcmpi(class(C),'uimenu')
-            delete(C);
-            continue;
+            C.FontSize=C.YAxis.FontSize*.8;
+            C.XAxis.FontSize=C.XAxis.FontSize*.8;
         end
         
         if isprop(C, 'Position')
@@ -124,16 +120,11 @@ if LRdir
     
     for i=1:length(c2)
         C=c2(i);
-        
-        if strcmp(C, 'FontSize')
-            C.FontSize=C.FontSize*.8;
+        if strcmp(C.Type, 'axes')
+            
+            C.YAxis.FontSize=C.YAxis.FontSize*.8;
+            C.XAxis.FontSize=C.XAxis.FontSize*.8;
         end
-        
-        if strcmpi(class(C),'matlab.ui.container.Menu') || strcmpi(class(C),'uimenu')
-            delete(C);
-            continue;
-        end
-        
         if isprop(C, 'Position')
             set(C,'units','normalized');
             C.Position(1)=C.Position(1)*(1-ratio);
@@ -147,42 +138,31 @@ if LRdir
 else %Setup for Up Down merge
     for i=1:length(c1)
         C=c1(i);
-        if strcmp(C, 'FontSize')
-            C.FontSize=C.FontSize*.8;
-        end
-        
-        if strcmpi(class(C),'matlab.ui.container.Menu') || strcmpi(class(C),'uimenu')
-            delete(C);
-            continue;
-        end
-        
-        if isprop(C, 'Position')
+        if strcmp(C.Type, 'axes')
             set(C,'units','normalized');
             C.Position(2)=C.Position(2)*ratio;
             C.Position(4)=C.Position(4)*ratio;
-        else
+            
+            C.YAxis.FontSize=C.YAxis.FontSize*.8;
+            C.XAxis.FontSize=C.XAxis.FontSize*.8;
+        elseif strcmp(C.Type, 'colorbar')
+        elseif ~isprop(C, 'Position')
             delete(C)
         end
     end
     
     for i=1:length(c2)
         C=c2(i);
-        
-        if strcmp(C, 'FontSize')
-            C.FontSize=C.FontSize*.8;
-        end
-        
-        if strcmpi(class(C),'matlab.ui.container.Menu') || strcmpi(class(C),'uimenu')
-            delete(C);
-            continue;
-        end
-        
-        if isprop(C, 'Position')
+        if strcmp(C.Type, 'axes')
             set(C,'units','normalized');
             C.Position(2)=C.Position(2)*(1-ratio);
             C.Position(4)=C.Position(4)*(1-ratio);
             C.Position(2)=C.Position(2)+ratio;
-        else
+            
+            C.YAxis.FontSize=C.YAxis.FontSize*.8;
+            C.XAxis.FontSize=C.XAxis.FontSize*.8;
+        elseif strcmp(C.Type, 'colorbar')
+        elseif ~isprop(C, 'Position')
             delete(C)
         end
     end
