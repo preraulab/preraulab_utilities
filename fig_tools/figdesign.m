@@ -72,7 +72,7 @@
 %             figure
 %             figdesign(3,3,'type','usletter','orient','portrait','units','inches','margins',[.5 .5 1 1 .5],'interact',1);
 %             msgbox('Move sliders to adjust axes parameters. Type in the edit boxes to enter specific numerical values. When the adjustment window is closed, interactive figure merging is enabled on the main figure.');
-% 
+%
 %             %Call with handles operator to get new axes handles
 %             axs=figdesign('handles');
 %             linkaxes(axs,'x');
@@ -101,7 +101,7 @@ end
 
 %Parse input options
 p=inputParser;
-p.addOptional('margins',[.05 .05 .08 .05 .08],@(x)any(isnumeric(x)));
+p.addOptional('margins',[.05 .05 .08 .05 .08 .08],@(x)any(isnumeric(x)));
 p.addOptional('interact',false,@logical);
 p.addOptional('units','normalized',@(x)any(strcmpi(x,{'normalized', 'inches', 'centimeters', 'points'})))
 p.addOptional('merge','');
@@ -139,10 +139,18 @@ if ~isempty(paper_type)
     set(mainfig,'units','inches','position',[0 0 get(gcf,'papersize')],'color','w');
 end
 
+if length(margins)~= 5 && length(margins) ~=6
+    error('Margins must have 5 or 6 elements');
+end
+
+if length(margins) == 5
+    margins(6) = margins(5);
+end
+
 set(mainfig,'units',units);
 set(mainfig,'paperpositionmode','auto');
 %Set up axesaxis_handles
-axis_handles=create_axes(mainfig, margins(1),margins(2),margins(3),margins(4), margins(5), num_cols, num_rows, units);
+axis_handles=create_axes(mainfig, margins(1),margins(2),margins(3),margins(4), margins(5), margins(6), num_cols, num_rows, units);
 
 %Disable interaction for merged
 if ~isempty(merge)
@@ -256,13 +264,13 @@ else
     f = uimenu('Label','Merge Axes');
     uimenu(f,'Label','Merge...','Callback',@(src,evnt)merge_axes);
     
-% Add numbers to axes for easy identification
-if numberaxes
-    for ii = 1:length(axis_handles)
-        title(axis_handles(ii), num2str(ii));
+    % Add numbers to axes for easy identification
+    if numberaxes
+        for ii = 1:length(axis_handles)
+            title(axis_handles(ii), num2str(ii));
+        end
     end
-end
-
+    
 end
 
 %*****************************************************
@@ -287,7 +295,17 @@ top_margin=margins(1);
 bottom_margin=margins(2);
 left_margin=margins(3);
 right_margin=margins(4);
-mid_margin=margins(5);
+
+if length(margins) == 5
+    midh_margin=margins(5);
+    midv_margin=margins(5);
+elseif length(margins) ==6
+    midh_margin=margins(5);
+    midv_margin=margins(6);
+else
+    error('Margins must have 5 or 6 elements');
+end
+
 
 %Set the edit boxes to match the slider values
 set(edit_h(value),'string',num2str(margins(value)));
@@ -295,8 +313,8 @@ set(edit_h(value),'string',num2str(margins(value)));
 num_axes=length(axs); %Number of axes
 
 %Compute the height and width for the axes
-ax_width=(wmax-left_margin-right_margin-mid_margin*(num_cols-1))/num_cols;
-ax_height=(hmax-top_margin-bottom_margin-mid_margin*(num_rows-1))/num_rows;
+ax_width=(wmax-left_margin-right_margin-midh_margin*(num_cols-1))/num_cols;
+ax_height=(hmax-top_margin-bottom_margin-midv_margin*(num_rows-1))/num_rows;
 
 %Loop through each axis and define properties
 ax_number=1; %Counter
@@ -304,8 +322,8 @@ for r=1:num_rows
     for c=1:num_cols
         if ax_number<=num_axes
             %Compute left and bottom coordinates
-            left=left_margin+mid_margin*(c-1)+ax_width*(c-1);
-            bottom=hmax-top_margin-mid_margin*(r-1)-ax_height*r;
+            left=left_margin+midh_margin*(c-1)+ax_width*(c-1);
+            bottom=hmax-top_margin-midv_margin*(r-1)-ax_height*r;
             
             %Set new axis position
             set(axs(ax_number),'position',max([left bottom ax_width ax_height],1e-100));
@@ -318,7 +336,7 @@ end
 %*****************************************************
 %                CREATE GRID OF AXES
 %*****************************************************
-function axis_handles=create_axes(mainfig_h, top_margin, bottom_margin, left_margin, right_margin, mid_margin, num_cols, num_rows, units)
+function axis_handles=create_axes(mainfig_h, top_margin, bottom_margin, left_margin, right_margin, midh_margin, midv_margin, num_cols, num_rows, units)
 %Get the max and min figure bounds
 if ~strcmpi(units,'normalized')
     pos=get(mainfig_h,'position');
@@ -330,8 +348,8 @@ else
 end
 
 %Compute the height and width for the axes
-ax_width=(wmax-left_margin-right_margin-mid_margin*(num_cols-1))/num_cols;
-ax_height=(hmax-top_margin-bottom_margin-mid_margin*(num_rows-1))/num_rows;
+ax_width=(wmax-left_margin-right_margin-midh_margin*(num_cols-1))/num_cols;
+ax_height=(hmax-top_margin-bottom_margin-midv_margin*(num_rows-1))/num_rows;
 
 %Set up output vector
 num_axes=num_cols*num_rows;
@@ -343,8 +361,8 @@ for r=1:num_rows
     for c=1:num_cols
         if ax_number<=num_axes
             %Compute left and bottom coordinates
-            left=left_margin+mid_margin*(c-1)+ax_width*(c-1);
-            bottom=hmax-top_margin-mid_margin*(r-1)-ax_height*r;
+            left=left_margin+midh_margin*(c-1)+ax_width*(c-1);
+            bottom=hmax-top_margin-midv_margin*(r-1)-ax_height*r;
             
             %Create new axis
             axis_handles(ax_number)=axes('units',units,'position',[left bottom ax_width ax_height]);
