@@ -74,5 +74,9 @@ end
 %Compute color limits
 clim = prctile(data(~bad_inds), ptiles);
 
+if clim(1) == clim(2)
+    return;
+end
+
 %Update axis scale
 set(hAx,'clim',clim);
