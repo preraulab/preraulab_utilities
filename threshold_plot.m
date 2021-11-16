@@ -1,3 +1,4 @@
+%Plot a curve with thresholds under it with varying colors
 function area_handles = threshold_plot(x, y, threshes, colors)
 
 %Create test data

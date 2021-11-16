@@ -1,13 +1,12 @@
-function h=getallaxes(h)
+%GETALLAXES Returns all the axes object within a given figure, ignoring all
+%other objects
+
+function axh = getallaxes(figh)
 if nargin==0
-    h=gcf;
+    figh=gcf;
 end
 
-c=get(gcf,'children');
-h=c(isaxis(c));
+children = get(figh,'children');
+axh = children(strcmp(get(children,'type'),'axes'));
 end
 
-
-function inds=isaxis(c)
-inds=strcmp(get(c,'type'),'axes');
-end

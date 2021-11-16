@@ -25,7 +25,7 @@
 %********************************************************************
 function parexists = configpar(numpools)
 %Check for distributed toolbox
-parexists=~isempty(ver('distcomp'));
+parexists=~isempty(ver('parallel'));
 
 %If the toolbox is installed start pools
 if parexists

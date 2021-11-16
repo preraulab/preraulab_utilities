@@ -3,14 +3,15 @@ function colorbar_noresize(varargin)
 %   colorbar_noresize(ax,<colorbar arguments>)
 %
 % Copyright Michael Prerau 2018
-if nargin==0 | ~strcmpi(class(varargin{1}),'matlab.graphics.axis.Axes')
+if nargin==0 || ~strcmpi(class(varargin{1}),'matlab.graphics.axis.Axes')
     ax=gca;
 else
     ax=varargin{1};
 end
 
-pos=get(ax,'position');
+pos = ax.Position;
 colorbar(ax, varargin{2:end})
-set(ax,'position',pos);
+ax.Position = pos;
+
 end
 

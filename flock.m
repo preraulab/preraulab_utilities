@@ -1,10 +1,12 @@
+%Simple flocking algorithm
+
 function flock
 ccc
-N=200;
+N=100;
 xbounds=800;
 ybounds=500;
-maxvel=10;
-rand_move=.5;
+maxvel=5;
+rand_move=1;
 
 pos=[rand(N,1)*xbounds rand(N,1)*ybounds];
 
@@ -21,6 +23,9 @@ fdat.scatter=false;
 fdat.go=true;
 guidata(f,fdat);
 
+
+p = plot(pos(:,1), pos(:,2),'.','markersize',10);
+
 go=true;
 while go
     vel=vel+move_towards_center(pos,N)+move_if_close(pos,N)+match_vel(vel,N)+...
@@ -30,7 +35,8 @@ while go
     [pos, vel]=fixpos(pos,vel,xbounds,ybounds);
     vel=fixvel(vel,maxvel);
     
-    plot(pos(:,1), pos(:,2),'.','markersize',20);
+    p.XData = pos(:,1);
+    p.YData = pos(:,2);
     
     fdat=guidata(f);
     go=fdat.go;
@@ -94,7 +100,7 @@ function newvel=move_if_close(pos,N)
 newvel=zeros(size(pos));
 for i=1:N
     dist=sqrt(sum((repmat(pos(i,:),N,1)-pos).^2,2));
-    inds=dist<3;
+    inds=dist<10;
     if any(inds)
         newvel(i,:)=pos(i,:)-mean(pos(inds,:),1);
     end

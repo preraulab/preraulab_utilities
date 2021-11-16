@@ -1,46 +1,46 @@
 %HLINE  Draw a horizontal line
 %
 %   Usage:
-%   [h] = hline(yvals)
-%   [h] = hline(yvals, width)
-%   [h] = hline(yvals, width, color)
-%   [h] = hline(yvals, width, color, style)
+%   h = hline(yvals,<line inputs>)
+%   h = hline(ax, yvals, <line inputs>)
 % 
 %   Input:
 %   yvals: y coordinate(s) of line (scalar or vector)
-%   width: width of line
-%   color: color of line
-%   style: line style
 % 
 %   Output:
-%   h: handle for line
+%   h: handle for lines
 % 
 %   Example:
 %         % Create a new figure
 %         figure;
-%         % Draw a thick red line at x=1
-%         h=hline([-1 3 4.2],3,'r','--');
+%         % Draw some lines
+%         h=hline([-1 3 4.2],'linewidth',2,'color','k');
 %
-%   See also hline, line
+%   See also vline, line
 %
 %   Copyright 2021 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
 %   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 %   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
 %   
-%   Last modified 9/21/2011
+%   Last modified 11/16/2021
 %********************************************************************
 
-function h=hline(yvals, width, color,style)
-if nargin==1
-    width=1;
-    color='k';
-    style='-';
-elseif nargin==2
-    color='k';
-    style='-';
-elseif nargin==3
-    style='-';
+function h=hline(varargin)
+
+% Parse possible axes input.
+[ax, args, ~] = axescheck(varargin{:});
+
+% Get handle to either the requested or a new axis.
+if isempty(ax)
+   ax = gca;
 end
 
+if isempty(args) 
+    error('Must provide line values');
+end
+
+yvals = args{1}(:);
+
 hold on;
-h=line(xlim,[yvals(:) yvals(:)], 'linewidth',width,'color',color,'linestyle',style);
+h=line(xlim(ax),[yvals yvals]', args{2:end});
+hold off;

@@ -12,4 +12,4 @@
 %********************************************************************
 function result = haspar()
 %Check if the parallel toolbox has been installed
-result=~isempty(ver('distcomp'));
+result=~isempty(ver('parallel'));

@@ -1,25 +1,20 @@
 %VLINE  Draw a vertical line
 %
 %   Usage:
-%   [h] = vline(xvals)
-%   [h] = vline(xvals, width)
-%   [h] = vline(xvals, width, color)
-%   [h] = vline(xvals, width, color, style)
+%   h = vline(xvals,<line inputs>)
+%   h = vline(ax, xvals, <line inputs>)
 % 
 %   Input:
 %   xvals: x coordinate(s) of line (scalar or vector)
-%   width: width of line
-%   color: color of line
-%   style: line style
 % 
 %   Output:
-%   h: handle for line
+%   h: handle for lines
 % 
 %   Example:
 %         % Create a new figure
 %         figure;
-%         % Draw a thick red line at x=1
-%         h=vline([-1 3 4.2],3,'r','--');
+%         % Draw some lines
+%         h = vline([-1 3 4.2],'linewidth', 2, 'color', 'k');
 %
 %   See also hline, line
 %
@@ -27,36 +22,25 @@
 %   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 %   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
 %   
-%   Last modified 9/21/2011
+%   Last modified 11/16/2021
 %********************************************************************
 
-function h=vline(xvals, width, color, style, axs)
+function h=vline(varargin)
 
-if nargin==0
-    x=ginput(1);
-    xvals=x(1);
+% Parse possible axes input.
+[ax, args, ~] = axescheck(varargin{:});
+
+% Get handle to either the requested or a new axis.
+if isempty(ax)
+   ax = gca;
 end
 
-if isempty(xvals)
-    warning('No values entered');
-    return;
+if isempty(args) 
+    error('Must provide line values');
 end
 
-if nargin<2
-    width=1;
-end
-
-if nargin<3
-    color='k';
-end
-
-if nargin<4
-    style='-';
-end
-
-if nargin<5
-    axs=gca;
-end
+xvals = args{1}(:);
 
 hold on;
-h=line([xvals(:) xvals(:)]',[ylim(axs)]', 'linewidth',width,'color',color,'LineStyle',style,'parent',axs);
+h=line([xvals xvals]',ylim(ax), args{2:end});
+hold off;

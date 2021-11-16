@@ -38,10 +38,8 @@ if (all(w(:)==0))
     error('At least one weight must be non-zero.');
 end
 
-if nargin==2, 
-  % Determine which dimension SUM will use
-  dim = min(find(size(x)~=1));
-  if isempty(dim), dim = 1; end
+if nargin<3
+    dim = [];
 end
 
-y = sum(w.*x,dim)./sum(w,dim);
+y = nansum(w.*x,dim)./nansum(w,dim);

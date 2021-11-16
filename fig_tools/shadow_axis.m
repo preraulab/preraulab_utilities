@@ -4,7 +4,7 @@ p=inputParser;
 %Axis position
 p.addOptional('position', [0.1300 0.1100 0.7750 0.8150]);
 %Shadow size
-p.addOptional('size', 4);
+p.addOptional('size', 10);
 %Shadow distance
 p.addOptional('distance', .03);
 %Shadow angle (in degrees)
