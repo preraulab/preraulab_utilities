@@ -1,4 +1,4 @@
-function colorbar_noresize(varargin)
+function c = colorbar_noresize(varargin)
 %COLORBAR_NORESIZE Makes a colorbar that does not resize the axis
 %   colorbar_noresize(ax,<colorbar arguments>)
 %
@@ -10,7 +10,7 @@ else
 end
 
 pos = ax.Position;
-colorbar(ax, varargin{2:end})
+c = colorbar(ax, varargin{2:end});
 ax.Position = pos;
 
 end
