@@ -353,7 +353,7 @@ ax_height=(hmax-top_margin-bottom_margin-midv_margin*(num_rows-1))/num_rows;
 
 %Set up output vector
 num_axes=num_cols*num_rows;
-axis_handles=zeros(1,num_axes);
+axis_handles=matlab.graphics.axis.Axes.empty(num_axes,0);
 
 %Loop through each axis and define properties
 ax_number=1; %Counter
