@@ -81,7 +81,7 @@
 %   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 %   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
 %
-%   last modified 05/15/2013
+%   last modified 12/01/2021
 %********************************************************************
 function axis_handles=figdesign(num_rows,num_cols,varargin)
 %Run demo
