@@ -456,7 +456,7 @@ new_pos=[min(pos(:,1:2)) new_width new_height];
 delete(merger_axes)
 new_axis=axes('units',units,'position',new_pos);
 
-%Put new axisbelow other axes
+%Put new axis below other axes
 uistack(new_axis,'bottom');
 
 %*****************************************************
