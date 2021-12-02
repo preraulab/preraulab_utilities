@@ -19,7 +19,7 @@
 %               axes_handles=figdesign('handles');
 %   margins: a vector of margin size defined as [top bottom left right column row]
 %            (default: [.1 .05 .08 .05 .08 .08])
-%   merge: a array or cell array, with indices of axes to merge
+%   merge: an array or cell array, with indices of axes to merge
 %   numberaxes: logical, titles each axis with the axis number (default: false)
 %   <figure options>: list of name-value pairs of valid options for figure class
 %
