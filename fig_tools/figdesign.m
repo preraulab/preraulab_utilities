@@ -86,8 +86,8 @@
 function axis_handles=figdesign(varargin)
 %Run demo
 if nargin==1 && strcmpi(varargin{1},'demo')
-        demo();
-        return;
+    demo();
+    return;
 end
 
 if isa(varargin{1},'matlab.ui.Figure')
@@ -191,101 +191,100 @@ else
         f = uimenu('Label','Merge Axes');
         uimenu(f,'Label','Merge...','Callback',@(src,evnt)merge_axes);
     end
-    
-    % Add numbers to axes for easy identification
-    if numberaxes
-        for ii = 1:length(axis_handles)
-            title(axis_handles(ii), num2str(ii));
-        end
+end
+
+% Add numbers to axes for easy identification
+if numberaxes
+    for ii = 1:length(axis_handles)
+        title(axis_handles(ii), ['Axis ' num2str(ii)]);
     end
-    
 end
 
 %*****************************************************
 %             CREATE INTERACTIVE AXES
 %*****************************************************
 function run_interaction(mainfig_h, margins, axis_handles, num_rows, num_cols, units)
-   if ~strcmpi(get(mainfig_h,'units'),'normalized')
-        pos=get(mainfig_h,'position');
-        wmax=pos(3);
-        hmax=pos(4);
-    else
-        hmax=1;
-        wmax=1;
-    end
-    
-    %Create the position interaction figure
-    posfig = figure('Position',[250 250 350 330],...
-        'MenuBar','none','NumberTitle','off','color','w',...
-        'Name','Adjust Subplots','closerequestfcn',@(src,evnt)merge_on(mainfig_h));
-    
-    %Create the sliders
-    topslider_h = uicontrol(posfig,'units','pixel','Style','slider',...
-        'Max',hmax,'Min',1e-100,'Value',margins(1),...
-        'SliderStep',[0.05 0.2],...
-        'Position',[25 275 300 20]);
-    bottomslider_h = uicontrol(posfig,'units','pixel','Style','slider',...
-        'Max',hmax,'Min',1e-100,'Value',margins(2),...
-        'SliderStep',[0.05 0.2],...
-        'Position',[25 225 300 20]);
-    leftslider_h = uicontrol(posfig,'units','pixel','Style','slider',...
-        'Max',wmax,'Min',1e-100,'Value',margins(3),...
-        'SliderStep',[0.05 0.2],...
-        'Position',[25 175 300 20]);
-    rightslider_h = uicontrol(posfig,'units','pixel','Style','slider',...
-        'Max',wmax,'Min',1e-100,'Value',margins(4),...
-        'SliderStep',[0.05 0.2],...
-        'Position',[25 125 300 20]);
-    col_midslider_h = uicontrol(posfig,'units','pixel','Style','slider',...
-        'Max',max([wmax hmax]),'Min',1e-100,'Value',margins(5),...
-        'SliderStep',[0.05 0.2],...
-        'Position',[25 75 300 20]);
-    row_midslider_h = uicontrol(posfig,'units','pixel','Style','slider',...
-        'Max',max([wmax hmax]),'Min',1e-100,'Value',margins(5),...
-        'SliderStep',[0.05 0.2],...
-        'Position',[25 25 300 20]);
-    
-    %Array of all slider handles
-    sliders_h=[topslider_h bottomslider_h leftslider_h rightslider_h col_midslider_h row_midslider_h];
-    
-    %Create descriptor texts for the sliders
-    uicontrol(posfig,'units','pixel','Style','text','string','Top Margin','Position',[25 295 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
-    uicontrol(posfig,'units','pixel','Style','text','string','Bottom Margin','Position',[25 245 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
-    uicontrol(posfig,'units','pixel','Style','text','string','Left Margin','Position',[25 195 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
-    uicontrol(posfig,'units','pixel','Style','text','string','Right Margin','Position',[25 145 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
-    uicontrol(posfig,'units','pixel','Style','text','string','Column Margins','Position',[25 95 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
-    uicontrol(posfig,'units','pixel','Style','text','string','Row Margins','Position',[25 45 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
+if ~strcmpi(get(mainfig_h,'units'),'normalized')
+    pos=get(mainfig_h,'position');
+    wmax=pos(3);
+    hmax=pos(4);
+else
+    hmax=1;
+    wmax=1;
+end
 
-    %Create the edit boxes for manual entry of parameter values
-    topedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(1)),'Position',[120 297 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
-    bottomedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(2)),'Position',[120 247 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
-    leftedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(3)),'Position',[120 197 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
-    rightedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(4)),'Position',[120 147 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
-    col_midedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(5)),'Position',[120 97 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
-    row_midedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(6)),'Position',[120 47 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
+%Create the position interaction figure
+posfig = figure('Position',[250 250 350 330],...
+    'MenuBar','none','NumberTitle','off','color','w',...
+    'Name','Adjust Subplots','closerequestfcn',@(src,evnt)merge_on(mainfig_h));
 
-    %Array of all edit box handles
-    editboxes_h=[topedit_h bottomedit_h leftedit_h rightedit_h col_midedit_h row_midedit_h];
-    
-    %Set the edit box callbacks
-    set(topedit_h,'callback',@(src,evnt)edit_update(axis_handles,sliders_h,editboxes_h,1, mainfig_h, num_cols, num_rows, units));
-    set(bottomedit_h,'callback',@(src,evnt)edit_update(axis_handles,sliders_h,editboxes_h,2, mainfig_h, num_cols, num_rows, units));
-    set(leftedit_h,'callback',@(src,evnt)edit_update(axis_handles,sliders_h,editboxes_h,3, mainfig_h, num_cols, num_rows, units));
-    set(rightedit_h,'callback',@(src,evnt)edit_update(axis_handles,sliders_h,editboxes_h,4, mainfig_h, num_cols, num_rows, units));
-    set(col_midedit_h,'callback',@(src,evnt)edit_update(axis_handles,sliders_h,editboxes_h,5, mainfig_h, num_cols, num_rows, units));
-    set(row_midedit_h,'callback',@(src,evnt)edit_update(axis_handles,sliders_h,editboxes_h,6, mainfig_h, num_cols, num_rows, units));
-    
-    %Set continuous callbaxs for the sliders
-    addlistener(topslider_h,'ContinuousValueChange',@(src,evnt)slider_update(axis_handles,sliders_h,editboxes_h,1, mainfig_h, num_cols, num_rows, units));
-    addlistener(bottomslider_h,'ContinuousValueChange',@(src,evnt)slider_update(axis_handles,sliders_h,editboxes_h,2, mainfig_h, num_cols, num_rows, units));
-    addlistener(leftslider_h,'ContinuousValueChange',@(src,evnt)slider_update(axis_handles,sliders_h,editboxes_h,3, mainfig_h, num_cols, num_rows, units));
-    addlistener(rightslider_h,'ContinuousValueChange',@(src,evnt)slider_update(axis_handles,sliders_h,editboxes_h,4, mainfig_h, num_cols, num_rows, units));
-    addlistener(col_midslider_h,'ContinuousValueChange',@(src,evnt)slider_update(axis_handles,sliders_h,editboxes_h,5, mainfig_h, num_cols, num_rows, units));
-    addlistener(row_midslider_h,'ContinuousValueChange',@(src,evnt)slider_update(axis_handles,sliders_h,editboxes_h,6, mainfig_h, num_cols, num_rows, units));
-    
-    %Fix the main figure so that it closes the adjustment window when
-    %deleted
-    set(mainfig_h,'closerequestfcn',@(src,evnt)close_all(mainfig_h, posfig));
+%Create the sliders
+topslider_h = uicontrol(posfig,'units','pixel','Style','slider',...
+    'Max',hmax,'Min',1e-100,'Value',margins(1),...
+    'SliderStep',[0.05 0.2],...
+    'Position',[25 275 300 20]);
+bottomslider_h = uicontrol(posfig,'units','pixel','Style','slider',...
+    'Max',hmax,'Min',1e-100,'Value',margins(2),...
+    'SliderStep',[0.05 0.2],...
+    'Position',[25 225 300 20]);
+leftslider_h = uicontrol(posfig,'units','pixel','Style','slider',...
+    'Max',wmax,'Min',1e-100,'Value',margins(3),...
+    'SliderStep',[0.05 0.2],...
+    'Position',[25 175 300 20]);
+rightslider_h = uicontrol(posfig,'units','pixel','Style','slider',...
+    'Max',wmax,'Min',1e-100,'Value',margins(4),...
+    'SliderStep',[0.05 0.2],...
+    'Position',[25 125 300 20]);
+col_midslider_h = uicontrol(posfig,'units','pixel','Style','slider',...
+    'Max',max([wmax hmax]),'Min',1e-100,'Value',margins(5),...
+    'SliderStep',[0.05 0.2],...
+    'Position',[25 75 300 20]);
+row_midslider_h = uicontrol(posfig,'units','pixel','Style','slider',...
+    'Max',max([wmax hmax]),'Min',1e-100,'Value',margins(5),...
+    'SliderStep',[0.05 0.2],...
+    'Position',[25 25 300 20]);
+
+%Array of all slider handles
+sliders_h=[topslider_h bottomslider_h leftslider_h rightslider_h col_midslider_h row_midslider_h];
+
+%Create descriptor texts for the sliders
+uicontrol(posfig,'units','pixel','Style','text','string','Top Margin','Position',[25 295 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
+uicontrol(posfig,'units','pixel','Style','text','string','Bottom Margin','Position',[25 245 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
+uicontrol(posfig,'units','pixel','Style','text','string','Left Margin','Position',[25 195 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
+uicontrol(posfig,'units','pixel','Style','text','string','Right Margin','Position',[25 145 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
+uicontrol(posfig,'units','pixel','Style','text','string','Column Margins','Position',[25 95 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
+uicontrol(posfig,'units','pixel','Style','text','string','Row Margins','Position',[25 45 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
+
+%Create the edit boxes for manual entry of parameter values
+topedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(1)),'Position',[120 297 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
+bottomedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(2)),'Position',[120 247 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
+leftedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(3)),'Position',[120 197 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
+rightedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(4)),'Position',[120 147 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
+col_midedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(5)),'Position',[120 97 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
+row_midedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(6)),'Position',[120 47 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
+
+%Array of all edit box handles
+editboxes_h=[topedit_h bottomedit_h leftedit_h rightedit_h col_midedit_h row_midedit_h];
+
+%Set the edit box callbacks
+set(topedit_h,'callback',@(src,evnt)edit_update(axis_handles,sliders_h,editboxes_h,1, mainfig_h, num_cols, num_rows, units));
+set(bottomedit_h,'callback',@(src,evnt)edit_update(axis_handles,sliders_h,editboxes_h,2, mainfig_h, num_cols, num_rows, units));
+set(leftedit_h,'callback',@(src,evnt)edit_update(axis_handles,sliders_h,editboxes_h,3, mainfig_h, num_cols, num_rows, units));
+set(rightedit_h,'callback',@(src,evnt)edit_update(axis_handles,sliders_h,editboxes_h,4, mainfig_h, num_cols, num_rows, units));
+set(col_midedit_h,'callback',@(src,evnt)edit_update(axis_handles,sliders_h,editboxes_h,5, mainfig_h, num_cols, num_rows, units));
+set(row_midedit_h,'callback',@(src,evnt)edit_update(axis_handles,sliders_h,editboxes_h,6, mainfig_h, num_cols, num_rows, units));
+
+%Set continuous callbaxs for the sliders
+addlistener(topslider_h,'ContinuousValueChange',@(src,evnt)slider_update(axis_handles,sliders_h,editboxes_h,1, mainfig_h, num_cols, num_rows, units));
+addlistener(bottomslider_h,'ContinuousValueChange',@(src,evnt)slider_update(axis_handles,sliders_h,editboxes_h,2, mainfig_h, num_cols, num_rows, units));
+addlistener(leftslider_h,'ContinuousValueChange',@(src,evnt)slider_update(axis_handles,sliders_h,editboxes_h,3, mainfig_h, num_cols, num_rows, units));
+addlistener(rightslider_h,'ContinuousValueChange',@(src,evnt)slider_update(axis_handles,sliders_h,editboxes_h,4, mainfig_h, num_cols, num_rows, units));
+addlistener(col_midslider_h,'ContinuousValueChange',@(src,evnt)slider_update(axis_handles,sliders_h,editboxes_h,5, mainfig_h, num_cols, num_rows, units));
+addlistener(row_midslider_h,'ContinuousValueChange',@(src,evnt)slider_update(axis_handles,sliders_h,editboxes_h,6, mainfig_h, num_cols, num_rows, units));
+
+%Fix the main figure so that it closes the adjustment window when
+%deleted
+set(mainfig_h,'closerequestfcn',@(src,evnt)close_all(mainfig_h, posfig));
 
 %*****************************************************
 %             UPDATE AXIS GRID FROM SLIDER
