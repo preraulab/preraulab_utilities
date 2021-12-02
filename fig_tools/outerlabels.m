@@ -17,12 +17,24 @@
 %       h_yl: outer ylim handle
 %
 %   Example:
+%     %Create Figure
 %     figure
-%     ax = figdesign(3,2,'type','usletter','margins',[.1 .1 .14 .1 .05]);
+%     ax = figdesign(3,2,'type','usletter','margins',[.07 .1 .14 .1 .08]);
+% 
+%     %Create axes and labels
+%     for ii = 1:length(ax)
+%         title(ax(ii),['Plot Title ' num2str(ii)]);
+%         xlabel(ax(ii),'x label');
+%         ylabel(ax(ii),'y label');
+%     end
+% 
+%     %Outer label strings
 %     xlabel_str = 'X Label';
 %     ylabel_str = 'Y Label';
+% 
+%     %Create outer labels
+%     outerlabels(ax,xlabel_str, ylabel_str,'XAxisLocation', 'top','fontsize', 18, 'fontweight', 'bold');
 %
-%     outerlabels(ax,xlabel_str, ylabel_str,'XAxisLocation', 'top', 'fontsize',18,'fontweight','bold');
 %
 %   Copyright 2021 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
 %   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
@@ -64,7 +76,7 @@ set(gcf,'units','normalized');
 set(ax,'units','normalized');
 
 %Get outer positions
-pos = cat(1,ax.InnerPosition);
+pos = cat(1,ax.OuterPosition);
 
 %Get key positions
 bottom_x = min(pos(:,1));
@@ -82,6 +94,8 @@ h_yl = ylabel(ylabel_str,varargin{:});
 axbig.Visible = 'off';
 axbig.XLabel.Visible = 'on';
 axbig.YLabel.Visible = 'on';
+axbig.XLabel.VerticalAlignment = "middle";
+axbig.YLabel.VerticalAlignment = "middle";
 
 %Set axis label location
 axbig.XAxisLocation = xloc;
