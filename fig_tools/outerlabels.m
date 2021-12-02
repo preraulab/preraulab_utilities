@@ -58,8 +58,8 @@ end
 
 %Parse inputs to extract just the xy axis locations
 p = inputParser;
-addOptional(p,'XAxisLocation','bottom',@(x)  any(validatestring(lower(x),{'top','bottom'})));
-addOptional(p,'YAxisLocation','left',@(x) any(validatestring(lower(x),{'left','right'})));
+addOptional(p,'XAxisLocation','bottom',@(x)  any(validatestring(x,{'top','bottom'})));
+addOptional(p,'YAxisLocation','left',@(x) any(validatestring(x,{'left','right'})));
 p.KeepUnmatched = true;
 parse(p,varargin{:});
 
