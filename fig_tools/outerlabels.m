@@ -64,7 +64,7 @@ set(gcf,'units','normalized');
 set(ax,'units','normalized');
 
 %Get outer positions
-pos = cat(1,ax.OuterPosition);
+pos = cat(1,ax.InnerPosition);
 
 %Get key positions
 bottom_x = min(pos(:,1));
