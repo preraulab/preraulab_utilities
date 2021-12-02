@@ -181,7 +181,31 @@ end
 
 %Set up interaction
 if interact
-    if ~strcmpi(units,'normalized')
+    run_interaction(mainfig_h,margins, axis_handles, num_rows, num_cols, units);
+else
+    c = get(mainfig_h,'children');
+    menu_inds = arrayfun(@(x)strcmpi(class(x),'matlab.ui.container.Menu'),c);
+    
+    if ~any(menu_inds) || ~any(strcmpi({c(menu_inds).Text},'Merge Axes'))
+        %If not adjusting, add the merge menu to the main figure toolbar
+        f = uimenu('Label','Merge Axes');
+        uimenu(f,'Label','Merge...','Callback',@(src,evnt)merge_axes);
+    end
+    
+    % Add numbers to axes for easy identification
+    if numberaxes
+        for ii = 1:length(axis_handles)
+            title(axis_handles(ii), num2str(ii));
+        end
+    end
+    
+end
+
+%*****************************************************
+%             CREATE INTERACTIVE AXES
+%*****************************************************
+function run_interaction(mainfig_h, margins, axis_handles, num_rows, num_cols, units)
+   if ~strcmpi(get(mainfig_h,'units'),'normalized')
         pos=get(mainfig_h,'position');
         wmax=pos(3);
         hmax=pos(4);
@@ -192,7 +216,7 @@ if interact
     
     %Create the position interaction figure
     posfig = figure('Position',[250 250 350 330],...
-        'MenuBar','none','NumberTitle','off',...
+        'MenuBar','none','NumberTitle','off','color','w',...
         'Name','Adjust Subplots','closerequestfcn',@(src,evnt)merge_on(mainfig_h));
     
     %Create the sliders
@@ -225,20 +249,20 @@ if interact
     sliders_h=[topslider_h bottomslider_h leftslider_h rightslider_h col_midslider_h row_midslider_h];
     
     %Create descriptor texts for the sliders
-    uicontrol(mainfig_h,'units','pixel','Style','text','string','Top Margin','Position',[25 295 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
-    uicontrol(mainfig_h,'units','pixel','Style','text','string','Bottom Margin','Position',[25 245 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
-    uicontrol(mainfig_h,'units','pixel','Style','text','string','Left Margin','Position',[25 195 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
-    uicontrol(mainfig_h,'units','pixel','Style','text','string','Right Margin','Position',[25 145 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
-    uicontrol(mainfig_h,'units','pixel','Style','text','string','Column Margins','Position',[25 95 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
-    uicontrol(mainfig_h,'units','pixel','Style','text','string','Row Margins','Position',[25 45 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
+    uicontrol(posfig,'units','pixel','Style','text','string','Top Margin','Position',[25 295 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
+    uicontrol(posfig,'units','pixel','Style','text','string','Bottom Margin','Position',[25 245 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
+    uicontrol(posfig,'units','pixel','Style','text','string','Left Margin','Position',[25 195 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
+    uicontrol(posfig,'units','pixel','Style','text','string','Right Margin','Position',[25 145 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
+    uicontrol(posfig,'units','pixel','Style','text','string','Column Margins','Position',[25 95 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
+    uicontrol(posfig,'units','pixel','Style','text','string','Row Margins','Position',[25 45 100 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','left');
 
     %Create the edit boxes for manual entry of parameter values
-    topedit_h=uicontrol(mainfig_h,'units','pixel','Style','edit','string',num2str(margins(1)),'Position',[120 297 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
-    bottomedit_h=uicontrol(mainfig_h,'units','pixel','Style','edit','string',num2str(margins(2)),'Position',[120 247 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
-    leftedit_h=uicontrol(mainfig_h,'units','pixel','Style','edit','string',num2str(margins(3)),'Position',[120 197 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
-    rightedit_h=uicontrol(mainfig_h,'units','pixel','Style','edit','string',num2str(margins(4)),'Position',[120 147 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
-    col_midedit_h=uicontrol(mainfig_h,'units','pixel','Style','edit','string',num2str(margins(5)),'Position',[120 97 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
-    row_midedit_h=uicontrol(mainfig_h,'units','pixel','Style','edit','string',num2str(margins(6)),'Position',[120 47 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
+    topedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(1)),'Position',[120 297 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
+    bottomedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(2)),'Position',[120 247 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
+    leftedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(3)),'Position',[120 197 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
+    rightedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(4)),'Position',[120 147 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
+    col_midedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(5)),'Position',[120 97 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
+    row_midedit_h=uicontrol(posfig,'units','pixel','Style','edit','string',num2str(margins(6)),'Position',[120 47 70 20],'backgroundcolor',get(mainfig_h,'color'),'horizontalalign','right');
 
     %Array of all edit box handles
     editboxes_h=[topedit_h bottomedit_h leftedit_h rightedit_h col_midedit_h row_midedit_h];
@@ -262,24 +286,6 @@ if interact
     %Fix the main figure so that it closes the adjustment window when
     %deleted
     set(mainfig_h,'closerequestfcn',@(src,evnt)close_all(mainfig_h, posfig));
-else
-    c = get(mainfig_h,'children');
-    menu_inds = arrayfun(@(x)strcmpi(class(x),'matlab.ui.container.Menu'),c);
-    
-    if ~any(menu_inds) || ~any(strcmpi({c(menu_inds).Text},'Merge Axes'))
-        %If not adjusting, add the merge menu to the main figure toolbar
-        f = uimenu('Label','Merge Axes');
-        uimenu(f,'Label','Merge...','Callback',@(src,evnt)merge_axes);
-    end
-    
-    % Add numbers to axes for easy identification
-    if numberaxes
-        for ii = 1:length(axis_handles)
-            title(axis_handles(ii), num2str(ii));
-        end
-    end
-    
-end
 
 %*****************************************************
 %             UPDATE AXIS GRID FROM SLIDER
