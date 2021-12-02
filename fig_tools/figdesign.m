@@ -260,9 +260,14 @@ if interact
     %deleted
     set(mainfig,'closerequestfcn',@(src,evnt)close_all(mainfig, posfig));
 else
-    %If not adjusting, add the merge menu to the main figure toolbar
-    f = uimenu('Label','Merge Axes');
-    uimenu(f,'Label','Merge...','Callback',@(src,evnt)merge_axes);
+    c = get(mainfig,'children');
+    menu_inds = arrayfun(@(x)strcmpi(class(x),'matlab.ui.container.Menu'),c);
+    
+    if ~any(menu_inds) || ~any(strcmpi({c(menu_inds).Text},'Merge Axes'))
+        %If not adjusting, add the merge menu to the main figure toolbar
+        f = uimenu('Label','Merge Axes');
+        uimenu(f,'Label','Merge...','Callback',@(src,evnt)merge_axes);
+    end
     
     % Add numbers to axes for easy identification
     if numberaxes
