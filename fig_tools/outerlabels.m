@@ -84,6 +84,7 @@ bottom_y = min(pos(:,2));
 width = max(pos(:,1) + pos(:,3)) - bottom_x;
 height = max(pos(:,2) + pos(:,4)) - bottom_y;
 
+%Create giant axes for outerlabel creation
 axbig = axes('units','normalized','position',[bottom_x, bottom_y, width, height]);
 
 %Make axes
