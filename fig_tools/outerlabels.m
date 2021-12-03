@@ -1,7 +1,7 @@
 %OUTERLABELS  Plot big labels on the outside of an axis grid
 %
 %   Usage:
-%       [h_xl, h_yl] = outerlabels(axs, xlabel_str, ylabel_str, axdir, <label options>)
+%       [h_xl, h_yl, h_axbig] = outerlabels(axs, xlabel_str, ylabel_str, axdir, <label options>)
 %
 %   Input:
 %       axs: vector of axes in figure
@@ -15,26 +15,23 @@
 %   Output:
 %       h_xl: outer xlim handle
 %       h_yl: outer ylim handle
+%       h_axbig: parent axis handle 
 %
 %   Example:
-%     %Create Figure
-%     figure
-%     ax = figdesign(3,2,'type','usletter','margins',[.07 .1 .14 .1 .08]);
+%         %Create Figure
+%         figure
+%         ax = figdesign(3,2,'type','usletter','margins',[.1 .1 .14 .1 .08],'numberaxes',true);
 % 
-%     %Create axes and labels
-%     for ii = 1:length(ax)
-%         title(ax(ii),['Plot Title ' num2str(ii)]);
-%         xlabel(ax(ii),'x label');
-%         ylabel(ax(ii),'y label');
-%     end
+%         %Outer label strings
+%         title_str = 'My Title';
+%         xlabel_str = 'My X-Label';
+%         ylabel_str = 'My Y-Label';
 % 
-%     %Outer label strings
-%     xlabel_str = 'X Label';
-%     ylabel_str = 'Y Label';
+%         %Create outer labels
+%         [~,~,ax_big] =outerlabels(ax,xlabel_str,ylabel_str);
 % 
-%     %Create outer labels
-%     outerlabels(ax,xlabel_str, ylabel_str,'XAxisLocation', 'top','fontsize', 18, 'fontweight', 'bold');
-%
+%         %Create outer title
+%         outertitle(ax,title_str,'fontsize',30);
 %
 %   Copyright 2021 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
 %   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
@@ -43,7 +40,7 @@
 %   last modified 12/01/2021
 %********************************************************************
 
-function [h_xl, h_yl] = outerlabels(ax,xlabel_str,ylabel_str, varargin)
+function [h_xl, h_yl, h_axbig] = outerlabels(ax,xlabel_str,ylabel_str, varargin)
 
 if nargin == 0
     figure
@@ -85,19 +82,19 @@ width = max(pos(:,1) + pos(:,3)) - bottom_x;
 height = max(pos(:,2) + pos(:,4)) - bottom_y;
 
 %Create giant axes for outerlabel creation
-axbig = axes('units','normalized','position',[bottom_x, bottom_y, width, height]);
+h_axbig = axes('units','normalized','position',[bottom_x, bottom_y, width, height]);
 
 %Make axes
 h_xl = xlabel(xlabel_str,varargin{:});
 h_yl = ylabel(ylabel_str,varargin{:});
 
 %Hide big axis
-axbig.Visible = 'off';
-axbig.XLabel.Visible = 'on';
-axbig.YLabel.Visible = 'on';
-axbig.XLabel.VerticalAlignment = "middle";
-axbig.YLabel.VerticalAlignment = "middle";
+h_axbig.Visible = 'off';
+h_axbig.XLabel.Visible = 'on';
+h_axbig.YLabel.Visible = 'on';
+h_axbig.XLabel.VerticalAlignment = "middle";
+h_axbig.YLabel.VerticalAlignment = "middle";
 
 %Set axis label location
-axbig.XAxisLocation = xloc;
-axbig.YAxisLocation = yloc;
+h_axbig.XAxisLocation = xloc;
+h_axbig.YAxisLocation = yloc;
