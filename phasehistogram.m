@@ -1,0 +1,62 @@
+%PHASEHISTOGRAM  Draw a polar histogram with mean arrow for phase data
+%
+%   Usage:
+%   [h_phist, h_pax, h_ml] = phasehistogram(phases, amps, <phasehistogram inputs>)
+% 
+%   Input:
+%   phases: 1xN vector of phase values
+%   amps: 1xN vector of amplitudes (default: 1)
+% 
+%   Output:
+%   h_phist: handle for phase histogram
+%   h_pax: handle for polar axis
+%   h_ml: handle for mean line
+% 
+%   Example:
+%         % Generate some phases
+%         phases = mod(randn(1,1000) + pi/2, 2*pi);
+%
+%         %Create the plot
+%         figure;
+%         phasehistogram(phases, 1,'NumBins',25,'FaceColor','blue','FaceAlpha',.3);
+%
+%   Copyright 2022 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
+%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+%   
+%   Last modified 02/16/2022
+%********************************************************************
+
+function [h_phist, h_pax, h_ml] = phasehistogram(phases, amps, varargin)
+if nargin==0
+    error('Must input phases');
+end
+
+if nargin<2 || isempty(amps)
+    amps = ones(size(phases));
+end
+
+%Compute the mean population vector
+vect_mean = mean(amps.*exp(1i*phases));
+
+%Get the mean magnitude and angle
+rho_mean = abs(vect_mean);
+theta_mean = angle(vect_mean);
+
+%Set default to normalization
+varargin = [{'Normalization'}, {'pdf'}, varargin(:)'];
+
+%Create polar axes
+h_pax = polaraxes;
+
+%Plot histogram
+h_phist = polarhistogram(h_pax,phases,varargin{:});
+h_pax.ThetaAxisUnits = 'radians';
+h_pax.ThetaTick = 0:pi/4:2*pi;
+h_pax.ThetaTickLabel = {'0','\pi/4','\pi/2','3\pi/4' '\pm\pi','-3pi/4', '-\pi/2','-\pi/4'};
+h_pax.FontSize = 14;
+
+%Add mean arrow
+hold on
+h_ml = polarplot([theta_mean theta_mean],[0 rho_mean],'linestyle','-','color','r','linewidth',2);
+
