@@ -1,13 +1,15 @@
 %PHASEHISTOGRAM  Draw a polar histogram with mean arrow for phase data
 %
 %   Usage:
-%   [h_phist, h_pax, h_ml] = phasehistogram(phases, amps, <phasehistogram inputs>)
+%   [theta_mean, rho_mean, h_phist, h_pax, h_ml] = phasehistogram(phases, amps, <phasehistogram inputs>)
 % 
 %   Input:
 %   phases: 1xN vector of phase values
 %   amps: 1xN vector of amplitudes (default: 1)
 % 
 %   Output:
+%   theta_mean: mean angle
+%   rho_mean: mean magnitude
 %   h_phist: handle for phase histogram
 %   h_pax: handle for polar axis
 %   h_ml: handle for mean line
@@ -27,7 +29,7 @@
 %   Last modified 02/16/2022
 %********************************************************************
 
-function [h_phist, h_pax, h_ml] = phasehistogram(phases, amps, varargin)
+function [theta_mean, rho_mean, h_phist, h_pax, h_ml] = phasehistogram(phases, amps, varargin)
 if nargin==0
     error('Must input phases');
 end
