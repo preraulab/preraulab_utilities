@@ -133,7 +133,10 @@ for ii = 1:Nfeatures
     %Assemble the group data
     xgroupdata = [];
     h_scatter = zeros(1,Ngroups);
-
+    
+    pvals = nan(nchoosek(Ngroups,2),1); %Init storage variable for pvalues
+    count = 0;
+    
     for jj = 1:Ngroups
         %Get all group members
         group_idx = groupid == ids(jj);
@@ -144,6 +147,19 @@ for ii = 1:Nfeatures
 
         %Plot the data
         h_scatter(jj) = plot(xpos(jj)*ones(N,1),data(groupid==ids(jj),ii),markers(jj),'markerfacecolor',marker_colors(jj,:),'markersize',5);
+    
+        % Get pvalues
+        for nn = 1:Ngroups
+            if (nn ~= jj) && (nn<jj) % only test each pair once with no self-testing
+                count = count + 1;
+                [~, p] = ttest2(data(groupid==ids(nn),ii), data(groupid==ids(jj),ii));
+                pvals(count) = p/(Ngroups-1); % correct pval for multuple tests
+                if pvals(count) < 0.05
+                    H = sigstar([xpos(nn), xpos(jj)], pvals(count)); %Place sigstar
+                    set(H(2), 'fontsize', 18)
+                end
+            end
+        end
     end
 
     %Get the data for the features
@@ -155,6 +171,10 @@ end
 
 %Update the ticks and the legend
 set(gca,'XTick',xticks,'XTickLabel',feature_labels)
-legend(h_scatter,group_labels);
+legend(h_scatter,group_labels, 'location', 'southwest');
+
+%Update xlims and ylims 
+xlim([0, max(xticks)+(min(xticks))])
+ylim([0, max(data, [], 'all')+min(data,[],'all')])
 
 hold off;
