@@ -33,7 +33,7 @@
 %     ylabel_str = 'Y Label';
 % 
 %     %Create outer labels
-%     outerlabels(ax,xlabel_str, ylabel_str,'XAxisLocation', 'top','fontsize', 18, 'fontweight', 'bold');
+%     outerlabels(ax, xlabel_str, ylabel_str,'XAxisLocation', 'top','fontsize', 18, 'fontweight', 'bold');
 %
 %
 %   Copyright 2021 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
