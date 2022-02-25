@@ -135,7 +135,7 @@ for ii = 1:Nfeatures
     h_scatter = zeros(1,Ngroups);
 
     for jj = 1:Ngroups
-        %Get all gorup members
+        %Get all group members
         group_idx = groupid == ids(jj);
         N = sum(group_idx);
 
