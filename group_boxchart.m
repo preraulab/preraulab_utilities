@@ -1,8 +1,8 @@
-function h_box = group_boxchart(data, groupid, feature_labels, group_labels, group_gap, feature_gap, markers, marker_colors)
+function h_box = group_boxchart(data, groupid, feature_labels, group_labels, group_gap, feature_gap, markers, marker_colors, varargin)
 %GROUP_BOXCHART  Creates a grouped boxchart
 %
 %   Usage:
-%   h_box = group_boxchart(data, groupid, feature_names, group_names, group_gap, feature_gap, markers, marker_colors)
+%   h_box = group_boxchart(data, groupid, feature_names, group_names, group_gap, feature_gap, markers, marker_colors, <boxchart_params>)
 %
 %   Input:
 %   data: NxF data with F features and N observations across all groups
@@ -13,6 +13,7 @@ function h_box = group_boxchart(data, groupid, feature_labels, group_labels, gro
 %   feature_gap: double - the spacing between each boxplot group between features (default: 1)
 %   markers: 1xG char - markers for each group (default: 'o^sdvph>')
 %   marker_colors: chars or Nx3 matrix of colors (default: matlab color order)
+%   boxchart_params: optional parameters to the boxchart function
 %
 %   Output:
 %   h_box: handle to boxchart objects
@@ -71,7 +72,7 @@ xticks = zeros(1,Nfeatures);
 xpos = zeros(1, Ngroups);
 
 %Set default feature names
-if nargin<3
+if nargin<3 || isempty(feature_labels)
     feature_labels = cell(1,Nfeatures);
     for ii = 1:Nfeatures
         feature_labels{ii} = ['Feature ' num2str(ii)];
@@ -79,30 +80,30 @@ if nargin<3
 end
 
 %Set default group names
-if nargin<4
+if nargin<4 || isempty(group_labels)
     group_labels = cell(1,Ngroups);
     for ii = 1:Ngroups
         group_labels{ii} = ['Group ' num2str(ii)];
     end
 end
 
-if nargin<5
+if nargin<5 || isempty(group_gap)
     %Spacing within groups
     group_gap = .5;
 end
 
-if nargin<6
+if nargin<6 || isempty(feature_gap)
     %Between features spacing
     feature_gap = 1;
 end
 
 %Data markers
-if nargin<7
+if nargin<7 || isempty(markers)
     markers = 'o^sdvph>o^sdvph>o^sdvph>';
 end
 
 %Data colors
-if nargin<8
+if nargin<8 || isempty(marker_colors)
     marker_colors = repmat(get(gca,'colororder'),5,1);
 end
 
@@ -149,7 +150,7 @@ for ii = 1:Nfeatures
     d = data(:,ii);
 
     %Plot the boxchart
-    h_box(ii) = boxchart(xgroupdata,d(:));
+    h_box(ii) = boxchart(xgroupdata,d(:),varargin{:});
 end
 
 %Update the ticks and the legend
