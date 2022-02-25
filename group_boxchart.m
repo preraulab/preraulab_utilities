@@ -1,5 +1,47 @@
-function h_box = group_boxchart(data, groupid, feature_names, group_names, feature_spacing, group_spacing, markers, marker_colors)
-
+function h_box = group_boxchart(data, groupid, feature_labels, group_labels, group_gap, feature_gap, markers, marker_colors)
+%GROUP_BOXCHART  Creates a grouped boxchart
+%
+%   Usage:
+%   h_box = group_boxchart(data, groupid, feature_names, group_names, group_gap, feature_gap, markers, marker_colors)
+%
+%   Input:
+%   data: NxF data with F features and N observations across all groups
+%   groupid: Nx1 column vector with group ids
+%   feature_labels: 1xF cell of chars with feature lables (default: {'Feature 1',...'Feature N'})
+%   group_labels: 1xG cell of chars with group labels (default: {'Group 1',...'Group N'})
+%   group_gap: double - the spacing within groups boxplot (default: .5)
+%   feature_gap: double - the spacing between each boxplot group between features (default: 1)
+%   markers: 1xG char - markers for each group (default: 'o^sdvph>')
+%   marker_colors: chars or Nx3 matrix of colors (default: matlab color order)
+%
+%   Output:
+%   h_box: handle to boxchart objects
+%
+%   Example:
+%     figure
+%     %% Generate Data
+% 
+%     N1 = 10; %Number in group 1
+%     N2 = 12; %Number in group 2
+%     N3 = 15; %Number in group 3
+% 
+%     data1 = [randn(N1,1) randn(N1,1)+2 randn(N1,1)*2-3];
+%     data2 = [randn(N2,1)-1 randn(N2,1)-2 randn(N2,1)/2+3];
+%     data3 = [randn(N3,1)+.5 randn(N3,1)+3 randn(N3,1)-1];
+% 
+%     data = [data1; data2; data3];
+% 
+%     %Group id
+%     groupid = [ones(N1,1)*0; ones(N2,1)*1; ones(N3,1)*2];
+% 
+%     group_boxchart(data,groupid);
+%
+%   Copyright 2022 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
+%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+%
+%   Last modified 02/19/2022
+%********************************************************************
 if nargin == 0
     %% Generate Data
 
@@ -30,28 +72,28 @@ xpos = zeros(1, Ngroups);
 
 %Set default feature names
 if nargin<3
-    feature_names = cell(1,Nfeatures);
+    feature_labels = cell(1,Nfeatures);
     for ii = 1:Nfeatures
-        feature_names{ii} = ['Feature ' num2str(ii)];
+        feature_labels{ii} = ['Feature ' num2str(ii)];
     end
 end
 
 %Set default group names
 if nargin<4
-    group_names = cell(1,Ngroups);
+    group_labels = cell(1,Ngroups);
     for ii = 1:Ngroups
-        group_names{ii} = ['Group ' num2str(ii)];
+        group_labels{ii} = ['Group ' num2str(ii)];
     end
 end
 
 if nargin<5
-    %Spacing between the features
-    feature_spacing = 1;
+    %Spacing within groups
+    group_gap = .5;
 end
 
 if nargin<6
-    %Between group spacing
-    group_spacing = 1.5;
+    %Between features spacing
+    feature_gap = 1;
 end
 
 %Data markers
@@ -61,7 +103,7 @@ end
 
 %Data colors
 if nargin<8
-    marker_colors = 'rgbcymkorgbcymkorgbcymko';
+    marker_colors = repmat(get(gca,'colororder'),5,1);
 end
 
 %Force character colors to be column vector
@@ -71,15 +113,17 @@ else
     assert(size(marker_colors,2) == 3,'Color must be vector of characters or Nx3 matrix');
 end
 
+assert(length(groupid)==size(data,1),'Group id must be column vector of length equal to data rows');
+
 %% Create plot
 hold all;
 
 %Loop through each of the features
 for ii = 1:Nfeatures
     %Set the x positions
-    xpos(1) = ii+(2*feature_spacing+group_spacing)*(ii-1);
+    xpos(1) = ii+(2*group_gap+feature_gap)*(ii-1);
     for jj = 2:Ngroups
-        xpos(jj) = xpos(jj-1)+feature_spacing;
+        xpos(jj) = xpos(jj-1)+group_gap;
     end
 
     %Set the xticks in the middle of the group
@@ -109,5 +153,7 @@ for ii = 1:Nfeatures
 end
 
 %Update the ticks and the legend
-set(gca,'XTick',xticks,'XTickLabel',feature_names)
-legend(h_scatter,group_names);
+set(gca,'XTick',xticks,'XTickLabel',feature_labels)
+legend(h_scatter,group_labels);
+
+hold off;
