@@ -97,8 +97,28 @@ set(fh_new,'units','inches','position',[0 0 get(fh_new,'papersize')],'color','w'
 set(fh_new,'units','normalized');
 
 %Get all the children and copy to the new figure
-c1 = copyobj(get(fh1,'children'),fh_new);
-c2 = copyobj(get(fh2,'children'),fh_new);
+f1_children = get(fh1,'children');
+f2_children = get(fh2,'children');
+
+c1 = copyobj(f1_children,fh_new);
+c2 = copyobj(f2_children,fh_new);
+
+%Fix font size glitch in labels
+for ii = 1:length(f1_children)
+    C = f1_children(ii);
+    if isprop(C, 'XLabel')
+        c1(ii).XLabel.FontSize = C.XLabel.FontSize;
+        c1(ii).YLabel.FontSize = C.XLabel.FontSize;
+    end
+end
+
+for ii = 1:length(f2_children)
+    C = f2_children(ii);
+    if isprop(C, 'XLabel')
+        c2(ii).XLabel.FontSize = C.XLabel.FontSize;
+        c2(ii).YLabel.FontSize = C.XLabel.FontSize;
+    end
+end
 
 %Setup for Left Right merge
 if LRdir
