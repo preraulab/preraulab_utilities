@@ -1,4 +1,4 @@
-function fh_new = mergefigures(fh1,fh2, ratio, stacking)
+function fh_new = mergefigures(fh1,fh2, ratio, stacking, textshrink)
 %MERGEFIGURES  Merges two existing figures into one figure with specified
 %direction and ratio
 %
@@ -44,12 +44,12 @@ if nargin == 0
     imagesc(peaks(500));
     fh2 = figure;
     plot(randn(1,1000));
-    
+
     mergefigures(fh1,fh2, .6, 'lr');
     mergefigures(fh1,fh2, .2, 'lr');
     mergefigures(fh1,fh2, .6, 'ud');
     mergefigures(fh1,fh2, .2, 'ud');
-    
+
     delete(fh1);
     delete(fh2);
     return;
@@ -77,6 +77,10 @@ if nargin<4 || isempty(stacking)
     stacking = 'LR';
 end
 
+if nargin<5 || isempty(textshrink)
+    textshink = .8;
+end
+
 switch lower(stacking)
     case 'lr'
         LRdir = true;
@@ -97,42 +101,19 @@ set(fh_new,'units','inches','position',[0 0 get(fh_new,'papersize')],'color','w'
 set(fh_new,'units','normalized');
 
 %Get all the children and copy to the new figure
-f1_children = get(fh1,'children');
-f2_children = get(fh2,'children');
+f1_children = findobj(fh1,{'Type','Axes','-or','Type','Colorbar'});
+f2_children = findobj(fh2,{'Type','Axes','-or','Type','Colorbar'});
 
 c1 = copyobj(f1_children,fh_new);
 c2 = copyobj(f2_children,fh_new);
-
-%Fix font size glitch in labels
-for ii = 1:length(f1_children)
-    C = f1_children(ii);
-    if isprop(C, 'XLabel')
-        c1(ii).XLabel.FontSize = C.XLabel.FontSize;
-        c1(ii).YLabel.FontSize = C.XLabel.FontSize;
-    end
-end
-
-for ii = 1:length(f2_children)
-    C = f2_children(ii);
-    if isprop(C, 'XLabel')
-        c2(ii).XLabel.FontSize = C.XLabel.FontSize;
-        c2(ii).YLabel.FontSize = C.XLabel.FontSize;
-    end
-end
 
 %Setup for Left Right merge
 if LRdir
     for i=1:length(c1)
         C=c1(i);
-        if strcmp(C, 'FontSize')
-            C.FontSize=C.FontSize*.8;
-        end
-        
-        if strcmpi(class(C),'matlab.ui.container.Menu') || strcmpi(class(C),'uimenu')
-            delete(C);
-            continue;
-        end
-        
+
+        C.FontSize=C.FontSize*textshink;
+
         if isprop(C, 'Position')
             set(C,'units','normalized');
             C.Position(1)=C.Position(1)*ratio;
@@ -141,19 +122,12 @@ if LRdir
             delete(C)
         end
     end
-    
+
     for i=1:length(c2)
         C=c2(i);
-        
-        if strcmp(C, 'FontSize')
-            C.FontSize=C.FontSize*.8;
-        end
-        
-        if strcmpi(class(C),'matlab.ui.container.Menu') || strcmpi(class(C),'uimenu')
-            delete(C);
-            continue;
-        end
-        
+
+        C.FontSize=C.FontSize*textshink;
+
         if isprop(C, 'Position')
             set(C,'units','normalized');
             C.Position(1)=C.Position(1)*(1-ratio);
@@ -163,19 +137,13 @@ if LRdir
             delete(C)
         end
     end
-    
+
 else %Setup for Up Down merge
     for i=1:length(c1)
         C=c1(i);
-        if strcmp(C, 'FontSize')
-            C.FontSize=C.FontSize*.8;
-        end
-        
-        if strcmpi(class(C),'matlab.ui.container.Menu') || strcmpi(class(C),'uimenu')
-            delete(C);
-            continue;
-        end
-        
+
+        C.FontSize=C.FontSize*textshink;
+
         if isprop(C, 'Position')
             set(C,'units','normalized');
             C.Position(2)=C.Position(2)*ratio;
@@ -184,19 +152,12 @@ else %Setup for Up Down merge
             delete(C)
         end
     end
-    
+
     for i=1:length(c2)
         C=c2(i);
-        
-        if strcmp(C, 'FontSize')
-            C.FontSize=C.FontSize*.8;
-        end
-        
-        if strcmpi(class(C),'matlab.ui.container.Menu') || strcmpi(class(C),'uimenu')
-            delete(C);
-            continue;
-        end
-        
+
+        C.FontSize=C.FontSize*textshink;
+
         if isprop(C, 'Position')
             set(C,'units','normalized');
             C.Position(2)=C.Position(2)*(1-ratio);
