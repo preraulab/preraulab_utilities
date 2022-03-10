@@ -1,11 +1,13 @@
-function new_axes = split_axis(ax, hbreaks, vbreaks)
+function new_axes = split_axis(varargin)
 %SPLIT_AXIS Split an axis into multiple axes
-%   new_axes = split_axis(ax, hbreaks, vbreaks)
+%   new_axes = split_axis(hbreaks, vbreaks)
+%              split_axis(ax, hbreaks, vbreaks)
 %
 % Inputs:
-%   ax: handle to axis to split --required
-%   hbreaks: horizontal partitions in %, must sum to 1 --required
-%   vbreaks: vertical partitions in %, must sum to 1 --required
+%   ax: handle to axis to split (default: current axis)
+%   hbreaks: 1xH vector - horizontal partitions in %, must sum to 1 --required
+%   vbreaks: 1xV vector -vertical partitions in %, must sum to 1 --required
+%   delete_ax: logical - delete original axis (default: true)
 %
 % Outputs:
 %   new_axes: array of handles to the new axis objects
@@ -13,10 +15,8 @@ function new_axes = split_axis(ax, hbreaks, vbreaks)
 %   Example:
 %
 %     figure
-%     ax = gca;
+%     new_axes = split_axis([.1 .2 .4 .3], [.6 .2 .1 .1], true);
 %
-%     new_axes = split_axes(ax,[.1 .2 .4 .3], [.6 .2 .1 .1]);
-%     
 %     for ii = 1:length(new_axes)
 %         new_axes(ii).Color = rand(1,3);
 %     end
@@ -27,13 +27,31 @@ function new_axes = split_axis(ax, hbreaks, vbreaks)
 %
 %   Last modified 03/10/2022
 %********************************************************************
+
+% Parse possible axes input.
+[ax, args, ~] = axescheck(varargin{:});
+
+% Get handle to either the requested or a new axis.
 if isempty(ax)
-    ax = gca;
+   ax = gca;
 end
 
+%Error check
+assert(length(args)>= 2,'Must have at least two arguments')
+
+hbreaks = args{1};
+vbreaks = args{2};
+
+if length(args)<3 || isempty(args{3})
+    delete_ax = true;
+else
+    delete_ax = args{3};
+end
+
+%Normalize axis
 ax.Units = 'normalized';
 
-
+%Error check
 assert(sum(vbreaks)==1,'Sum of vbreaks must equal 1');
 assert(sum(hbreaks)==1,'Sum of hbreaks must equal 1');
 
@@ -48,7 +66,6 @@ Nh = length(hbreaks);
 
 %Counter for new axes
 c = 1;
-new_axes = [];
 
 %Loop through all the partitions
 for vv = 1:Nv
@@ -79,7 +96,12 @@ for vv = 1:Nv
         %ax_new.Color = rand(1,3);
 
         %Add to output vector
-        new_axes(c) = ax_new;
+        new_axes(c) = handle(ax_new);
         c = c+1;
     end
+end
+
+%Hides original axis
+if delete_ax
+    delete(ax);
 end
