@@ -2,6 +2,8 @@
 %
 %   Usage:
 %       clim = climscale(hObj, ptiles, outliers)
+%       clim(outliers)
+%       clim(ptiles)
 %
 %   Input:
 %       hObj: handle to axis or image object -- required
@@ -23,23 +25,42 @@
 %   Last modified 10/23/2020
 %% ********************************************************************
 function clim = climscale(hObj, ptiles, outliers)
+if nargin == 1
+    if isa(hObj,'matlab.graphics.primitive.Image') || isa(hObj,'matlab.graphics.axis.Axes')
+        ptiles =[5 98];
+        outliers = true;
+    elseif issorted(hObj) && isnumeric(hObj)
+        ptiles = hObj;
+        hObj = gca;
+        outliers = true;
+    elseif islogical(hObj)
+        outliers = hObj;
+        hObj = gca;
+        ptiles =[5 98];
+    else
+        error('Single input must be object, ptiles, or logical');
+    end
+else
 %Set default current axis
 if nargin==0 || isempty(hObj)
     hObj=gca;
 end
-assert(ishandle(hObj) || isa(hObj,'matlab.graphics.primitive.Image') || isa(hObj,'matlab.graphics.axis.Axes'),['First input must be axis or image handle. Input was ' class(hObj)])
 
 %Set default percentiles
 if nargin<2 || isempty(ptiles)
     ptiles=[5 98];
 end
-assert(issorted(ptiles) && isnumeric(ptiles), 'Percentiles must be monotically increasing and numeric');
 
 %Set default percentils
 if nargin<3 || isempty(outliers)
     outliers = true;
 end
+end
+
+assert(ishandle(hObj) || isa(hObj,'matlab.graphics.primitive.Image') || isa(hObj,'matlab.graphics.axis.Axes'),['First input must be axis or image handle. Input was ' class(hObj)])
+assert(issorted(ptiles) && isnumeric(ptiles), 'Percentiles must be monotically increasing and numeric');
 assert(islogical(outliers), 'Outliers must be logical');
+
 
 %Get color data
 if isa(hObj,'matlab.graphics.primitive.Image')
