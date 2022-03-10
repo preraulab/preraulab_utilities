@@ -123,9 +123,9 @@ paper_type=p.Results.type;
 numberaxes = p.Results.numberaxes;
 
 %Sets default to portrait letter
-set(mainfig_h,'units','inches','position',[0 0 get(mainfig_h,'papersize')],'color','w');
+set(mainfig_h,'paperpositionmode','manual');
 set(mainfig_h,'units',units,'paperorientation',orientation,'papertype',paper_type,'color','w');
-set(mainfig_h,'paperpositionmode','auto');
+set(mainfig_h,'units','inches','position',[0 0 get(mainfig_h,'papersize')],'color','w');
 
 %Recreate varargin removing the x/y axis location name pairs
 varargin = cat(2,fieldnames(p.Unmatched),struct2cell(p.Unmatched));
