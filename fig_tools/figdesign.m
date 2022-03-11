@@ -123,7 +123,7 @@ paper_type=p.Results.type;
 numberaxes = p.Results.numberaxes;
 
 %Sets default to portrait letter
-set(mainfig_h,'paperpositionmode','manual');
+set(mainfig_h,'paperpositionmode','auto');
 set(mainfig_h,'units',units,'paperorientation',orientation,'papertype',paper_type,'color','w');
 set(mainfig_h,'units','inches','position',[0 0 get(mainfig_h,'papersize')],'color','w');
 
@@ -142,7 +142,6 @@ end
 if length(margins) == 5
     margins(6) = margins(5);
 end
-
 
 %Set up axesaxis_handles
 axis_handles=create_axes(mainfig_h, margins(1),margins(2),margins(3),margins(4), margins(5), margins(6), num_cols, num_rows, units);

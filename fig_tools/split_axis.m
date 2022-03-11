@@ -5,8 +5,8 @@ function new_axes = split_axis(varargin)
 %
 % Inputs:
 %   ax: handle to axis to split (default: current axis)
-%   hbreaks: 1xH vector - horizontal partitions in %, must sum to 1 --required
-%   vbreaks: 1xV vector -vertical partitions in %, must sum to 1 --required
+%   hbreaks: 1xH vector - horizontal partitions in % (left to right), must sum to 1 --required
+%   vbreaks: 1xV vector -vertical partitions in % (bottom to top), must sum to 1 --required
 %   delete_ax: logical - delete original axis (default: true)
 %
 % Outputs:
