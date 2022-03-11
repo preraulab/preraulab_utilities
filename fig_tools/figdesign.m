@@ -77,11 +77,11 @@
 %             axs=figdesign('handles');
 %             linkaxes(axs,'x');
 %
-%   Copyright 2021 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
+%   Copyright 2022 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
 %   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 %   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
 %
-%   last modified 12/02/2021
+%   last modified 03/11/2022
 %********************************************************************
 function axis_handles=figdesign(varargin)
 %Run demo
