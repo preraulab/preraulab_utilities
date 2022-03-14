@@ -57,7 +57,7 @@ function varargout=sigstar(groups,stats,nosort)
     % bar(x)
     % sigstar({[2,3],[1,2], [4,5]})
     %
-    % ALSO SEE: demo_sigstar
+    % ALSO SEE:  demo_sigstar
     %
     % KNOWN ISSUES:
     % 1. Algorithm for identifying whether significance bar will overlap with 
