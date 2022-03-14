@@ -78,7 +78,7 @@ if nargin<4 || isempty(stacking)
 end
 
 if nargin<5 || isempty(textshrink)
-    textshink = .8;
+    textshrink = .8;
 end
 
 switch lower(stacking)
@@ -112,7 +112,7 @@ if LRdir
     for i=1:length(c1)
         C=c1(i);
 
-        C.FontSize=C.FontSize*textshink;
+        C.FontSize=C.FontSize*textshrink;
 
         if isprop(C, 'Position')
             set(C,'units','normalized');
@@ -126,7 +126,7 @@ if LRdir
     for i=1:length(c2)
         C=c2(i);
 
-        C.FontSize=C.FontSize*textshink;
+        C.FontSize=C.FontSize*textshrink;
 
         if isprop(C, 'Position')
             set(C,'units','normalized');
@@ -142,7 +142,7 @@ else %Setup for Up Down merge
     for i=1:length(c1)
         C=c1(i);
 
-        C.FontSize=C.FontSize*textshink;
+        C.FontSize=C.FontSize*textshrink;
 
         if isprop(C, 'Position')
             set(C,'units','normalized');
@@ -156,7 +156,7 @@ else %Setup for Up Down merge
     for i=1:length(c2)
         C=c2(i);
 
-        C.FontSize=C.FontSize*textshink;
+        C.FontSize=C.FontSize*textshrink;
 
         if isprop(C, 'Position')
             set(C,'units','normalized');
