@@ -146,7 +146,8 @@ for ii = 1:Nfeatures
         xgroupdata = [xgroupdata; ones(N,1)*xpos(jj)];
 
         %Plot the data
-        h_scatter(jj) = plot(xpos(jj)*ones(N,1),data(groupid==ids(jj),ii),markers(jj),'markerfacecolor',marker_colors(jj,:),'markersize',5);
+        h_scatter(jj) = plot(xpos(jj)*ones(N,1),data(groupid==ids(jj),ii),markers(jj),...
+            'markerfacecolor',marker_colors(jj,:),'markeredgecolor','none','markersize',5);
     
         % Get pvalues
         for nn = 1:Ngroups
