@@ -1,4 +1,4 @@
-function h_box = group_boxchart(data, groupid, feature_labels, group_labels, group_gap, feature_gap, markers, marker_colors, varargin)
+function h_box = group_boxchart(data, groupid, feature_labels, group_labels, group_gap, feature_gap, markers, marker_colors, pvals, varargin)
 %GROUP_BOXCHART  Creates a grouped boxchart
 %
 %   Usage:
@@ -13,6 +13,7 @@ function h_box = group_boxchart(data, groupid, feature_labels, group_labels, gro
 %   feature_gap: double - the spacing between each boxplot group between features (default: 1)
 %   markers: 1xG char - markers for each group (default: 'o^sdvph>')
 %   marker_colors: chars or Nx3 matrix of colors (default: matlab color order)
+%   pvals: precomputed p-values. If empty, ttest2 will be computed. 
 %   boxchart_params: optional parameters to the boxchart function
 %
 %   Output:
@@ -107,6 +108,13 @@ if nargin<8 || isempty(marker_colors)
     marker_colors = repmat(get(gca,'colororder'),5,1);
 end
 
+% pvals
+if (nargin<9 || isempty(pvals))
+    use_ttest = true;
+else 
+    use_ttest = false;
+end
+
 %Force character colors to be column vector
 if ischar(marker_colors)
     marker_colors = marker_colors(:);
@@ -134,7 +142,7 @@ for ii = 1:Nfeatures
     xgroupdata = [];
     h_scatter = zeros(1,Ngroups);
     
-    pvals = nan(nchoosek(Ngroups,2),1); %Init storage variable for pvalues
+    %pvals = nan(nchoosek(Ngroups,2),1); %Init storage variable for pvalues
     count = 0;
     
     for jj = 1:Ngroups
@@ -153,10 +161,11 @@ for ii = 1:Nfeatures
         for nn = 1:Ngroups
             if (nn ~= jj) && (nn<jj) % only test each pair once with no self-testing
                 count = count + 1;
-                [~, p] = ttest2(data(groupid==ids(nn),ii), data(groupid==ids(jj),ii));
-                pvals(count) = p/(Ngroups-1); % correct pval for multuple tests
-                if pvals(count) < 0.05
-                    H = sigstar([xpos(nn), xpos(jj)], pvals(count)); %Place sigstar
+                if use_ttest
+                    [~, pvals(ii,count)] = ttest2(data(groupid==ids(nn),ii), data(groupid==ids(jj),ii));
+                end
+                if pvals(ii,count) < 0.05
+                    H = sigstar([xpos(nn), xpos(jj)], pvals(ii,count)); %Place sigstar
                     set(H(2), 'fontsize', 18)
                 end
             end
@@ -176,6 +185,6 @@ legend(h_scatter,group_labels, 'location', 'southwest');
 
 %Update xlims and ylims 
 xlim([0, max(xticks)+(min(xticks))])
-ylim([0, max(data, [], 'all')+min(data,[],'all')])
+ylim([min([0,min(data,[],'all')]), max(data, [], 'all')+max([0,min(data,[],'all')])])
 
 hold off;

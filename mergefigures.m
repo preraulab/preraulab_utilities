@@ -44,12 +44,12 @@ if nargin == 0
     imagesc(peaks(500));
     fh2 = figure;
     plot(randn(1,1000));
-
+    
     mergefigures(fh1,fh2, .6, 'lr');
     mergefigures(fh1,fh2, .2, 'lr');
     mergefigures(fh1,fh2, .6, 'ud');
     mergefigures(fh1,fh2, .2, 'ud');
-
+    
     delete(fh1);
     delete(fh2);
     return;
@@ -104,16 +104,51 @@ set(fh_new,'units','normalized');
 f1_children = findobj(fh1,{'Type','Axes','-or','Type','Colorbar'});
 f2_children = findobj(fh2,{'Type','Axes','-or','Type','Colorbar'});
 
+%Textbox field names to copy
+tbox_fn = {'String','Color', 'FontSize','FontName','FontWeight','LineStyle','Position'};
+
+%Add the textboxes
+f1_tbox = findall(fh1,{'Type', 'TextBox'});
+
+for ii = 1:length(f1_tbox)
+    tb = f1_tbox(ii);
+    tb_new1(ii) = annotation(fh_new,'textbox','String','TESTING123');
+    
+    for ff = 1:length(tbox_fn)
+        tb_new1(ii).(tbox_fn{ff}) = tb.(tbox_fn{ff});
+    end
+end
+
+f2_tbox = findall(fh2,{'Type', 'TextBox'});
+
+for ii = 1:length(f2_tbox)
+    tb = f2_tbox(ii);
+    tb_new2(ii) = annotation(fh_new,'textbox','String','TESTING123');
+    
+    for ff = 1:length(tbox_fn)
+        tb_new2(ii).(tbox_fn{ff}) = tb.(tbox_fn{ff});
+    end
+end
+
+
 c1 = copyobj(f1_children,fh_new);
 c2 = copyobj(f2_children,fh_new);
+
+if ~isempty(f1_tbox)
+    c1 = [c1; tb_new1(:)];
+end
+
+if ~isempty(f2_tbox)
+    c2  = [c2; tb_new2(:)];
+end
 
 %Setup for Left Right merge
 if LRdir
     for i=1:length(c1)
         C=c1(i);
-
+        
         C.FontSize=C.FontSize*textshrink;
-
+        
         if isprop(C, 'Position')
             set(C,'units','normalized');
             C.Position(1)=C.Position(1)*ratio;
@@ -122,12 +157,12 @@ if LRdir
             delete(C)
         end
     end
-
+    
     for i=1:length(c2)
         C=c2(i);
-
+        
         C.FontSize=C.FontSize*textshrink;
-
+        
         if isprop(C, 'Position')
             set(C,'units','normalized');
             C.Position(1)=C.Position(1)*(1-ratio);
@@ -137,13 +172,13 @@ if LRdir
             delete(C)
         end
     end
-
+    
 else %Setup for Up Down merge
     for i=1:length(c1)
         C=c1(i);
-
+        
         C.FontSize=C.FontSize*textshrink;
-
+        
         if isprop(C, 'Position')
             set(C,'units','normalized');
             C.Position(2)=C.Position(2)*ratio;
@@ -152,12 +187,12 @@ else %Setup for Up Down merge
             delete(C)
         end
     end
-
+    
     for i=1:length(c2)
         C=c2(i);
-
+        
         C.FontSize=C.FontSize*textshrink;
-
+        
         if isprop(C, 'Position')
             set(C,'units','normalized');
             C.Position(2)=C.Position(2)*(1-ratio);

@@ -65,12 +65,12 @@ end
 %Get full data limits depending on direction
 if strcmpi(dir,'x')
     xl=xlim;
-    
+
     amin=xl(1);
     amax=xl(2);
 else
     yl=ylim;
-    
+
     amin=yl(1);
     amax=yl(2);
 end
@@ -177,7 +177,7 @@ if strcmpi(dir,'x')
     elseif get(pslider,'value')+abs(diff(xlim(ax)))/2>amax
         set(pslider,'value',amax-abs(diff(xlim(ax)))/2);
     end
-    
+
     set(ax, 'xlim', get(pslider,'value')+[-1 1]*abs(diff(xlim(ax)))/2);
 else
     %Set sliderbounds so that you can't go past limits
@@ -232,26 +232,31 @@ handle=guidata(get(ax,'parent'));
 %Check if shift is bing pressed
 handle.shift_down=(strcmpi(event.Key,'shift'));
 
+winsize = get(zslider,'value')*2;
+pos = get(pslider,'value');
+pmax = get(pslider,'max');
+pmin = get(pslider,'min');
+zmax = get(zslider,'max');
+zmin = get(zslider,'min');
+
 switch event.Key
     %Scroll left
     case 'rightarrow'
-        amax=get(pslider,'max');
-        set(pslider,'value',min(get(pslider,'value')*(1+.025),amax));
+        pnew = pos+winsize;
+        set(pslider,'value',min(pnew,pmax));
         pan_slider(ax, pslider, dir, pan_fcn);
-        %Scroll right
+    %Scroll right
     case 'leftarrow'
-        amin=get(pslider,'min');
-        set(pslider,'value',max(get(pslider,'value')*(1-.025),amin));
+        pnew = pos-winsize;
+        set(pslider,'value',max(pnew,pmin));
         pan_slider(ax, pslider, dir, pan_fcn)
-        %Zoom in
+    %Zoom in
     case 'downarrow'
-        amin=get(zslider,'min');
-        set(zslider,'value',max(get(zslider,'value')*(1-.025),amin));
+        set(zslider,'value',max(get(zslider,'value')*(1-.025),zmin));
         zoom_slider(ax, zslider, pslider, dir, zoom_fcn);
-        %Zoom out
+   %Zoom out
     case 'uparrow'
-        amax=get(zslider,'max');
-        set(zslider,'value',min(get(zslider,'value')*(1+.025),amax));
+        set(zslider,'value',min(get(zslider,'value')*(1+.025),zmax));
         zoom_slider(ax, zslider, pslider, dir, zoom_fcn);
     case 'z'
         %Get the initials of the scorer to be used for saving
@@ -260,19 +265,19 @@ switch event.Key
         numlines=1;
         defaultanswer={''};
         answer=inputdlg(prompt,name,numlines,defaultanswer);
-        
+
         if isempty(answer)
             return;
         end
-        
+
         new_width = str2double(answer{1});
         if isnan(new_width)
             return;
         end
-        
+
         set(zslider,'value',new_width);
         zoom_slider(ax, zslider, pslider, dir, zoom_fcn);
-        
+
 end
 
 guidata(gcf,handle);
