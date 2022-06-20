@@ -55,7 +55,7 @@ h_pax = polaraxes;
 h_phist = polarhistogram(h_pax,phases,varargin{:});
 h_pax.ThetaAxisUnits = 'radians';
 h_pax.ThetaTick = 0:pi/4:2*pi;
-h_pax.ThetaTickLabel = {'0','\pi/4','\pi/2','3\pi/4' '\pm\pi','-3pi/4', '-\pi/2','-\pi/4'};
+h_pax.ThetaTickLabel = {'0','\pi/4','\pi/2','3\pi/4' '\pm\pi','-3\pi/4', '-\pi/2','-\pi/4'};
 h_pax.FontSize = 14;
 
 %Add mean arrow

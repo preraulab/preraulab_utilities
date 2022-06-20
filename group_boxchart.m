@@ -1,4 +1,4 @@
-function h_box = group_boxchart(data, groupid, feature_labels, group_labels, group_gap, feature_gap, markers, marker_colors, pvals, varargin)
+function [h_box, pvals] = group_boxchart(data, groupid, feature_labels, group_labels, group_gap, feature_gap, markers, marker_colors, pvals, varargin)
 %GROUP_BOXCHART  Creates a grouped boxchart
 %
 %   Usage:
@@ -162,7 +162,7 @@ for ii = 1:Nfeatures
             if (nn ~= jj) && (nn<jj) % only test each pair once with no self-testing
                 count = count + 1;
                 if use_ttest
-                    [~, pvals(ii,count)] = ttest2(data(groupid==ids(nn),ii), data(groupid==ids(jj),ii));
+                    [~, pvals(ii,count), ~, stats] = ttest2(data(groupid==ids(nn),ii), data(groupid==ids(jj),ii));
                 end
                 if pvals(ii,count) < 0.05
                     H = sigstar([xpos(nn), xpos(jj)], pvals(ii,count)); %Place sigstar
