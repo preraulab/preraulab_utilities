@@ -42,7 +42,7 @@ hi=hi(:)';
 
 %Plot curve and bounds
 hold on
-bounds_handle = fill([x fliplr(x)],[lo fliplr(hi)],cbounds,'edgecolor',edgecolor);
+bounds_handle = fill([x fliplr(x)],[lo fliplr(hi)],cbounds,'edgecolor',edgecolor,'FaceAlpha',0.1);
 line_handle = plot(x,mid,'linewidth',2,'color',cmid);
 
 
