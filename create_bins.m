@@ -1,6 +1,6 @@
 function [bin_edges, bin_centers] = create_bins(bin_range, bin_width, bin_step, bin_method)
 %CREATE_BINS Create bins with potential for overlap
-%   [bin_edges, bin_centers] = create_bins(bin_range, bin_width, bin_step, full_bins)
+%   [bin_edges, bin_centers] = create_bins(bin_range, bin_width, bin_step, bin_method)
 %
 % Inputs:
 %   bin_range: 1x2 numeric vector - [min max] --required
