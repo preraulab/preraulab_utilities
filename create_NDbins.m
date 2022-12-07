@@ -1,6 +1,6 @@
 function [NDbin_edges, NDbin_centers, NDbin_coords] = create_NDbins(bin_ranges, bin_widths, bin_steps, bin_methods)
 %CREATE_BINS Create bins with potential for overlap
-%   [bin_edges, bin_centers, bin_coords] = create_bins(bin_ranges, bin_widths, bin_steps, bin_methods)
+%   [NDbin_edges, NDbin_centers, NDbin_coords] = create_NDbins(bin_ranges, bin_widths, bin_steps, bin_methods)
 %
 % Inputs:
 %   bin_ranges: NDx2 numeric vector - [min max] --required
@@ -13,9 +13,9 @@ function [NDbin_edges, NDbin_centers, NDbin_coords] = create_NDbins(bin_ranges, 
 %               Default = 'full'.
 %
 % Outputs:
-%   bin_edges: cell array of ND bin edges
-%   bin_centers: ND x N - centers of each bin
-%   boin_coords: ND coordinates for each bin
+%   NDbin_edges: cell array of ND bin edges
+%   NDbin_centers: ND x N - centers of each bin
+%   NDboin_coords: ND coordinates for each bin
 %
 %   Copyright 2022 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
 %   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
