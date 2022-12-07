@@ -1,4 +1,4 @@
-function [bin_edges, bin_centers, bin_coords] = create_NDbins(bin_ranges, bin_widths, bin_steps, bin_methods)
+function [NDbin_edges, NDbin_centers, NDbin_coords] = create_NDbins(bin_ranges, bin_widths, bin_steps, bin_methods)
 %CREATE_BINS Create bins with potential for overlap
 %   [bin_edges, bin_centers, bin_coords] = create_bins(bin_ranges, bin_widths, bin_steps, bin_methods)
 %
@@ -17,7 +17,6 @@ function [bin_edges, bin_centers, bin_coords] = create_NDbins(bin_ranges, bin_wi
 %   bin_centers: ND x N - centers of each bin
 %   boin_coords: ND coordinates for each bin
 %
-%
 %   Copyright 2022 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
 %   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 %   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
@@ -26,7 +25,11 @@ function [bin_edges, bin_centers, bin_coords] = create_NDbins(bin_ranges, bin_wi
 assert(size(bin_ranges,2) == 2, 'bin_range must be an N x 2 matrix');
 ND = size(bin_ranges,1);
 
-%Format bin_method as cell
+if nargin<4
+    bin_methods = cell(1,ND);
+end
+
+%Format single string bin_method as cell
 if ~iscell(bin_methods)
     bin_methods = {bin_methods};
 end
@@ -34,11 +37,6 @@ end
 % Set default to full
 if length(bin_methods)<ND
     bin_methods{ND} = [];
-    for ii = 1:ND
-        if isempty(bin_methods{ii})
-            bin_methods{ii}='full';
-        end
-    end
 end
 
 %Create each dims edges independently
@@ -49,24 +47,24 @@ for ii = 1:ND
 end
 
 %Get all linearized coordinates without looing
-bin_coords = cell(1,ND);
+NDbin_coords = cell(1,ND);
 
 %Dynamically create ND grid
 dims = cellfun(@length,bin_edges);
 X = arrayfun(@(x)1:x,dims,'UniformOutput',false);
-[bin_coords{:}]=ndgrid(X{:});
+[NDbin_coords{:}]=ndgrid(X{:});
 
 %Reshape into coordinates
-bin_coords = cell2mat(cellfun(@(x)x(:),bin_coords,'UniformOutput',false));
+NDbin_coords = cell2mat(cellfun(@(x)x(:),NDbin_coords,'UniformOutput',false));
 
-NDbin_edges = cell(size(bin_coords,1),1);
-NDbin_centers = zeros(size(bin_coords,1),ND);
+NDbin_edges = cell(size(NDbin_coords,1),1);
+NDbin_centers = zeros(size(NDbin_coords,1),ND);
 
 %Merge all bins into linearized coordinates
-for ii = 1:size(bin_coords,1)
+for ii = 1:size(NDbin_coords,1)
     for dd = 1:ND
-        NDbin_edges{ii}(:,dd) = bin_edges{dd}(:,bin_coords(ii,dd));
-        NDbin_centers(ii,dd) = bin_centers{dd}(bin_coords(ii,dd));
+        NDbin_edges{ii}(:,dd) = bin_edges{dd}(:,NDbin_coords(ii,dd));
+        NDbin_centers(ii,dd) = bin_centers{dd}(NDbin_coords(ii,dd));
     end
 end
 
