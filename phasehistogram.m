@@ -48,11 +48,9 @@ theta_mean = angle(vect_mean);
 %Set default to normalization
 varargin = [{'Normalization'}, {'pdf'}, varargin(:)'];
 
-%Create polar axes
-h_pax = polaraxes;
-
 %Plot histogram
-h_phist = polarhistogram(h_pax,phases,varargin{:});
+h_phist = polarhistogram(phases,varargin{:});
+h_pax = gca;
 h_pax.ThetaAxisUnits = 'radians';
 h_pax.ThetaTick = 0:pi/4:2*pi;
 h_pax.ThetaTickLabel = {'0','\pi/4','\pi/2','3\pi/4' '\pm\pi','-3\pi/4', '-\pi/2','-\pi/4'};

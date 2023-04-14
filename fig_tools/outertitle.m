@@ -1,7 +1,7 @@
 %OUTERTITLE  Plot a big title on the outside of an axis grid
 %
 %   Usage:
-%       [h_title, h_axbig] = outerlabels(axs, title_str, <label options>)
+%       [h_title, h_axbig] = outertitle(axs, title_str, <label options>)
 %
 %   Input:
 %       axs: vector of axes in figure
