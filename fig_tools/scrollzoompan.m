@@ -138,6 +138,10 @@ if newlims(2)<=newlims(1)
     newlims(2)=newlims(1)+1e-10;
 end
 
+if length(ax)>1
+    ax = ax(1);
+end
+
 %Set sliderbounds so that you can't go past limits
 if get(pslider,'value')-abs(diff(xlim(ax)))/2<amin
     newpos=amin+abs(diff(xlim(ax)))/2;
@@ -169,6 +173,10 @@ function pan_slider(ax, pslider, dir, pan_fcn)
 amin=get(pslider,'min');
 amax=get(pslider,'max');
 
+if length(ax)>1
+    ax = ax(1);
+end
+
 %Set the limits to the slider value center
 if strcmpi(dir,'x')
     %Set sliderbounds so that you can't go past limits
@@ -197,6 +205,10 @@ end
 %           CALLBACK TO HANDLE SCROLL WHEEL
 %-----------------------------------------------------------
 function figScroll(~,callbackdata,ax, zslider, pslider, dir, zoom_fcn, pan_fcn)
+if length(ax)>1
+    ax = ax(1);
+end
+
 handle=guidata(get(ax,'parent'));
 
 %Scroll if shift not pressed
@@ -227,6 +239,9 @@ end
 %           SCROLL AND ZOOM WITH KEYS
 %-----------------------------------------------------------
 function handle_keys(~,event,ax, zslider, pslider, dir, zoom_fcn, pan_fcn)
+if length(ax)>1
+    ax = ax(1);
+end
 handle=guidata(get(ax,'parent'));
 
 %Check if shift is bing pressed
