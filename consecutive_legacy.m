@@ -2,8 +2,8 @@
 %[cons, inds]=consecutive(data, minsize, val)
 %
 %Michael J. Prerau, Ph.D. 2013
-function [cons, inds]=consecutive(data, min_length, max_length, val)
-
+function [cons, inds]=consecutive_legacy(data, min_length, max_length, val)
+warning('Old legacy function: Use consecutive_runs()')
 if nargin < 4
     val=1;
 end
