@@ -103,10 +103,7 @@ run_lengths = run_lengths(1:cur_run);
 %Create the filtered binary vector if needed
 if nargout == 3
     filtered_vector = zeros(size(data));
-
-    for ii = 1:length(run_inds)
-        filtered_vector(run_inds(1,ii):run_inds(2,ii)) = 1;
-    end
+    filtered_vector([run_inds{:}]) = 1;
 end
 
 end
