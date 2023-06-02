@@ -34,7 +34,7 @@ classdef range_numberline < handle
             %   pos: (optional) Middle position indicator. Default is 5.
             %   range: (optional) Range for the number line. Default is [0 10].
 
-            if nargin == 0
+            if nargin == 0 || isempty(ax)
                 obj.ax = gca;
             else
                 obj.ax = ax;
@@ -88,13 +88,13 @@ classdef range_numberline < handle
             assert(~isempty(obj.range), 'Range must have a value');
 
             if isempty(obj.range_rect)
-                obj.range_rect = rectangle("FaceColor", [0 0 1 .2], 'edgecolor', 'none', 'Position', [obj.range(1) 0 diff(obj.range), 1]);
+                obj.range_rect = rectangle(obj.ax,"FaceColor", [0 0 1 .2], 'edgecolor', 'none', 'Position', [obj.range(1) 0 diff(obj.range), 1]);
             else
                 obj.range_rect.Position = [obj.range(1) 0, diff(obj.range), 1];
             end
 
             if isempty(obj.range_line)
-                obj.range_line = line([obj.pos obj.pos], [0 1], 'color', 'blue', 'linewidth', 2);
+                obj.range_line = line(obj.ax,[obj.pos obj.pos], [0 1], 'color', 'blue', 'linewidth', 2);
             else
                 obj.range_line.XData = [obj.pos obj.pos];
             end
