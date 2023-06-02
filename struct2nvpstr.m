@@ -1,4 +1,4 @@
-function vargout = struct2nvp(myStruct)
+function str = struct2nvpstr(myStruct)
 %STRUCT2NVP Converts a structure to name-value pairs string.
 %
 %   STR = STRUCT2NVP(MYSTRUCT) converts the fields and values of the input
@@ -8,10 +8,10 @@ function vargout = struct2nvp(myStruct)
 %   to their data type.
 %
 %   Inputs:
-%     myStruct: Input structure to convert to name-value pairs string.
+%   - myStruct: Input structure to convert to name-value pairs string.
 %
 %   Output:
-%     str: Name-value pairs string representing the input structure.
+%   - str: Name-value pairs string representing the input structure.
 %
 %   Example:
 %         myStruct.field1 = 23;
@@ -24,7 +24,7 @@ function vargout = struct2nvp(myStruct)
 %         struct_str = struct2nvp(myStruct);
 %         disp(struct_str)
 %
-%   See also NAMEDARGS2CELL
+%   See also FIELDNAMES, MAT2STR, NUM2STR, CELLFUN, STRJOIN.
 %
 %   Copyright 2023 Prerau Lab - http://www.sleepEEG.org
 %   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
@@ -32,14 +32,14 @@ function vargout = struct2nvp(myStruct)
 %%%%%%%%%%%
 
 fields = fieldnames(myStruct);
-vargout = '';
+str = '';
 for ii = 1:numel(fields)
     field = fields{ii};
     valueStr = value2str(myStruct.(field));
     if ii < numel(fields)
-        vargout = [vargout '''' field ''', ' valueStr ', '];
+        str = [str '''' field ''', ' valueStr ', '];
     else
-        vargout = [ vargout '''' field ''', ' valueStr];
+        str = [ str '''' field ''', ' valueStr];
     end
 end
 
