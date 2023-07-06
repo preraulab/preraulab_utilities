@@ -22,14 +22,20 @@ function tbox = lm_plot(varargin)
 %   'southwest', 'southeast', or 'center'. The default value is 'southwest'.
 %
 % Example:
-%   x = rand(1,1000)*10;
-%   z = -3*x + 23 + randn(size(x))*2;
-%   tbl = table(z',x');
-%   mdl = fitlm(tbl,'Var1 ~ Var2');
-%   tbox_h = lm_plot(mdl, 'display', 'coeffs', 'Location', 'southwest');
-%
+%     x = rand(1,1000)*10;
+%     z = -3*x + 23 + randn(size(x))*2;
+%     tbl = table(z',x');
+%     mdl = fitlm(tbl,'Var1 ~ Var2');
+%     lm_plot(mdl,'Location', 'southwest');
+%     title('Regression Plot')
+%     xlabel('Var 1')
+%     ylabel('Var 2')
+% 
 % See also:
-%   fitlm, annotation, validatestring
+%   fitlm, annotation
+%
+%   Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%
 
 if nargin == 0
     close all;
@@ -41,7 +47,7 @@ if nargin == 0
     lm_plot(mdl,'Location', 'southwest');
     title('Regression Plot')
     xlabel('Var 1')
-    xlabel('Var 2')
+    ylabel('Var 2')
     return;
 end
 
