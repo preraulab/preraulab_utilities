@@ -31,9 +31,9 @@ clim_h = figure('Position',[1329         897         350         130],...
     'Name','Adjust Color Limits');
 
 if length(ax)==1
-clims=get(ax,'clim');
+    clims=get(ax,'CLim');
 else
-    clims=get(ax(1),'clim');
+    clims=get(ax(1),'CLim');
 end
 
 bound=(clims(2)-clims(1))/2-.0001;
@@ -51,8 +51,8 @@ maxslider_h = uicontrol(clim_h,'units','pixel','Style','slider',...
 sliders=[maxslider_h minslider_h];
 
 %Create the edit boxes for manual entry of parameter values
-minedit_h=uicontrol(gcf,'units','pixel','Style','edit','string',get(maxslider_h,'value'),'Position',[120 47 70 20],'backgroundcolor',get(gcf,'color'),'horizontalalign','right');
-maxedit_h=uicontrol(gcf,'units','pixel','Style','edit','string',get(minslider_h,'value'),'Position',[120 97 70 20],'backgroundcolor',get(gcf,'color'),'horizontalalign','right');
+minedit_h=uicontrol(clim_h,'units','pixel','Style','edit','string',get(maxslider_h,'value'),'Position',[120 47 70 20],'backgroundcolor',get(gcf,'color'),'horizontalalign','right');
+maxedit_h=uicontrol(clim_h,'units','pixel','Style','edit','string',get(minslider_h,'value'),'Position',[120 97 70 20],'backgroundcolor',get(gcf,'color'),'horizontalalign','right');
 
 %Array of all edit box handles
 editboxes=[maxedit_h minedit_h];
@@ -68,9 +68,7 @@ uicontrol(gcf,'units','pixel','Style','text','string','Clim Min','Position',[25 
 set(maxedit_h,'callback',@(src,evnt)edit_update(sliders,editboxes,ax));
 set(minedit_h,'callback',@(src,evnt)edit_update(sliders,editboxes,ax));
 
-
-
-
+%% UPDATE THE SLIDER
 
 function slider_update(sliders,editboxes,ax)
 maxval=get(sliders(1),'value');
@@ -87,7 +85,7 @@ end
 clims=[minval maxval];
 
 % disp(clims);
-set(ax,'clim',clims);
+set(ax,'CLim',clims);
 set(editboxes(1),'string',num2str(clims(1)));
 set(editboxes(2),'string',num2str(clims(2)));
 
@@ -123,6 +121,6 @@ set(sliders(1),'value',maxval);
 set(sliders(2),'value',minval);
 set(editboxes(1),'string',minval);
 set(editboxes(2),'string',maxval);
-set(ax,'clim',clims);
+set(ax,'CLim',clims);
 
 

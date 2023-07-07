@@ -1,48 +1,52 @@
 function equalize_axes(ax, varargin)
 %EQUALIZE_AXES Equalize the axes limits across multiple axes.
-%   equalize_axes(ax) equalizes the axes limits across multiple axes 
-%   specified by the input ax. The function adjusts the limits of each 
-%   axis to the tightest range and also considers images within the axes 
-%   to update the color limits if present.
+%   EQUALIZE_AXES(AX) equalizes the axes limits across multiple axes. The
+%   function sets each axis to the tightest range and adjusts the color
+%   limits if there are images present. The axes limits can be equalized
+%   along the x, y, z, and/or c (color) dimensions.
 %
-%   equalize_axes(ax, dimension) allows you to specify the dimensions 
-%   across which the axes limits should be equalized. The dimension 
-%   argument should be a string that can include any combination of the 
-%   following characters: 'x', 'y', 'z', and 'c'. By default, all 
-%   dimensions ('xyzc') are equalized.
+%   EQUALIZE_AXES(AX, 'Name', Value) specifies optional name-value pairs:
+%       - 'dimension': Specifies the dimensions along which the axes limits
+%         should be equalized. It is a string that can contain the letters
+%         'x', 'y', 'z', and 'c' (color), in any order or combination.
+%         Default value is 'xyzc', meaning equalization across all
+%         dimensions.
+%       - 'linked': Specifies whether the axes should be linked or not. It
+%         is a logical value (true or false). When set to true, the axes are
+%         linked based on the specified dimensions. Default value is true.
 %
 %   Example:
 %       % Create a figure with images and plots
 %       figure
 %       ax = figdesign(3, 2);
-%   
+%
 %       axes(ax(1))
 %       imagesc(peaks(100) + 5)
 %       colorbar
-%   
+%
 %       axes(ax(3))
 %       imagesc(peaks(200) - 5)
 %       colorbar
-%   
+%
 %       axes(ax(5))
 %       imagesc(peaks(300))
 %       colorbar
-%   
+%
 %       axes(ax(2))
 %       N = 100;
 %       t = 1:N;
 %       plot(t, t * 3 - 4 + randn(size(t)) * 50, '.')
-%   
+%
 %       axes(ax(4))
 %       N = 200;
 %       t = 1:N;
 %       plot(t, t * -3 + 6 + randn(size(t)) * 80, '.')
-%   
+%
 %       axes(ax(6))
 %       N = 300;
 %       t = 1:N;
 %       plot(t, t * 4 - 12 + randn(size(t)) * 20, '.')
-%   
+%
 %       equalize_axes(ax([1 3 5]), 'c');
 %       equalize_axes(ax([2 4 6]), 'xy');
 %
@@ -92,9 +96,11 @@ assert(length(ax)>1,'Must have more than one axis to equalize across')
 p = inputParser;
 %Make sure there is at least one valid option
 addOptional(p, 'dimension', 'xyzc', @(x)(any(strfind(x,'x')) || any(strfind(x,'y')) || any(strfind(x,'z')) || any(strfind(x,'c'))));
+addOptional(p, 'linked', true, @(x)@islogical);
 
 parse(p, varargin{:});
 dimension = p.Results.dimension;
+linked = p.Results.linked;
 
 %Set each axis to the tightest range
 for ii = 1:length(ax)
@@ -138,7 +144,25 @@ if any(strfind(dimension,'c'))
     set(ax,'CLim',[cmin cmax])
 end
 
+%Link axes if requested
+if linked
+    %Get axes to be linked (e.g, 'x','xy','xyz',...)
+    linkstr = sort(unique(dimension([strfind(dimension,'x') strfind(dimension,'y') strfind(dimension,'z')])));
 
+    %Link axes
+    if ~isempty(linkstr)
+        linkaxes(ax,linkstr);
+    end
+
+    %Link color axes
+    if any(strfind(dimension,'c'))
+        % Make hlink global to persist the linkage
+        global hlink; %#ok<GVMIS>
+
+        % Link the color limits of the specified axes
+        hlink = linkprop(ax, 'CLim');
+    end
+end
 
 
 
