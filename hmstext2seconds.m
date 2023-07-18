@@ -37,9 +37,6 @@ hh = zeros(1, length(hmstext));
 mm = hh;
 ss = hh;
 
-% Initialize array for total seconds
-totalsecs = hh;
-
 % Loop through each cell of text
 for i = 1:length(hmstext)
     % Extract the hours, minutes, and seconds

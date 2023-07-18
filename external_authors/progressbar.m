@@ -247,7 +247,7 @@ else % This strange if-else works when progfig is empty (~ishandle() does not)
     end
     
     % Set time of last update to ensure a redraw
-    lastupdate = clock - 1;
+    lastupdate = clock - 1; %#ok<*CLOCK>
     
 end
 

@@ -79,7 +79,7 @@ cons = cons(1:c-1);
 inds = inds(1:c-1);
 
 
-function [d, id] = getchunks(a, opt)
+function [d, id] = getchunks(a, ~)
 
 %GETCHUNKS Get the number of repetitions that occur in consecutive chunks.
 %   C = GETCHUNKS(A) returns an array of n elements, where n is the number
@@ -217,8 +217,5 @@ else
         id              = [id,ii2];
         [id,tmp]        = sort(id);
         d               = d(tmp);
-
-    else
-        d               = strfind(c, 1) - id + 1;
     end
 end

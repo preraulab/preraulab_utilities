@@ -25,5 +25,5 @@ function df = datefact
 %   Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
-df = datenum([0 0 0 0 0 1]);
+df = datenum([0 0 0 0 0 1]); %#ok<DATNM>
 end

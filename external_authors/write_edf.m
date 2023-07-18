@@ -34,7 +34,7 @@ function write_edf(filename, hdr, data)
 if hdr.nChans ~= nChans
   error 'Data dimension does not match header information';
 end
-fSample = real(hdr.Fs(1)); % make sure this is a scalar + real
+% fSample = real(hdr.Fs(1)); % make sure this is a scalar + real
 
 if nChans > 9999
   error 'Cannot write more than 9999 channels to an EDF file.';
@@ -61,7 +61,7 @@ end
 maxV = max(data, [], 2);
 minV = min(data, [], 2);
 
-if ~strcmp(class(data),'int16')
+if ~isa(data,'int16')
   warning('Warning: data type is not int16, saving to EDF might introduce round-off errors.');
   if max(maxV) > 32767 | min(minV) < -32768
     error('Data cannot be represented as signed 16-bit integers');

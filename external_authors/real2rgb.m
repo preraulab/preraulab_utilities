@@ -1,4 +1,4 @@
-function [B lims map] = real2rgb(A, cmap, lims)
+function [B, lims, map] = real2rgb(A, cmap, lims)
 %REAL2RGB  Converts a real-valued matrix into a truecolor image
 %
 % Examples:
@@ -51,7 +51,7 @@ function [B lims map] = real2rgb(A, cmap, lims)
 % 256 entries long are returned.
 
 % Don't do much if A is wrong size
-[y x c] = size(A);
+[y, x, c] = size(A);
 if c > 1
     error('A can only have 2 dimensions');
 end
@@ -113,7 +113,7 @@ maxInd = 1 + (size(map, 1) - 2) * (size(map, 2) ~= 4);
 if nargin < 3
     lims = [];
 end
-[B lims] = rescale(B, lims, [0 maxInd]);
+[B, lims] = rescale(B, lims, [0 maxInd]);
 
 % Compute indices and offsets
 if size(map, 2) == 4
@@ -123,7 +123,7 @@ if size(map, 2) == 4
     bins(bins==0) = 1;
     bins = cbins(end) ./ bins;
     cbins = [0; cbins(1:end-1) ./ cbins(end); 1+eps];
-    [ind ind] = histc(B, cbins);
+    [~, ind] = histc(B, cbins);
     B = (B - cbins(ind)) .* bins(ind);
     clear bins cbins
 else

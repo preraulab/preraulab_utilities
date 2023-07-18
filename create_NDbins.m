@@ -157,7 +157,7 @@ y = randn(1000,1)*.5;
 z = randn(1000,1)*1.5;
 
 %Get ND bins
-[NDbin_edges, NDbin_centers, ND_coords, bin_edges, bin_centers]=...
+[NDbin_edges, ~, ND_coords, ~, bin_centers]=...
     create_NDbins([-3 3; -2 2; -4 4],[1 1 1],[.1 .1 .1]);
 
 %Compute histogram count in each bin

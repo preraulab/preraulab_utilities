@@ -92,7 +92,7 @@ for vv = 1:Nv
         %ax_new.Color = rand(1,3);
 
         %Add to output vector
-        new_axes(c) = handle(ax_new);
+        new_axes(c) = handle(ax_new); %#ok<AGROW>
         c = c+1;
     end
 end

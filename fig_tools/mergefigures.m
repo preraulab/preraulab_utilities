@@ -106,6 +106,7 @@ tbox_fn = {'String','Color', 'FontSize','FontName','FontWeight','LineStyle','Pos
 %Add the textboxes
 f1_tbox = findall(fh1,{'Type', 'TextBox'});
 
+tb_new1 = matlab.graphics.shape.TextBox.empty(0,length(f1_tbox));
 for ii = 1:length(f1_tbox)
     tb = f1_tbox(ii);
     tb_new1(ii) = annotation(fh_new,'textbox','String','TESTING123');
@@ -117,6 +118,7 @@ end
 
 f2_tbox = findall(fh2,{'Type', 'TextBox'});
 
+tb_new2 = matlab.graphics.shape.TextBox.empty(0,length(f2_tbox));
 for ii = 1:length(f2_tbox)
     tb = f2_tbox(ii);
     tb_new2(ii) = annotation(fh_new,'textbox','String','TESTING123');

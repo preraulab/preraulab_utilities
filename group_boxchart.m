@@ -148,7 +148,7 @@ for ii = 1:Nfeatures
         N = sum(group_idx);
 
         %Concatenate data
-        xgroupdata = [xgroupdata; ones(N,1)*xpos(jj)];
+        xgroupdata = [xgroupdata; ones(N,1)*xpos(jj)]; %#ok<*AGROW>
 
         %Plot the data
         h_scatter(jj) = plot(xpos(jj)*ones(N,1),data(groupid==ids(jj),ii),markers(jj),...
@@ -159,7 +159,7 @@ for ii = 1:Nfeatures
             if (nn ~= jj) && (nn<jj) % only test each pair once with no self-testing
                 count = count + 1;
                 if use_ttest
-                    [~, pvals(ii,count), ~, stats] = ttest2(data(groupid==ids(nn),ii), data(groupid==ids(jj),ii));
+                    [~, pvals(ii,count), ~, ~] = ttest2(data(groupid==ids(nn),ii), data(groupid==ids(jj),ii));
                 end
                 if pvals(ii,count) < 0.05
                     H = sigstar([xpos(nn), xpos(jj)], pvals(ii,count)); %Place sigstar

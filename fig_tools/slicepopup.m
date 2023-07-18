@@ -218,4 +218,4 @@ defaultanswer={num2str(get(popax_h,'xlim')),num2str(get(popax_h,'ylim'))};
 answer=inputdlg(prompt,name,numlines,defaultanswer);
 
 %Reset the axes based on the user input
-set(popax_h,'xlim',str2num(answer{1}),'ylim',str2num(answer{2}));
+set(popax_h,'xlim',str2num(answer{1}),'ylim',str2num(answer{2})); %#ok<*ST2NM>

@@ -35,7 +35,7 @@ for ii = 1:numel(fields)
     field = fields{ii};
     valueStr = value2str(myStruct.(field));
     if ii < numel(fields)
-        str = [str '''' field ''', ' valueStr ', '];
+        str = [str '''' field ''', ' valueStr ', ']; %#ok<*AGROW>
     else
         str = [ str '''' field ''', ' valueStr];
     end

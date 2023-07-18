@@ -148,11 +148,11 @@ else
     % Drop X's leading singleton dims, and combine its trailing dims.  This
     % leaves a matrix, and we can work along columns.
     nrows = sz(dim);
-    ncols = prod(sz) ./ nrows;
+    ncols = round(prod(sz) ./ nrows);
     x = reshape(x, nrows, ncols);
     x = sort(x,1);
     nonnans = ~isnan(x);
-    if sum(~nonnans(:))==0;
+    if sum(~nonnans(:))==0
         vctrse = true;
     else
         vctrse = false;

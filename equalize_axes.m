@@ -157,7 +157,7 @@ if linked
     %Link color axes
     if any(strfind(dimension,'c'))
         % Make hlink global to persist the linkage
-        global hlink; %#ok<GVMIS>
+        global hlink; %#ok<*GVMIS,*TLEV>
 
         % Link the color limits of the specified axes
         hlink = linkprop(ax, 'CLim');
