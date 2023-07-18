@@ -37,13 +37,10 @@ function [h_box, pvals] = group_boxchart(data, groupid, feature_labels, group_la
 %     groupid = [ones(N1,1)*0; ones(N2,1)*1; ones(N3,1)*2];
 % 
 %     group_boxchart(data,groupid);
-%
-%   Copyright 2022 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
-%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
-%
-%   Last modified 02/19/2022
-%********************************************************************
+% 
+% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
+
 if nargin == 0
     %% Generate Data
 

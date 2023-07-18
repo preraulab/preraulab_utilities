@@ -14,18 +14,14 @@ function intersections = interval_intersect(intervals_1, intervals_2)
 %   Example:
 %     intersections = interval_intersect() %Demo shows all intersection possibilities
 %
-%   Copyright 2020 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
-%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
-%
-%   Last modified 3/12/2020
-%% ********************************************************************
+%   Copyright 2023 Michael J. Prerau Laboratory - http://www.sleepEEG.org
+%**************************************************************************
 
 %Create sets that have all possible types of intersections:
 % Left, Right, Inner, Outer, No-intersection
 if nargin == 0
-    intervals_1 = [1 3; 5 8; 11 14; 16 18]
-    intervals_2 = [0 2; 6 9; 12 13; 15 19; 20 25]
+    intervals_1 = [1 3; 5 8; 11 14; 16 18];
+    intervals_2 = [0 2; 6 9; 12 13; 15 19; 20 25];
 end
 
 %Get the time intervals for the first set

@@ -1,29 +1,30 @@
-%LINKAXES3D   Links 3D axes so that they can rotate in unison
+%LINKAXES3D Links 3D camera positions and xyz limits across multiple axes
 %
 %   Usage:
-%   linkaxes3d(axes)
+%   linkaxes3d(axs)
 %
 %   Input:
-%   axes: should be set of 3D axes
+%   axs: should be set of 3D axes
 %
 %   Example:
 %     axs(1)=subplot(121);
 %     surf(peaks(500),'edgecolor','none');
 % 
 %     axs(2)=subplot(122);
-%     surf(peaks(500),'edgecolor','none');
+%     surf(-peaks(500),'edgecolor','none');
+%
+%     %Link the axes
 %     linkaxes3d(axs);
 %
 %   See also surfaceplot, surfaceplot_input, timesurfaceplot
 %
-%   Copyright Michael J. Prerau Ph.D. 2011
-%
-%   Last revised 04/25/2013
-%
-%********************************************************************
-function linkaxes3d(axes)
-axeslink = linkprop(axes,{'CameraPosition','CameraUpVector'});
-key = 'graphics_linkprop';
+%  Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
 
-% Store link object on first subplot axes
-setappdata(axes(1),key,axeslink); 
+function linkaxes3d(axs)
+% Make hlink global to persist the linkage
+global hlink; %#ok<GVMIS> 
+
+% Link the 3d limits and camera position of the specified axes
+hlink =  linkprop(axs,{'CameraPosition','CameraUpVector'});
+linkaxes(axs,'xyz');

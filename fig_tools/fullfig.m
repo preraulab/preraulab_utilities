@@ -1,4 +1,4 @@
-%FULLFIG  Generates full-screen figure
+%FULLFIG Generates full-screen figure
 %
 %   Usage:
 %   fullfig(h)
@@ -12,14 +12,8 @@
 %       % Plot on figure
 %       plot(randn(1000,1));
 %
-%   See also mtit, myaa
-%
-%   Copyright 2011
-%
-%   Last revised 07/18/2011
-%
-%********************************************************************
-
+% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
 function h=fullfig(h)
 
 if nargin==0

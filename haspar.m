@@ -3,13 +3,10 @@
 %   Output:
 %   TRUE if parallel toolbox is installed
 %   haspar returns 1 if parallel toolbox is installed and 0 otherwise
-%
-%   See also configpar
-%
-%   Copyright 2011 Michael J. Prerau, Ph.D.
-%   
-%   Last modified 01/07/2011
-%********************************************************************
+% 
+% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
+
 function result = haspar()
 %Check if the parallel toolbox has been installed
 result=~isempty(ver('parallel'));

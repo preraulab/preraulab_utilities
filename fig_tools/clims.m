@@ -1,5 +1,5 @@
 function clim_h = clims(ax)
-% CLIMS - Launches a gui for scaline color axes
+% CLIMS - Launches a gui for scaling color axes
 %
 %   Usage:
 %       clim_h = clims(ax)
@@ -15,11 +15,8 @@ function clim_h = clims(ax)
 %      imagesc(peaks(500);
 %      clims;
 %
-%
-%   Copyright 2021 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
-%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
-%********************************************************************
+% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
 
 if nargin==0
     ax=gca;

@@ -34,13 +34,9 @@ function [h_scaleline, h_scalelabel]=scaleline(varargin)
 %       zoom;
 %       msgbox('Zoom to change scale line limits');
 %
-%
-%   Copyright 2020 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
-%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
-%
-%   Last modified 10/23/2020
-%********************************************************************
+%  Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
+
 if ishandle(varargin{1}) && strcmp(get(varargin{1},'type'),'axes')
     ax=varargin{1};
     time=varargin{2};

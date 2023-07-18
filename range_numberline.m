@@ -1,21 +1,21 @@
 classdef range_numberline < handle
-    % RANGENUMBERLINE Class for creating and updating a number line with a range and position indicator.
-    %
-    % This class provides a visual representation of a number line with a
-    % range and position indicator. The range is represented by a
-    % rectangle, and the position is represented by a line. The class
-    % allows updating the position and range dynamically.
-    %
-    % Example usage:
-    %   ax = axes;
-    %   limits = [0 100];
-    %   pos = 5;
-    %   range = [0 10];
-    %   numline = range_numberline(ax, limits, pos, range);
-    %   numline.update_range(8, [2 12]);
-    %
-    % Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-    %
+% RANGENUMBERLINE Class for creating and updating a number line with a range and position indicator.
+%
+% This class provides a visual representation of a number line with a
+% range and position indicator. The range is represented by a
+% rectangle, and the position is represented by a line. The class
+% allows updating the position and range dynamically.
+%
+% Example usage:
+%   ax = axes;
+%   limits = [0 100];
+%   pos = 5;
+%   range = [0 10];
+%   numline = range_numberline(ax, limits, pos, range);
+%   numline.update_range(8, [2 12]);
+%
+% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
 
     properties
         ax % Axis for plot

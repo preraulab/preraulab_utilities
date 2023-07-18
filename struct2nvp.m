@@ -25,11 +25,9 @@ function vargout = struct2nvp(myStruct)
 %         disp(struct_str)
 %
 %   See also NAMEDARGS2CELL
-%
-%   Copyright 2023 Prerau Lab - http://www.sleepEEG.org
-%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
-%%%%%%%%%%%
+% 
+% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
 
 fields = fieldnames(myStruct);
 vargout = '';

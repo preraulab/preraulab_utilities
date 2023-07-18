@@ -14,13 +14,9 @@ function filtered_data = percentile_filt(data, ptile, window_size)
 %   filtered_data: MxT matrix of percentile filtered data
 %
 %   Example:
-%
-%   Copyright 202 Michael J. Prerau Laboratory - http://www.sleepEEG.org
-%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
-%
-%   Last modified 5/1/2020 - MJP
-%% ********************************************************************
+% 
+% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
 
 %Make sure inputs are valid
 % p = inputParser;

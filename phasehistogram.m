@@ -22,12 +22,8 @@
 %         figure;
 %         phasehistogram(phases, 1,'NumBins',25,'FaceColor','blue','FaceAlpha',.3);
 %
-%   Copyright 2022 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
-%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
-%   
-%   Last modified 02/16/2022
-%********************************************************************
+% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
 
 function [theta_mean, rho_mean, h_phist, h_pax, h_ml] = phasehistogram(phases, amps, varargin)
 if nargin==0

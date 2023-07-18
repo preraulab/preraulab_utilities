@@ -45,11 +45,9 @@ function img_downsampled = conv_downsample(img, scale_factor, method, plot_on)
 %         imagesc(img_downsampled);
 %         title(['Max Downsampled: ' sprintf('%d x %d', size(img_downsampled))])
 %         caxis(cx);
-%
-%
-%   Copyright 2022 Prerau Lab - http://www.sleepEEG.org
-%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+% 
+% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
 
 %Set example data
 if nargin == 0
@@ -100,7 +98,7 @@ if plot_on
     figure
     subplot(211)
     imagesc(img);
-    cx = caxis;
+    cx = caxis; %#ok<*CAXIS>
     title(['Original: ' sprintf('%d x %d', size(img))])
 
     subplot(212)

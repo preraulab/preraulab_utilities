@@ -42,8 +42,8 @@ function linkcaxes(ax)
 %
 % See also linkprop, caxis.
 %
-%   Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%
+%  Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
 
 % Check if axis handles are provided
 if nargin == 0

@@ -30,13 +30,8 @@
 %         %Create outer labels
 %         [~,~,ax_big] =outerlabels(ax,xlabel_str,ylabel_str);
 % 
-%
-%   Copyright 2021 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
-%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
-%
-%   last modified 12/01/2021
-%********************************************************************
+% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
 
 function [h_xl, h_yl, h_axbig] = outerlabels(ax,xlabel_str,ylabel_str, varargin)
 

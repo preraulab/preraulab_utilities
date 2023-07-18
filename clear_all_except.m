@@ -12,8 +12,8 @@ function clear_all_except(varargin)
 %       a=3;b=4;c=4;d=234;e={1234.1234,234,234,546546};
 %       clear_all_except({'a','b'})
 %
-%  Copyright 2018 Michael J. Prerau, Ph.D., Last modified 5/7/2018
-%% ********************************************************************
+%   Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
 
 if iscell(varargin) && length(varargin)==1
     varargin=varargin{1};

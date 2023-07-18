@@ -1,5 +1,5 @@
 function picked_idx = pick_from_time_segments(time_segments, times)
-% PICK_FROM_TIME_BOUNDS Subselect data based on time bounds
+% PICK_FROM_TIME_SEGMENTS Subselect data from multiple discontiunous ranges
 %
 %   Usage:
 %       picked_idx = pick_from_time_segments(time_segments, times)
@@ -62,11 +62,9 @@ function picked_idx = pick_from_time_segments(time_segments, times)
 %         vline(time_segments(:,1)',1,'m');
 %         vline(time_segments(:,2)',1,'g');
 %         title('Selected Samples');
-%
-%   Copyright 2018 Michael J. Prerau, Ph.D.
-%
-%   Last modified 11/13/2018
-%% ********************************************************************
+% 
+% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
 
 %Use time segments to interpolate logicals on the data
 x=reshape(time_segments',1,numel(time_segments));

@@ -33,10 +33,8 @@
 %         subplot(212)
 %         image(RGBimage)
 %
-%   Copyright 2012 Michael J. Prerau, Ph.d.
-%
-%   Last Modified 11/06/2012
-%********************************************************************
+%  Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%**************************************************************************
 
 function RGBimage=mat2rgbpic(varargin)
 data=flipud(varargin{1});

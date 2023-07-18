@@ -31,13 +31,9 @@ function fh_new = mergefigures(fh1,fh2, ratio, stacking, textshrink)
 %     %20/80 up down split
 %     mergefigures(fh1, fh2, .2, 'UD');
 %
-%
-%   Copyright 2021 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
-%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
-%
-%   Last modified 10/20/2021
-%********************************************************************
+%   Copyright 2023 Michael J. Prerau Laboratory - http://www.sleepEEG.org
+%**************************************************************************
+
 if nargin == 0
     close all;
     fh1 = figure;
