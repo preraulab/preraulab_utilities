@@ -82,7 +82,7 @@
 
 function axis_handles=figdesign(varargin)
 %Run demo
-if nargin==1 && strcmpi(varargin{1},'demo')
+if nargin == 0 || (nargin==1 && strcmpi(varargin{1},'demo'))
     demo();
     return;
 end
@@ -401,6 +401,7 @@ function merge_axes(merger_axes)
 if nargin==0
     %If interactive selection is on
     disp('Click to select axes. Double click on final axis to merge...');
+    mainfig_h = gcf;
     %Create log of axes clicked
     handle=guidata(mainfig_h);
     handle.axes=[];
@@ -409,7 +410,7 @@ if nargin==0
     %Get the axes in the figure
     all_axes=findobj(mainfig_h,'type','axes');
     %Allow them to accept clicks
-    set(all_axes,'buttondownfcn',@select_axes);
+    set(all_axes,'buttondownfcn',{@select_axes,mainfig_h});
     
     %Pause until double click
     uiwait(mainfig_h);
@@ -458,10 +459,10 @@ uistack(new_axis,'bottom');
 %*****************************************************
 %        HELPER FUNCTION FOR AXIS SELECTION
 %*****************************************************
-function select_axes(varargin)
+function select_axes(axs,~,mainfig_h)
 %Add selected axis to data
 handle=guidata(mainfig_h);
-handle.axes=unique([handle.axes gca]);
+handle.axes=unique([handle.axes axs]);
 guidata(mainfig_h,handle);
 
 %Continue merging
@@ -472,9 +473,8 @@ end
 %*****************************************************
 %   TURN ON MERGE MENU WHEN ADJUSTMENT WINDOW CLOSES
 %*****************************************************
-function merge_on(mainfig_h_h)
-delete(mainfig_h)
-figure(mainfig_h_h)
+function merge_on(mainfig_h)
+figure(mainfig_h)
 f = uimenu('Label','Merge Axes');
 uimenu(f,'Label','Merge...','Callback',@(src,evnt)merge_axes);
 
