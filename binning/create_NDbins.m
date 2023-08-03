@@ -15,7 +15,7 @@ function [NDbin_edges, NDbin_centers, NDbin_coords, bin_edges, bin_centers] = cr
 % Outputs:
 %   NDbin_edges: cell array of ND bin edges
 %   NDbin_centers: ND x N - centers of each bin
-%   NDboin_coords: ND coordinates for each bin
+%   NDbin_coords: ND coordinates for each bin
 %   bin_edges: 2 x of ND bin edges for each dim
 %   bin_centers: 1 x N - centers of each bin for each dim
 %
