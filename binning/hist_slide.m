@@ -1,7 +1,7 @@
-function [NDhist, NDbin_edges, NDbin_centers, bin_edges, bin_centers] = hist_slide(data, varargin)
+function [NDhist, bin_edges, bin_centers] = hist_slide(data, varargin)
 %HIST_SLIDE Creates an N-dimensional histogram that allows for sliding windows
 %
-%   [NDhist, NDbin_edges, NDbin_centers, ND_coords, bin_edges, bin_centers] = hist_slide(data, varargin)
+%   [NDhist, bin_edges, bin_centers] = hist_slide(data, varargin)
 %
 % Inputs:
 %   data: numeric array
@@ -19,10 +19,6 @@ function [NDhist, NDbin_edges, NDbin_centers, bin_edges, bin_centers] = hist_sli
 %   NDhist: array
 %       An N-dimensional array representing the computed histogram, where each element corresponds to
 %       the count of data points falling within the corresponding bin.
-%   NDbin_edges: cell array of ND bin edges
-%       A cell array containing the edges of the bins for each combination of dimensions.
-%   NDbin_centers: ND x N - centers of each bin
-%       An ND x N matrix representing the centers of each bin for N dimensions.
 %   bin_edges: 2 x of ND bin edges for each dim
 %       A 2 x ND cell array containing the edges of the bins along each dimension stored in a cell array.
 %   bin_centers: 1 x N - centers of each bin for each dim
@@ -39,7 +35,7 @@ function [NDhist, NDbin_edges, NDbin_centers, bin_edges, bin_centers] = hist_sli
 %     data = [x, y, z];
 %     Ndim = size(data, 2);
 %
-%     [NDhist, NDbin_edges, NDbin_centers, bin_edges, bin_centers] = hist_slide(data, [-3 3; -2 2; -4 4], [1 1 1], [.1 .1 .1]);
+%     [NDhist, bin_edges, bin_centers] = hist_slide(data, [-3 3; -2 2; -4 4], [1 1 1], [.1 .1 .1]);
 %
 %     % Set up bins for slicing
 %     [X, Y, Z] = meshgrid(bin_centers{1}, bin_centers{2}, bin_centers{3});
@@ -102,24 +98,20 @@ end
 
 %Compute number of dimensions
 if isvector(data)
-    Ndim = 1;
+    [NDhist, bin_edges, bin_centers] = hist1D(data,varargin{:});
+    return;
 else
     Ndim = size(data,2);
 end
 
 %Get ND bins. The varargin uses the inputs for create_NDbins
-[NDbin_edges, NDbin_centers, ND_coords, bin_edges, bin_centers]=...
+[NDbin_edges, ~, ND_coords, bin_edges, bin_centers]=...
     create_NDbins(varargin{:});
 
 %Compute histogram count in each bin
-if Ndim>1
-    NDhist = zeros(cellfun(@length,bin_centers));
-else
-    NDhist = zeros(1,length(bin_centers{1}));
-end
+NDhist = zeros(cellfun(@length,bin_centers));
 
 %Creates a function to find the data within the ND bin
-if Ndim >1
 funstr = 'index_fun = @(edges, data)';
 for ii = 1:Ndim
     funstr = [funstr 'data(:, ' num2str(ii) ') > edges(1,' num2str(ii) ') &  data(:, ' num2str(ii) ') <= edges(2,' num2str(ii) ')']; %#ok<AGROW>
@@ -130,9 +122,6 @@ end
 
 %Create the function
 eval([funstr ';']);
-else
-   index_fun = @(edges, data)data>edges(1) & data<=edges(2);
-end
 
 %Loop through the bins and count the items
 for ii = 1:length(NDbin_edges)
@@ -145,6 +134,19 @@ for ii = 1:length(NDbin_edges)
 end
 end
 
+%Directly compute 1D sliding histogram
+function [NDhist, bin_edges, bin_centers] = hist1D(data,varargin)
+[bin_edges, bin_centers] = create_bins(varargin{:});
+NDhist = zeros(1,length(bin_centers));
+
+for ii = 1:length(bin_centers)
+    edges = bin_edges(:,ii);
+    inds = data>edges(1) & data<=edges(2);
+    NDhist(ii) = sum(inds);
+end
+end
+
+
 %Demo function
 function run_demo()
 %Create random data
@@ -154,7 +156,7 @@ z = randn(1000,1)*1.5;
 
 data = [x,y,z];
 
-[NDhist, ~, ~, ~, bin_centers] =  hist_slide(data, [-3 3; -2 2; -4 4],[1 1 1],[.1 .1 .1]);
+[NDhist, ~, bin_centers] =  hist_slide(data, [-3 3; -2 2; -4 4],[1 1 1],[.1 .1 .1]);
 
 %Set up bins for slicing
 [X,Y,Z] = meshgrid(bin_centers{1}, bin_centers{2}, bin_centers{3});
