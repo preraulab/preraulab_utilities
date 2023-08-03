@@ -96,76 +96,30 @@ function [NDhist, NDbin_edges, NDbin_centers, bin_edges, bin_centers] = hist_sli
 
 %Demo data
 if nargin == 0
-    %Create random data
-    x = randn(1000,1);
-    y = randn(1000,1)*.5;
-    z = randn(1000,1)*1.5;
-
-    data = [x,y,z];
-
-    [NDhist, NDbin_edges, NDbin_centers, bin_edges, bin_centers] =  hist_slide(data, [-3 3; -2 2; -4 4],[1 1 1],[.1 .1 .1]);
-
-    %Set up bins for slicing
-    [X,Y,Z] = meshgrid(bin_centers{1}, bin_centers{2}, bin_centers{3});
-    %Permute the order of v to match meshgrid dims
-    V = permute(NDhist,[2 1 3]);
-
-    %Plot figure
-    figure
-    ax = figdesign(1,3);
-    set(gcf,'units','normalized','position',[0.0800    0.3954    0.7945    0.5083])
-    linkaxes3d(ax);
-
-    axes(ax(1))
-    xslice = [-1.25, 0, 1.25];
-    yslice = 0;
-    zslice = 0;
-    h = slice(X,Y,Z,V,xslice,yslice,zslice,'cubic');
-    set(h,'edgecolor','none');
-    xlabel('x axis');
-    ylabel('y axis');
-    zlabel('z axis');
-    title('Slices')
-    view(3)
-    axis equal
-
-    axes(ax(2))
-    contourslice(X,Y,Z,V,xslice,yslice,zslice,'cubic');
-    xlabel('x axis');
-    ylabel('y axis');
-    zlabel('z axis');
-    title('Contour Slices')
-    view(3)
-    axis equal
-
-    axes(ax(3))
-    isosurface(X,Y,Z,V,45)
-    isosurface(X,Y,Z,V,25)
-    isosurface(X,Y,Z,V,5)
-    xlabel('x axis');
-    ylabel('y axis');
-    zlabel('z axis');
-    camlight left
-    alpha(.2)
-    title('Isosurfaces')
-    view(3)
-    axis equal
-
-    set(ax,'fontsize',15)
+    run_demo();
     return;
 end
 
 %Compute number of dimensions
-Ndim = size(data,2);
+if isvector(data)
+    Ndim = 1;
+else
+    Ndim = size(data,2);
+end
 
 %Get ND bins. The varargin uses the inputs for create_NDbins
 [NDbin_edges, NDbin_centers, ND_coords, bin_edges, bin_centers]=...
     create_NDbins(varargin{:});
 
 %Compute histogram count in each bin
-NDhist = zeros(cellfun(@length,bin_centers));
+if Ndim>1
+    NDhist = zeros(cellfun(@length,bin_centers));
+else
+    NDhist = zeros(1,length(bin_centers{1}));
+end
 
 %Creates a function to find the data within the ND bin
+if Ndim >1
 funstr = 'index_fun = @(edges, data)';
 for ii = 1:Ndim
     funstr = [funstr 'data(:, ' num2str(ii) ') > edges(1,' num2str(ii) ') &  data(:, ' num2str(ii) ') <= edges(2,' num2str(ii) ')']; %#ok<AGROW>
@@ -175,7 +129,10 @@ for ii = 1:Ndim
 end
 
 %Create the function
-eval(funstr);
+eval([funstr ';']);
+else
+   index_fun = @(edges, data)data>edges(1) & data<=edges(2);
+end
 
 %Loop through the bins and count the items
 for ii = 1:length(NDbin_edges)
@@ -186,4 +143,64 @@ for ii = 1:length(NDbin_edges)
 
     NDhist(coords{:}) = sum(inds);
 end
+end
 
+%Demo function
+function run_demo()
+%Create random data
+x = randn(1000,1);
+y = randn(1000,1)*.5;
+z = randn(1000,1)*1.5;
+
+data = [x,y,z];
+
+[NDhist, ~, ~, ~, bin_centers] =  hist_slide(data, [-3 3; -2 2; -4 4],[1 1 1],[.1 .1 .1]);
+
+%Set up bins for slicing
+[X,Y,Z] = meshgrid(bin_centers{1}, bin_centers{2}, bin_centers{3});
+%Permute the order of v to match meshgrid dims
+V = permute(NDhist,[2 1 3]);
+
+%Plot figure
+figure
+ax = figdesign(1,3);
+set(gcf,'units','normalized','position',[0.0800    0.3954    0.7945    0.5083])
+linkaxes3d(ax);
+
+axes(ax(1))
+xslice = [-1.25, 0, 1.25];
+yslice = 0;
+zslice = 0;
+h = slice(X,Y,Z,V,xslice,yslice,zslice,'cubic');
+set(h,'edgecolor','none');
+xlabel('x axis');
+ylabel('y axis');
+zlabel('z axis');
+title('Slices')
+view(3)
+axis equal
+
+axes(ax(2))
+contourslice(X,Y,Z,V,xslice,yslice,zslice,'cubic');
+xlabel('x axis');
+ylabel('y axis');
+zlabel('z axis');
+title('Contour Slices')
+view(3)
+axis equal
+
+axes(ax(3))
+isosurface(X,Y,Z,V,45)
+isosurface(X,Y,Z,V,25)
+isosurface(X,Y,Z,V,5)
+xlabel('x axis');
+ylabel('y axis');
+zlabel('z axis');
+camlight left
+alpha(.2)
+title('Isosurfaces')
+view(3)
+axis equal
+
+set(ax,'fontsize',15)
+end

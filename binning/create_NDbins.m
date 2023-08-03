@@ -102,8 +102,13 @@ if nargin==0
     return;
 end
 
-assert(size(bin_ranges,2) == 2, 'bin_range must be an N x 2 matrix');
-ND = size(bin_ranges,1);
+if isvector(bin_ranges)
+    bin_ranges = bin_ranges(:)';
+    ND = 1;
+else
+    assert(size(bin_ranges,2) == 2, 'bin_range must be an N x 2 matrix');
+    ND = size(bin_ranges,1);
+end
 
 if nargin<4
     bin_methods = cell(1,ND);
