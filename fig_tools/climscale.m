@@ -17,7 +17,7 @@
 %      ax = gca;
 %      imagesc(peaks(500);
 %      climscale;
-% 
+%
 % Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
@@ -38,20 +38,20 @@ if nargin == 1
         error('Single input must be object, ptiles, or logical');
     end
 else
-%Set default current axis
-if nargin==0 || isempty(hObj)
-    hObj=gca;
-end
-
-%Set default percentiles
-if nargin<2 || isempty(ptiles)
-    ptiles=[5 98];
-end
-
-%Set default percentils
-if nargin<3 || isempty(outliers)
-    outliers = true;
-end
+    %Set default current axis
+    if nargin==0 || isempty(hObj)
+        hObj=gca;
+    end
+    
+    %Set default percentiles
+    if nargin<2 || isempty(ptiles)
+        ptiles=[5 98];
+    end
+    
+    %Set default percentils
+    if nargin<3 || isempty(outliers)
+        outliers = true;
+    end
 end
 
 assert(ishandle(hObj) || isa(hObj,'matlab.graphics.primitive.Image') || isa(hObj,'matlab.graphics.axis.Axes'),['First input must be axis or image handle. Input was ' class(hObj)])
