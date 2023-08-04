@@ -30,7 +30,7 @@
 %   axis_handles: 1x(num_rows*numcols) vector of axis handles
 %
 %   TO RUN DEMO:
-%       figdesign demo
+%       figdesign('demo')
 %
 %   Examples:
 %         EXAMPLE 1:
