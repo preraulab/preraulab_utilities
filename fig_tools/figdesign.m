@@ -4,6 +4,8 @@
 %   Usage:
 %       axis_handles=figdesign(num_rows, num_cols, options)
 %       axis_handles=figdesign(fig_handle, num_rows, num_cols, options)
+%       axis_handles=figdesign() %Run with no parameters for design mode
+%       axis_handles=figdesign('demo') %Run demo
 %
 %   Input:
 %   num_rows: the number of rows in the subplot
