@@ -98,6 +98,7 @@ end
 
 %Compute number of dimensions
 if isvector(data)
+    %Run simple function if a 1D histogram
     [NDhist, bin_edges, bin_centers] = hist1D(data,varargin{:});
     return;
 else
@@ -134,6 +135,9 @@ for ii = 1:length(NDbin_edges)
 end
 end
 
+%% *********************************************
+%          1D HISTOGRAM FUNCTION
+%***********************************************
 %Directly compute 1D sliding histogram
 function [NDhist, bin_edges, bin_centers] = hist1D(data,varargin)
 [bin_edges, bin_centers] = create_bins(varargin{:});
@@ -147,7 +151,9 @@ end
 end
 
 
-%Demo function
+%% *********************************************
+%              DEMO FUNCTION
+%***********************************************
 function run_demo()
 %Create random data
 x = randn(1000,1);
