@@ -29,8 +29,11 @@
 %   Output:
 %   axis_handles: 1x(num_rows*numcols) vector of axis handles
 %
+%   TO RUN DESIGN MODE:
+%       ax = figdesign();
+%
 %   TO RUN DEMO:
-%       figdesign('demo')
+%       figdesign('demo');
 %
 %   Examples:
 %         EXAMPLE 1:
