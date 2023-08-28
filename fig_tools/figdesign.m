@@ -786,8 +786,10 @@ params = mainfig_h.UserData.params;
 
 fig_pos = get(mainfig_h,'Position');
 
+%Create the call string
 call_str = ['ax = figdesign(' num2str(params.num_rows) ', ' num2str(params.num_cols) ', ''PaperType'', ''' params.type ''', ''orient'', ''' params.orient ''' , ''margins'', [' num2str(params.margins) ']'];
 
+%Add any mergers
 if ~isempty(mainfig_h.UserData.merged)
     call_str = [call_str ', ''merge'', {'];
 
@@ -795,8 +797,14 @@ if ~isempty(mainfig_h.UserData.merged)
     call_str = [call_str array_str(1:end-2) '}'];
 end
 
+%Replicate the position
 call_str = [call_str ', ''Position'', [' num2str(fig_pos) ']'];
+
+%End the call string
 call_str = [call_str ');'];
+
+%Remove extra spaces
+call_str = regexprep(call_str, '\s+', ' ');
 
 %Display the figure call
 disp('')
