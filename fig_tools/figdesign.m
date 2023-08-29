@@ -321,10 +321,10 @@ set(mainfig_h,'closerequestfcn',@(src,evnt)close_all(mainfig_h, marginfig_h));
 %*****************************************************
 %             UPDATE AXIS GRID FROM SLIDER
 %*****************************************************
-function slider_update(axs, slider_h, edit_h, value, mainfig_h_h, num_cols, num_rows, units)
+function slider_update(axs, slider_h, edit_h, value, mainfig_h, num_cols, num_rows, units)
 %Get the max and min figure bounds
 if ~strcmpi(units,'normalized')
-    pos=get(mainfig_h_h,'position');
+    pos=get(mainfig_h,'position');
     wmax=pos(3);
     hmax=pos(4);
 else
@@ -377,6 +377,9 @@ for r=1:num_rows
         end
     end
 end
+
+%Update margin parameters
+mainfig_h.UserData.params.margins = margins';
 
 %*****************************************************
 %                CREATE GRID OF AXES
