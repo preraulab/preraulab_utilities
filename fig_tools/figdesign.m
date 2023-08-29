@@ -673,13 +673,13 @@ disp('%Values will be in units specificed by the ''units'' parameter.');
 disp('%When the adjustment window is closed, interactive figure merging is enabled on the main figure.');
 disp(' ');
 disp('figure');
-disp('figdesign(3,3,''type'',''usletter'',''orient'',''portrait'',''units'',''inches'',''margins'',[.5 .5 1 1 .5],''interact'',1);');
+disp('figdesign(3,3,''type'',''usletter'',''orient'',''portrait'',''units'',''inches'',''margins'',[.05 .05 .1 .1 .05],''interact'',1);');
 disp(' ');
 disp('Close the main figure to the demo...');
 
 %Interactive adjust page margins
 figure;
-figdesign(3,3,'type','usletter','orient','portrait','units','inches','margins',[.5 .5 1 1 .5],'interact',1);
+figdesign(3,3,'type','usletter','orient','portrait','units','inches','margins',[.05 .05 .1 .1 .05],'interact',1);
 msgbox('Move sliders to adjust axes parameters. Type in the edit boxes to enter specific numerical values. When the adjustment window is closed, interactive figure merging is enabled on the main figure.','Interactive Axes Adjustment');
 
 %*****************************************************
