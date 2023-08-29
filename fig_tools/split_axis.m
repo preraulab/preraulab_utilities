@@ -6,7 +6,7 @@ function new_axes = split_axis(varargin)
 % Inputs:
 %   ax: handle to axis to split (default: current axis)
 %   hbreaks: 1xH vector - horizontal partitions in % (left to right), must sum to 1 --required
-%   vbreaks: 1xV vector -vertical partitions in % (bottom to top), must sum to 1 --required
+%   vbreaks: 1xV vector -vertical partitions in % (top to bottom), must sum to 1 --required
 %   delete_ax: logical - delete original axis (default: true)
 %
 % Outputs:
@@ -20,7 +20,7 @@ function new_axes = split_axis(varargin)
 %     for ii = 1:length(new_axes)
 %         new_axes(ii).Color = rand(1,3);
 %     end
-% 
+%
 % Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
@@ -29,14 +29,14 @@ function new_axes = split_axis(varargin)
 
 % Get handle to either the requested or a new axis.
 if isempty(ax)
-   ax = gca;
+    ax = gca;
 end
 
 %Error check
 assert(length(args)>= 2,'Must have at least two arguments')
 
-hbreaks = args{1};
-vbreaks = args{2};
+hbreaks = args{1}(:);
+vbreaks = args{2}(:);
 
 if length(args)<3 || isempty(args{3})
     delete_ax = true;
@@ -48,14 +48,21 @@ end
 ax.Units = 'normalized';
 
 %Error check
-assert(sum(vbreaks)==1,'Sum of vbreaks must equal 1');
-assert(sum(hbreaks)==1,'Sum of hbreaks must equal 1');
+if sum(vbreaks)~=1
+    vbreaks = vbreaks/sum(vbreaks);
+    warning('Sum of vertical breaks must equal 1. Normalizing.');
+end
+
+if sum(hbreaks)~=1
+    hbreaks = hbreaks/sum(hbreaks);
+    warning('Sum of horizontal breaks must equal 1. Normalizing.');
+end
 
 %Get positions of original axis
-L = ax.Position(1);
-B = ax.Position(2);
-W = ax.Position(3);
-H = ax.Position(4);
+ax_left = ax.Position(1);
+ax_bottom = ax.Position(2);
+ax_width = ax.Position(3);
+ax_height = ax.Position(4);
 
 Nv = length(vbreaks);
 Nh = length(hbreaks);
@@ -64,32 +71,28 @@ Nh = length(hbreaks);
 c = 1;
 
 %Loop through all the partitions
-for vv = 1:Nv
-    for hh = 1:Nh
-
+for hh = 1:Nh
+    for vv = 1:Nv
         %Create the new axis
         ax_new = axes;
 
         %Update left
         if vv == 1
-            ax_new.Position(1) = L;
+            ax_new.Position(1) = ax_left;
         else
-            ax_new.Position(1) = L + sum(vbreaks(1:vv-1))*W;
+            ax_new.Position(1) = ax_left + sum(vbreaks(1:vv-1))*ax_width;
         end
 
         %Update bottom
-        if hh == 1
-            ax_new.Position(2) = B;
-        else
-            ax_new.Position(2) = B + sum(hbreaks(1:hh-1))*H;
-        end
+        ax_new.Position(2) = ax_bottom+ax_height*sum(hbreaks(hh+1:end));
 
         %Update width/height
-        ax_new.Position(3) = W*(vbreaks(vv));
-        ax_new.Position(4) = H*(hbreaks(hh));
+        ax_new.Position(3) = ax_width*(vbreaks(vv));
+        ax_new.Position(4) = ax_height*(hbreaks(hh));
 
         %%Good for debugging
-        %ax_new.Color = rand(1,3);
+        % ax_new.Color = rand(1,3);
+        % title(num2str(c))
 
         %Add to output vector
         new_axes(c) = handle(ax_new); %#ok<AGROW>
