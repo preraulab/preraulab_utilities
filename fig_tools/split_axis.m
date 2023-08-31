@@ -48,15 +48,16 @@ end
 ax.Units = 'normalized';
 
 %Error check
-if sum(vbreaks)~=1
-    vbreaks = vbreaks/sum(vbreaks);
-    warning('Sum of vertical breaks must equal 1. Normalizing.');
-end
+%NOTE: This check is due to the likelihood of floating point approximation
+%error. e.g. sum([.3 .6 .1]) does not equal 1 but sum([.1 .3 .6])
+%This is due to inexact floating point representation of certain numbers,
+%the error which may or may not cancel out depending on order of operations
+%See: https://dl.acm.org/doi/pdf/10.1145/103162.103163 for more info
+assert(abs(sum(vbreaks)-1)<1e-15, 'Sum of vertical breaks must be equal to 1');
+assert(abs(sum(hbreaks)-1)<1e-15, 'Sum of horizontal breaks must be equal to 1');
 
-if sum(hbreaks)~=1
-    hbreaks = hbreaks/sum(hbreaks);
-    warning('Sum of horizontal breaks must equal 1. Normalizing.');
-end
+vbreaks = vbreaks/sum(vbreaks);
+hbreaks = hbreaks/sum(hbreaks);
 
 %Get positions of original axis
 ax_left = ax.Position(1);
