@@ -41,7 +41,7 @@ if nargin <= 1
     end
 
     disp('Click to select horizontal slices, double-click/enter/escape');
-    disp('then select veritcal slices, double-click/enter/escape to complete.')
+    disp('then select vertical slices, double-click/enter/escape to complete.')
 
     fh.UserData.y_slices = [];
     fh.UserData.x_slices = [];
@@ -69,7 +69,7 @@ if nargin <= 1
     set(fh, 'WindowButtonDownFcn', {@pick_slice,  line_h, isHoriz, fh});
     set(fh, 'WindowButtonMotionFcn', {@select_slice, ax, line_h, isHoriz});
     uiwait(fh)
-    disp(fh.UserData)
+
     delete(line_h)
     set(fh, 'WindowButtonMotionFcn',[]);
     set(fh, 'WindowButtonDownFcn', []);
@@ -276,7 +276,6 @@ end
 
 %Handle selection via enter/escape
 function handle_keys(~,event)
-   disp(event.Key);
    switch event.Key
        case {'return','escape'}
            uiresume(gcf);
