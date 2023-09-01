@@ -9,6 +9,8 @@ function new_axes = split_axis(varargin)
 %   vbreaks: 1xV vector -vertical partitions in % (top to bottom), must sum to 1 --required
 %   delete_ax: logical - delete original axis (default: true)
 %
+%   Run with no inputs or single axis for interactive mode
+%
 % Outputs:
 %   new_axes: array of handles to the new axis objects
 %
@@ -20,6 +22,9 @@ function new_axes = split_axis(varargin)
 %     for ii = 1:length(new_axes)
 %         new_axes(ii).Color = rand(1,3);
 %     end
+%
+%     figure
+%     split_axis(); %Run in interactive mode
 %
 % Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
