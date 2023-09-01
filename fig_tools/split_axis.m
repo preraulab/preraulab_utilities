@@ -37,35 +37,40 @@ if nargin <= 1
     else
         ax = varargin{1};
         assert(isa(ax,'matlab.graphics.axis.Axes'), 'Single input must be axis handle');
-        fh = get(gca,"Parent");
+        fh = get(ax,"Parent");
     end
+
+    axes(ax)
 
     disp('Click to select horizontal slices, double-click/enter/escape');
     disp('then select vertical slices, double-click/enter/escape to complete.')
-
+    disp(' ')
+    
+    %Store slices as user data
     fh.UserData.y_slices = [];
     fh.UserData.x_slices = [];
 
     %Set range
-    xlim([0 100])
-    ylim([0 100])
+    xlim(ax,[0 100])
+    ylim(ax,[0 100])
     set(ax,'units','normalized');
 
     %Run horizontal selection
     isHoriz = 1;
-    line_h = hline(0);
+    line_h = hline(ax, 0);
 
+    %Function to check for escape/enter
     set(fh,'KeyPressFcn',@handle_keys);
 
-    % set function to call on mouse click
+    %Set function to call on mouse click
     set(fh, 'WindowButtonDownFcn', {@pick_slice,  line_h, isHoriz, fh});
-    set(fh, 'WindowButtonMotionFcn', {@select_slice,ax, line_h, isHoriz});
+    set(fh, 'WindowButtonMotionFcn', {@select_slice, ax, line_h, isHoriz});
     uiwait(fh);
     delete(line_h)
 
     %Run vertical selection
     isHoriz = 0;
-    line_h = vline(0);
+    line_h = vline(ax, 0);
     set(fh, 'WindowButtonDownFcn', {@pick_slice,  line_h, isHoriz, fh});
     set(fh, 'WindowButtonMotionFcn', {@select_slice, ax, line_h, isHoriz});
     uiwait(fh)
@@ -93,13 +98,15 @@ if nargin <= 1
     end
 
     disp('Command call:')
-    disp(regexprep(['split_axis([' num2str(y_slices) '], [' num2str(x_slices) ']);'], '\s+', ' '));
-    %Split the axes
+    disp(regexprep(['   split_axis([' num2str(y_slices) '], [' num2str(x_slices) ']);'], '\s+', ' '));
+    disp(' ')
+
+    %Split the axis and exit
     split_axis(ax,y_slices,x_slices);
     return;
 end
 
-% Parse possible axes input.
+%Parse possible axes input.
 [ax, args, ~] = axescheck(varargin{:});
 
 % Get handle to either the requested or a new axis.
