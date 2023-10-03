@@ -29,7 +29,7 @@ function [run_lengths, run_inds, filtered_vector] = consecutive_runs(data, min_l
 % Examples:
 %   lengths = consecutive_runs([1 0 1 1 0 1 1 1 0 0])
 %   % returns [1 3]
-%   [lengths, runs] = consecutive_runs([0 0 1 1 0 1 1 1 0 0 1], 2, 4, 1)
+%   [lengths, run_inds] = consecutive_runs([0 0 1 1 0 1 1 1 0 0 1], 2, 4, 1)
 %   % returns lengths = [2 3] and run_inds = {[3 4], [6 8]}.
 %
 %   Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
