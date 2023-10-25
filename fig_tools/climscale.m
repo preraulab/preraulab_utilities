@@ -2,11 +2,13 @@
 %
 %   Usage:
 %       clims_new = climscale(hObj, ptiles, outliers)
+%       climscale(hObj, outliers)
+%       climscale(hObj, ptiles)
 %       climscale(outliers)
 %       climscale(ptiles)
 %
 %   Input:
-%       hObj: handle to axis or image object -- required
+%       hObj: handle to axis or image object -- (default: gca)
 %       ptiles: 1x2 double - scaling percentiles (default: [5 98])
 %       outliers: logical - remove outliers prior to scaling using isoutlier (default: true)
 %
@@ -14,48 +16,74 @@
 %       clims_new: 1x2 double - scaled caxis limits
 %
 %   Example:
-%      ax = gca;
-%      imagesc(peaks(500);
+%      imagesc(peaks(500));
 %      climscale;
 %
 % Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
-function clims_new = climscale(hObj, ptiles, outliers)
+function clims_new = climscale(varargin)
+
+hObj = [];
+ptiles = [];
+outliers = [];
+
+%Handle a single input
 if nargin == 1
-    if isa(hObj,'matlab.graphics.primitive.Image') || isa(hObj,'matlab.graphics.axis.Axes')
-        ptiles =[5 98];
-        outliers = true;
-    elseif issorted(hObj) && isnumeric(hObj)
-        ptiles = hObj;
-        hObj = gca;
-        outliers = true;
-    elseif islogical(hObj)
-        outliers = hObj;
-        hObj = gca;
-        ptiles =[5 98];
+    if ishandle(varargin{1})
+        hObj = varargin{1};
     else
-        error('Single input must be object, ptiles, or logical');
-    end
-else
-    %Set default current axis
-    if nargin==0 || isempty(hObj)
-        hObj=gca;
-    end
-    
-    %Set default percentiles
-    if nargin<2 || isempty(ptiles)
-        ptiles=[5 98];
-    end
-    
-    %Set default percentils
-    if nargin<3 || isempty(outliers)
-        outliers = true;
+        if isvector(varargin{1}) && isnumeric(varargin{1})
+            ptiles = varargin{1};
+        elseif islogical(varargin{1})
+            outliers = varargin{1};
+        else
+            error('Invalid single parameter call to climscale. Must be either handle, ptiles vector, or logical for outliers');
+        end
     end
 end
 
+%Allow for all combinations of two inputs
+if nargin == 2
+    if ishandle(varargin{1})
+        hObj = varargin{1};
+
+        if isvector(varargin{2}) && isnumeric(varargin{1})
+            ptiles = varargin{2};
+        elseif islogical(varargin{2})
+            outliers = varargin{2};
+        else
+            error('Invalid single parameter call to climscale. Must be either handle, ptiles vector, or logical for outliers');
+        end
+    else
+        ptiles = varargin{1};
+        outliers = varargin{2};
+    end
+end
+
+%Case of 3 inputs
+if nargin == 3
+    hObj = varargin{1};
+    ptiles = varargin{2};
+    outliers = varargin{3};
+end
+
+%Set defaults
+if isempty(hObj)
+    hObj = gca;
+end
+
+if isempty(ptiles)
+    ptiles = [5 98];
+end
+
+if isempty(outliers)
+    outliers = true;
+end
+
+%Check inputs
 assert(ishandle(hObj) || isa(hObj,'matlab.graphics.primitive.Image') || isa(hObj,'matlab.graphics.axis.Axes'),['First input must be axis or image handle. Input was ' class(hObj)])
-assert(issorted(ptiles) && isnumeric(ptiles), 'Percentiles must be monotically increasing and numeric');
+assert(length(ptiles)==2 && issorted(ptiles) && isnumeric(ptiles), 'Percentiles must be a 1x2 vector that is monotically increasing and numeric');
 assert(islogical(outliers), 'Outliers must be logical');
 
 
