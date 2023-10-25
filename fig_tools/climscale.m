@@ -16,9 +16,33 @@
 %       clims_new: 1x2 double - scaled caxis limits
 %
 %   Example:
-%      imagesc(peaks(500));
-%      climscale;
-%
+%       %Create axes and image objects
+%       ax = gca;
+%       hImObj = imagesc(peaks(500));
+%       
+%       %Call with defaults
+%       climscale;
+%       pause(1)
+%       
+%       %Turn off outilers
+%       climscale(false);
+%       pause(1)
+%       
+%       %Set scaling percentiles
+%       climscale([10 90]);
+%       pause(1)
+%       
+%       %Set percentiles and outliers
+%       climscale([5 95],true);
+%       pause(1)
+%       
+%       %Select image objectß
+%       climscale(hImObj, false);
+%       pause(1)
+%       
+%       %Select axis
+%       climscale(ax, true);
+%       
 % Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
