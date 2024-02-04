@@ -94,7 +94,7 @@ function [NDbin_edges, NDbin_centers, NDbin_coords, bin_edges, bin_centers] = cr
 %
 %     set(ax,'fontsize',15)
 %
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 if nargin==0

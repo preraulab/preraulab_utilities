@@ -24,7 +24,7 @@ function lab_handle = letter_label(fig_h, ax_h, labstr, labdir, fontsize, gaps)
 %         ax.Position(4) = .6;
 %         letter_label(gcf,ax,'B','left',25);
 %
-%  Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%  Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 %Set defaults

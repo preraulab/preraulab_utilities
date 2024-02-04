@@ -46,7 +46,7 @@ function img_downsampled = conv_downsample(img, scale_factor, method, plot_on)
 %         title(['Max Downsampled: ' sprintf('%d x %d', size(img_downsampled))])
 %         caxis(cx);
 % 
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 %Set example data

@@ -55,7 +55,7 @@ function [line_handle, bounds_handle] = shadebounds(x, mid, hi, lo, mid_color, s
 % See also:
 %   fill, plot
 % 
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 % Set defaults for optional input arguments

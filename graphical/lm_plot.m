@@ -34,7 +34,7 @@ function tbox = lm_plot(varargin)
 % See also:
 %   fitlm, annotation
 %
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 if nargin == 0

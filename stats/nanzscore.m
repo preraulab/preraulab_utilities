@@ -16,7 +16,7 @@
 %   data = [1, 2, NaN, 4, 5];
 %   [zscored, mu, sigma] = nanzscore(data);
 %
-%   Copyright 2023 Michael J. Prerau Laboratory - http://www.sleepEEG.org
+%   Copyright 2024 Michael J. Prerau Laboratory - http://www.sleepEEG.org
 %********************************************************************
 
 function [zscored, mu, sigma] = nanzscore(data, varargin)

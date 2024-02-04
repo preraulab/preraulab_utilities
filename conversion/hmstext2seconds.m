@@ -28,7 +28,7 @@
 % See also:
 %   strfind, str2double, cumsum, mod
 % 
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 function [seconds, hh, mm, ss] = hmstext2seconds(hmstext)

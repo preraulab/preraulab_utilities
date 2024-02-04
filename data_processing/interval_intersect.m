@@ -14,7 +14,7 @@ function intersections = interval_intersect(intervals_1, intervals_2)
 %   Example:
 %     intersections = interval_intersect() %Demo shows all intersection possibilities
 %
-%   Copyright 2023 Michael J. Prerau Laboratory - http://www.sleepEEG.org
+%   Copyright 2024 Michael J. Prerau Laboratory - http://www.sleepEEG.org
 %**************************************************************************
 
 %Create sets that have all possible types of intersections:

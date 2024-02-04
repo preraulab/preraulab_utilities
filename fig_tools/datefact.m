@@ -22,7 +22,7 @@ function df = datefact
 % See also:
 %   datenum, duration
 %
-%   Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%   Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 df = datenum([0 0 0 0 0 1]); %#ok<DATNM>

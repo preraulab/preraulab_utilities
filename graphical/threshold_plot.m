@@ -39,7 +39,7 @@ function area_handles = threshold_plot(x, y, threshes, colors)
 % See also:
 %   area, sort, get, colormap
 % 
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 % Create test data if no input arguments are provided

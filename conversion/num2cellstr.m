@@ -29,7 +29,7 @@ function out = num2cellstr(s)
 % See also:
 %   strtrim, cellstr, num2str
 % 
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 % Convert the numeric array into a cell array of strings

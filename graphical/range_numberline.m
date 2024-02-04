@@ -14,7 +14,7 @@ classdef range_numberline < handle
 %   numline = range_numberline(ax, limits, pos, range);
 %   numline.update_range(8, [2 12]);
 %
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
     properties

@@ -19,7 +19,7 @@ function c = colorbar_noresize(varargin)
 % Output Argument:
 %   - c: Handle to the created colorbar.
 %
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 if nargin == 0 || ~isa(varargin{1},'matlab.graphics.axis.Axes')

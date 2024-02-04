@@ -34,7 +34,7 @@ function [lab, c] = topcolorbar(w, h, vgap)
 % See also:
 %   colorbar, get, set
 % 
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 colorbar('off');  % Remove any existing colorbars

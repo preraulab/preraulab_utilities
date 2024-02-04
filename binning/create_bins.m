@@ -17,7 +17,7 @@ function [bin_edges, bin_centers] = create_bins(bin_range, bin_width, bin_step, 
 %              righthand bin edges
 %   bin_centers: 1xN - centers of each bin
 %
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 if nargin<4 || isempty(bin_method)

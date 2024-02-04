@@ -26,7 +26,7 @@ function new_axes = split_axis(varargin)
 %     figure
 %     split_axis(); %Run in interactive mode
 %
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 %Run interactive mode

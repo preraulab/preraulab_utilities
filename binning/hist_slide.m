@@ -87,7 +87,7 @@ function [NDhist, bin_edges, bin_centers] = hist_slide(data, varargin)
 %
 % See also: create_NDbins
 %
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 %Demo data

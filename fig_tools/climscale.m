@@ -43,7 +43,7 @@
 %       %Select axis
 %       climscale(ax, true);
 %       
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 function clims_new = climscale(varargin)

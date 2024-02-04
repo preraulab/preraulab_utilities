@@ -38,7 +38,7 @@ function [h_box, pvals] = group_boxchart(data, groupid, feature_labels, group_la
 % 
 %     group_boxchart(data,groupid);
 % 
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 if nargin == 0

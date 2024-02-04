@@ -4,7 +4,7 @@
 %   TRUE if parallel toolbox is installed
 %   haspar returns 1 if parallel toolbox is installed and 0 otherwise
 % 
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 function result = haspar()

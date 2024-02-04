@@ -19,7 +19,7 @@
 %
 %         gantt(data,{'Task 1','Task 2','Task 3'},[1 .8 .8; .5 .5 1; .3 1 .3],'edgecolor','none')
 %
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 function handles = gantt(data, labels, color, varargin)

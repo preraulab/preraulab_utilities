@@ -37,7 +37,7 @@ function pos = get_clicks(varargin)
 % See also:
 %   gca, waitforbuttonpress, iptPointerManager, iptSetPointerBehavior
 % 
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 % Set default values for input arguments

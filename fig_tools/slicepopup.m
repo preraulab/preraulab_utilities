@@ -44,7 +44,7 @@
 %
 %       msgbox('Use "Popop Tools" window to toggle popup menu and to change popup axes.');
 % 
-%  Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%  Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 function [popfig_h, popax_h]=slicepopup(mainfig_h, mainax_h, x_vals, y_vals, data, x_label, y_label, z_label, slicedir, vis_on, popax_h)

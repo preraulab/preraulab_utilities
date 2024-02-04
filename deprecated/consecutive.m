@@ -33,7 +33,7 @@
 %
 %   See also: consecutive_runs
 %
-%   Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%   Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 function [cons, inds] = consecutive(data, min_length, max_length, val)

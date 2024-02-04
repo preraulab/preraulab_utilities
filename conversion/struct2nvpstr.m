@@ -26,7 +26,7 @@ function str = struct2nvpstr(myStruct)
 %
 %   See also FIELDNAMES, MAT2STR, NUM2STR, CELLFUN, STRJOIN.
 % 
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 fields = fieldnames(myStruct);

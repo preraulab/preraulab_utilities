@@ -15,7 +15,7 @@ function filtered_data = percentile_filt(data, ptile, window_size)
 %
 %   Example:
 % 
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 %Make sure inputs are valid

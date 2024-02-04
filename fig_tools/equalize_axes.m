@@ -50,7 +50,7 @@ function equalize_axes(ax, varargin)
 %       equalize_axes(ax([1 3 5]), 'c');
 %       equalize_axes(ax([2 4 6]), 'xy');
 %
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 
 if nargin == 0

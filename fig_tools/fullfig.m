@@ -12,7 +12,7 @@
 %       % Plot on figure
 %       plot(randn(1000,1));
 %
-% Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %**************************************************************************
 function h=fullfig(h)
 
