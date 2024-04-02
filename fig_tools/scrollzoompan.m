@@ -21,12 +21,12 @@ function [zslider, pslider, zl, pl]=scrollzoompan(ax, dir, zoom_fcn, pan_fcn, bo
 %   Example:
 %
 %     figure
-%     axes('position',[.05 .15 .9 .8]);
+%     axes('position',[.05 .05 .9 .8]);
 %     plot(randn(1,1000));
 %     scrollzoompan;
 %
 %     figure
-%     axes('position',[.05 .15 .9 .8]);
+%     axes('position',[.05 .05 .9 .8]);
 %     imagesc(peaks(1000));
 %     scrollzoompan(gca,'y');
 %
@@ -89,9 +89,27 @@ handle=guidata(fig_h);
 handle.shift_down=false; %Checks if you are holding down shift
 guidata(fig_h,handle);
 
+%Find all the axes
+ax_all = findall(fig_h,'type','axes');
+
+%Set axes to absolute units
+set(fig_h,'Units','inches');
+set(ax_all,'Units','inches');
+
+%Add 10% to the figure size
+shift = fig_h.Position(4)*.1;
+fig_h.Position(4) = fig_h.Position(4)+ shift;
+
+pause(.1) %Pause needed to wait for resizing
+
+%Shift all the axes up
+for ii = 1:length(ax_all)
+    ax_all(ii).Position(2) = ax_all(ii).Position(2)+shift;
+end
+
 %Create zoom slider
-zslider = uicontrol('style','slider','units','normalized','position',[.05 .025 .9 .025],'min',amin,'max',amax,'value',amax);
-pslider = uicontrol('style','slider','units','normalized','position',[.05 .055 .9 .025],'min',amin,'max',amax,'value',amax/2);
+zslider = uicontrol('style','slider','units','normalized','position',[.1 0.02 0.85 0.025],'min',amin,'max',amax,'value',amax);
+pslider = uicontrol('style','slider','units','normalized','position',[.1 .055 .85 .025],'min',amin,'max',amax,'value',amax/2);
 
 %Add listeners for continuous value changes
 zl=addlistener(zslider,'ContinuousValueChange',@(src,evnt)zoom_slider(ax, zslider, pslider, dir,zoom_fcn));
@@ -108,11 +126,14 @@ annotation(fig_h,'textbox',...
 
 % Create textbox
 annotation(fig_h,'textbox',...
-    [0.0238663484486874 0.0265392781316348 0.0238663484486873 0.023416135881104],...
+    [ 0.0246    0.0334    0.0239    0.0234],...
     'String',{'Zoom'},...
     'FitBoxToText','off',...
     'LineStyle','none');
 
+%Return to normalized
+set(fig_h,'Units','normalized');
+set(ax_all,'Units','normalized');
 
 %***********************************************************
 %***********************************************************
