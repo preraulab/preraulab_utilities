@@ -1,4 +1,4 @@
-function [zslider, pslider, zl, pl]=scrollzoompan2(ax, dir, zoom_fcn, pan_fcn, bounds)
+function [zslider, pslider, zl, pl]=scrollzoompan(ax, dir, zoom_fcn, pan_fcn, bounds)
 %SCROLLZOOMPAN  Adds pan and zoom scroll bars to an axis
 %               mouse wheel = pan, shift + mouse wheel = zoom
 %
