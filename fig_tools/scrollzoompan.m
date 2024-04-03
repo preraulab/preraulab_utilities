@@ -1,4 +1,4 @@
-function [zslider, pslider, zl, pl]=scrollzoompan(ax, dir, zoom_fcn, pan_fcn, bounds)
+function [zslider, pslider, zl, pl]=scrollzoompan2(ax, dir, zoom_fcn, pan_fcn, bounds)
 %SCROLLZOOMPAN  Adds pan and zoom scroll bars to an axis
 %               mouse wheel = pan, shift + mouse wheel = zoom
 %
@@ -21,12 +21,10 @@ function [zslider, pslider, zl, pl]=scrollzoompan(ax, dir, zoom_fcn, pan_fcn, bo
 %   Example:
 %
 %     figure
-%     axes('position',[.05 .05 .9 .8]);
 %     plot(randn(1,1000));
 %     scrollzoompan;
 %
 %     figure
-%     axes('position',[.05 .05 .9 .8]);
 %     imagesc(peaks(1000));
 %     scrollzoompan(gca,'y');
 %
@@ -89,6 +87,8 @@ handle=guidata(fig_h);
 handle.shift_down=false; %Checks if you are holding down shift
 guidata(fig_h,handle);
 
+fig_h.Visible = false;
+
 %Find all the axes
 ax_all = findall(fig_h,'type','axes');
 
@@ -107,33 +107,41 @@ for ii = 1:length(ax_all)
     ax_all(ii).Position(2) = ax_all(ii).Position(2)+shift;
 end
 
-%Create zoom slider
-zslider = uicontrol('style','slider','units','normalized','position',[.1 0.02 0.85 0.025],'min',amin,'max',amax,'value',amax);
-pslider = uicontrol('style','slider','units','normalized','position',[.1 .055 .85 .025],'min',amin,'max',amax,'value',amax/2);
+shift = 0.04;
+
+%Create zoom/pan sliders
+zslider = uicontrol('style','slider','units','normalized','position',[0.0702 0.0262 0.8273 0.0232],'min',1e-50,'max',amax,'value',amax);
+pslider = uicontrol('style','slider','units','normalized','position',[0.0702 0.0262+shift 0.8273 0.0232],'min',amin,'max',amax,'value',amax/2);
+
+%Create zoom/pan edit boxes
+zedit = uicontrol(gcf,'style','edit','units','normalized','position',[0.9107 0.0147 0.0823 0.0422]);
+pedit = uicontrol(gcf,'style','edit','units','normalized','position',[0.9107 0.0147+shift 0.0823 0.0422],'callback',@(src,evnt)pan_edit(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn));
+
+set(zedit,'callback',@(src,evnt)zoom_edit(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn));
+set(pedit,'callback',@(src,evnt)pan_edit(ax, pslider, pedit, dir, pan_fcn));
+
+
+zedit.String = zslider.Value;
+pedit.String = pslider.Value;
+
+%Create text labels
+uicontrol(gcf,'style','text','string','Zoom','units','normalized','position', [0.0086 0.0071 0.0628 0.0449],'fontsize',12,'HorizontalAlignment','left','BackgroundColor',get(gcf,'Color'));
+uicontrol(gcf,'style','text','string','Pan','units','normalized','position', [0.0086 0.0071+shift 0.0628 0.0449],'fontsize',12,'HorizontalAlignment','left','BackgroundColor',get(gcf,'Color'));
+
 
 %Add listeners for continuous value changes
-zl=addlistener(zslider,'ContinuousValueChange',@(src,evnt)zoom_slider(ax, zslider, pslider, dir,zoom_fcn));
-pl=addlistener(pslider,'ContinuousValueChange',@(src,evnt)pan_slider(ax, pslider, dir, pan_fcn));
-set(fig_h,'WindowKeyPressFcn',{@handle_keys,ax, zslider, pslider, dir, zoom_fcn, pan_fcn},'WindowKeyReleaseFcn',@key_off);
+zl=addlistener(zslider,'ContinuousValueChange',@(src,evnt)zoom_slider(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn));
+pl=addlistener(pslider,'ContinuousValueChange',@(src,evnt)pan_slider(ax, pslider, pedit, dir, pan_fcn));
+set(fig_h,'WindowKeyPressFcn',{@handle_keys,ax, zslider, pslider, zedit, pedit, dir, zoom_fcn, pan_fcn},'WindowKeyReleaseFcn',@key_off);
 
-set(fig_h,'WindowScrollWheelFcn',{@figScroll,ax, zslider, pslider, dir, zoom_fcn, pan_fcn});
+set(fig_h,'WindowScrollWheelFcn',{@figScroll,ax, zslider, pslider, zedit, pedit, dir, zoom_fcn, pan_fcn});
 
-annotation(fig_h,'textbox',...
-    [0.0286396181384249 0.054140127388535 0.019689737470167 0.023416135881104],...
-    'String',{'Pan'},...
-    'FitBoxToText','off',...
-    'LineStyle','none');
-
-% Create textbox
-annotation(fig_h,'textbox',...
-    [ 0.0246    0.0334    0.0239    0.0234],...
-    'String',{'Zoom'},...
-    'FitBoxToText','off',...
-    'LineStyle','none');
 
 %Return to normalized
 set(fig_h,'Units','normalized');
 set(ax_all,'Units','normalized');
+
+fig_h.Visible = true;
 
 %***********************************************************
 %***********************************************************
@@ -143,7 +151,7 @@ set(ax_all,'Units','normalized');
 %-----------------------------------------------------------
 %           CALLBACK TO HANDLE TIME SCALE ZOOM
 %-----------------------------------------------------------
-function zoom_slider(ax, zslider, pslider, dir, zoom_fcn)
+function zoom_slider(ax, zslider, pslider, zedit, pedit, dir, zoom_fcn)
 %Keep the window center with window width determined by slider value
 newlims=get(pslider,'value')+get(zslider,'value')/2*[-1 1];
 
@@ -179,6 +187,9 @@ else
     set(pslider,'sliderstep',diff(ylim)/amax*[.5 1]);
 end
 
+zedit.String = num2str(zslider.Value);
+pedit.String = num2str(pslider.Value);
+
 if ~isempty(zoom_fcn)
     feval(zoom_fcn);
 end
@@ -186,7 +197,7 @@ end
 %-----------------------------------------------------------
 %           CALLBACK TO HANDLE TIME SCALE SCROLL
 %-----------------------------------------------------------
-function pan_slider(ax, pslider, dir, pan_fcn)
+function pan_slider(ax, pslider, pedit, dir, pan_fcn)
 amin=get(pslider,'min');
 amax=get(pslider,'max');
 
@@ -214,14 +225,43 @@ else
     set(ax, 'ylim', get(pslider,'value')+[-1 1]*abs(diff(ylim(ax)))/2);
 end
 
+pedit.String = num2str(pslider.Value);
+
 if ~isempty(pan_fcn)
     feval(pan_fcn);
 end
 
 %-----------------------------------------------------------
+%           CALLBACK TO HANDLE TIME EDIT ZOOM
+%-----------------------------------------------------------
+function zoom_edit(ax, zslider, pslider, zedit, pedit, dir, zoom_fcn)
+value = str2double(zedit.String);
+
+amin=get(zslider,'min');
+amax=get(zslider,'max');
+value = max(min(value,amax),amin);
+
+zslider.Value = value;
+zoom_slider(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn);
+
+%-----------------------------------------------------------
+%           CALLBACK TO HANDLE TIME EDIT PAN
+%-----------------------------------------------------------
+function pan_edit(ax, pslider, pedit, dir, pan_fcn)
+value = str2double(pedit.String);
+
+amin=get(pslider,'min');
+amax=get(pslider,'max');
+value = max(min(value,amax),amin);
+
+pslider.Value = value;
+pan_slider(ax, pslider, pedit, dir, pan_fcn);
+
+
+%-----------------------------------------------------------
 %           CALLBACK TO HANDLE SCROLL WHEEL
 %-----------------------------------------------------------
-function figScroll(~,callbackdata,ax, zslider, pslider, dir, zoom_fcn, pan_fcn)
+function figScroll(~,callbackdata,ax, zslider, pslider, zedit, pedit, dir, zoom_fcn, pan_fcn)
 if length(ax)>1
     ax = ax(1);
 end
@@ -234,10 +274,10 @@ if ~(handle.shift_down)
     amax=get(pslider,'max');
     if callbackdata.VerticalScrollCount > 0
         set(pslider,'value',min(get(pslider,'value')*(1+.025*callbackdata.VerticalScrollAmount),amax));
-        pan_slider(ax, pslider, dir, pan_fcn);
+       pan_slider(ax, pslider, pedit, dir, pan_fcn);
     elseif callbackdata.VerticalScrollCount < 0
         set(pslider,'value',max(get(pslider,'value')*(1-.025*callbackdata.VerticalScrollAmount),amin));
-        pan_slider(ax, pslider, dir, pan_fcn)
+        pan_slider(ax, pslider, pedit, dir, pan_fcn);
     end
     %Zoom if shift is pressed
 else
@@ -245,17 +285,17 @@ else
     amax=get(zslider,'max');
     if callbackdata.VerticalScrollCount > 0
         set(zslider,'value',max(get(zslider,'value')*(1-.025*callbackdata.VerticalScrollAmount),amin));
-        zoom_slider(ax, zslider, pslider, dir, zoom_fcn);
+        zoom_slider(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn);
     elseif callbackdata.VerticalScrollCount < 0
         set(zslider,'value',min(get(zslider,'value')*(1+.025*callbackdata.VerticalScrollAmount),amax));
-        zoom_slider(ax, zslider, pslider, dir, zoom_fcn);
+        zoom_slider(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn);
     end
 end
 
 %-----------------------------------------------------------
 %           SCROLL AND ZOOM WITH KEYS
 %-----------------------------------------------------------
-function handle_keys(~,event,ax, zslider, pslider, dir, zoom_fcn, pan_fcn)
+function handle_keys(~,event,ax, zslider, pslider, zedit, pedit, dir, zoom_fcn, pan_fcn)
 if length(ax)>1
     ax = ax(1);
 end
@@ -276,20 +316,20 @@ switch event.Key
     case 'rightarrow'
         pnew = pos+winsize;
         set(pslider,'value',min(pnew,pmax));
-        pan_slider(ax, pslider, dir, pan_fcn);
+        pan_slider(ax, pslider, pedit, dir, pan_fcn);
     %Scroll right
     case 'leftarrow'
-        pnew = pos-winsize;
+        pnew = pos-winsize; 
         set(pslider,'value',max(pnew,pmin));
-        pan_slider(ax, pslider, dir, pan_fcn)
+        pan_slider(ax, pslider, pedit, dir, pan_fcn);
     %Zoom in
     case 'downarrow'
         set(zslider,'value',max(get(zslider,'value')*(1-.025),zmin));
-        zoom_slider(ax, zslider, pslider, dir, zoom_fcn);
+        zoom_slider(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn);
    %Zoom out
     case 'uparrow'
         set(zslider,'value',min(get(zslider,'value')*(1+.025),zmax));
-        zoom_slider(ax, zslider, pslider, dir, zoom_fcn);
+        zoom_slider(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn);
     case 'z'
         %Get the initials of the scorer to be used for saving
         prompt={'Enter Window Size:';};
@@ -308,7 +348,7 @@ switch event.Key
         end
 
         set(zslider,'value',new_width);
-        zoom_slider(ax, zslider, pslider, dir, zoom_fcn);
+        zoom_slider(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn);
 
 end
 
