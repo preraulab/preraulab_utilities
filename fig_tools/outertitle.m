@@ -38,7 +38,7 @@
 %   last modified 12/01/2021
 %********************************************************************
 
-function h_title = outertitle(ax, title_str, varargin)
+function [h_title, axbig] = outertitle(ax, title_str, varargin)
 
 if nargin == 0
     figure
