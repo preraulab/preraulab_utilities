@@ -31,7 +31,11 @@ end
 [n,d] = rat(val,tol);
 
 if n<100 && d<100
-frac_str = [num2str(n) '/' num2str(d)];
+    if d==1
+        frac_str = num2str(n);
+    else
+        frac_str = [num2str(n) '/' num2str(d)];
+    end
 else
    frac_str = [];
 end

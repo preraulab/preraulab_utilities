@@ -46,6 +46,11 @@ elseif isnumeric(value)
             value_str = double2pifracstr(value);
         end
 
+        %Try for e values
+        if isempty(value_str)
+            value_str = double2estr(value);
+        end
+
         %Return the number
         if isempty(value_str)
             value_str = num2str(value);
