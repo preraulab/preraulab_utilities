@@ -33,7 +33,7 @@ end
 [n,d] = rat(val/pi,tol);
 
 if n<100 && d<100
-    pi_str = [];
+
     if n == -1
         pi_str = '-pi';
     elseif n == 1
@@ -46,5 +46,5 @@ if n<100 && d<100
         pi_str = [pi_str '/' num2str(d)];
     end
 else
-    pi_str = num2str(val,64);
+   pi_str = [];
 end
