@@ -26,23 +26,25 @@
 %% ********************************************************************
 
 function pi_str = double2pifracstr(val, tol)
-    if nargin < 2
-        tol = 1e-4;
-    end
+if nargin < 2
+    tol = 1e-10;
+end
 
-    pi_denom = find(abs(abs(val) - pi./(1:100)) < tol);
+[n,d] = rat(val/pi,tol);
 
-    if isempty(pi_denom)
-        pi_str = sprintf('%0.100g', val);
+if n<100 && d<100
+    pi_str = [];
+    if n == -1
+        pi_str = '-pi';
+    elseif n == 1
+        pi_str = 'pi';
     else
-        if pi_denom == 1
-            pi_str = 'pi';
-        else
-            pi_str = ['pi/' num2str(pi_denom)];
-        end
-
-        if sign(val) == -1
-            pi_str = ['-' pi_str];
-        end
+        pi_str = [num2str(n) '*pi'];
     end
+
+    if d>1
+        pi_str = [pi_str '/' num2str(d)];
+    end
+else
+    pi_str = num2str(val,64);
 end
