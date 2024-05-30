@@ -39,7 +39,7 @@ for b = 1:20
 
     [n,d] = rat(a,tol);
 
-    if n<10 && d<10
+    if n<10 && d<10 && n>0 && d>0
         % Calculate the approximation
         approximation = a * exp(b);
 

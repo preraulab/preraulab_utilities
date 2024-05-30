@@ -59,7 +59,11 @@ elseif isnumeric(value)
         value_str = num2str(value);
     end
 elseif islogical(value)
-    value_str = num2str(value); % Numeric or logical scalar
+    if value
+        value_str = 'true';
+    else
+        value_str = 'false';
+    end
 elseif iscell(value)
     % Recurse for all cell elements
     value_str = ['{' strjoin(cellfun(@value2str, value, 'UniformOutput', false), ', ') '}'];
