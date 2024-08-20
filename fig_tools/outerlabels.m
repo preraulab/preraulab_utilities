@@ -20,10 +20,9 @@
 %   Example:
 %         %Create Figure
 %         figure
-%         ax = figdesign(3,2,'type','usletter','margins',[.1 .1 .14 .1 .08],'numberaxes',true);
+%         ax = figdesign(3,2,'type','usletter','margins',[.1 .1 .14 .1 .08]);
 % 
 %         %Outer label strings
-%         title_str = 'My Title';
 %         xlabel_str = 'My X-Label';
 %         ylabel_str = 'My Y-Label';
 % 
@@ -69,10 +68,10 @@ set(ax,'units','normalized');
 pos = cat(1,ax.OuterPosition);
 
 %Get key positions
-bottom_x = min(pos(:,1));
-bottom_y = min(pos(:,2));
-width = max(pos(:,1) + pos(:,3)) - bottom_x;
-height = max(pos(:,2) + pos(:,4)) - bottom_y;
+bottom_x = max(min(pos(:,1)),.05);
+bottom_y = max(min(pos(:,2)),.05);
+width = min(max(pos(:,1) + pos(:,3)) - bottom_x,.95);
+height = min(max(pos(:,2) + pos(:,4)) - bottom_y,.95);
 
 %Create giant axes for outerlabel creation
 h_axbig = axes('units','normalized','position',[bottom_x, bottom_y, width, height]);
