@@ -23,6 +23,8 @@
 
 function h=hline(varargin)
 
+warning('Use matlab native xline instead...')
+
 % Parse possible axes input.
 [ax, args, ~] = axescheck(varargin{:});
 

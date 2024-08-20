@@ -23,6 +23,8 @@
 
 function h=vline(varargin)
 
+warning('Use matlab native yline instead...')
+
 % Parse possible axes input.
 [ax, args, ~] = axescheck(varargin{:});
 

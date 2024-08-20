@@ -195,7 +195,7 @@ if ~isempty(merge)
             merge_axes(axis_handles(merge{i}), mainfig_h);
         end
     end
-    axis_handles=findobj(mainfig_h,'type','axes');
+
     apos=get(axis_handles,'position');
     apos=reshape([apos{:}],4,numel([apos{:}])/4)';
 
@@ -458,7 +458,7 @@ end
 units=get(merger_axes(1),'units');
 
 %Warning check for number of axes
-if length(merger_axes)==1
+if isscalar(merger_axes)
     warning('Only one axis selected. No merger possible.');
     return;
 end
