@@ -1,12 +1,9 @@
-function [zslider, pslider, zedit, pedit, zl, pl]=scrollzoompan(ax, dir, zoom_fcn, pan_fcn, bounds)
+function [zslider, pslider, zedit, pedit, zlabel, plabel, zlstnr, plstnr]=scrollzoompan(ax, dir, zoom_fcn, pan_fcn, bounds)
 %SCROLLZOOMPAN  Adds pan and zoom scroll bars to an axis
 %               mouse wheel = pan, shift + mouse wheel = zoom
 %
 %   Usage:
-%   [zslider, pslider]=scrollzoompan
-%   [zslider, pslider]=scrollzoompan(ax)
-%   [zslider, pslider]=scrollzoompan(ax, dir)
-%   [zslider, pslider]=scrollzoompan(ax, dir, zoom_fcn, pan_fcn)
+%   [zslider, pslider, zedit, pedit, zlabel, plabel, zlstnr, plstnr] = scrollzoompan(ax, dir, zoom_fcn, pan_fcn)
 %
 %   Input:
 %   ax: Axis to zoom and pan (default: gca)
@@ -17,6 +14,12 @@ function [zslider, pslider, zedit, pedit, zl, pl]=scrollzoompan(ax, dir, zoom_fc
 %   Output:
 %   zslider: Zoom slider handle
 %   pslider: Pan slider handle
+%   zedit: Zoom edit handle
+%   pedit: Pan edit handle
+%   zlabel: Zoom text label handle
+%   plabel: Pan text label handle
+%   zlstnr: Zoom slider listener
+%   plstnr: Pan slider listener
 %
 %   Example:
 %
@@ -114,24 +117,23 @@ zslider = uicontrol('style','slider','units','normalized','position',[0.0702 0.0
 pslider = uicontrol('style','slider','units','normalized','position',[0.0702 0.0262+shift 0.8273 0.0232],'min',amin,'max',amax,'value',amax/2);
 
 %Create zoom/pan edit boxes
-zedit = uicontrol(gcf,'style','edit','units','normalized','position',[0.9107 0.0147 0.0823 0.0422]);
-pedit = uicontrol(gcf,'style','edit','units','normalized','position',[0.9107 0.0147+shift 0.0823 0.0422],'callback',@(src,evnt)pan_edit(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn));
+zedit = uicontrol(fig_h,'style','edit','units','normalized','position',[0.9107 0.0147 0.0823 0.0422]);
+pedit = uicontrol(fig_h,'style','edit','units','normalized','position',[0.9107 0.0147+shift 0.0823 0.0422],'callback',@(src,evnt)pan_edit(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn));
 
 set(zedit,'callback',@(src,evnt)zoom_edit(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn));
 set(pedit,'callback',@(src,evnt)pan_edit(ax, pslider, pedit, dir, pan_fcn));
-
 
 zedit.String = zslider.Value;
 pedit.String = pslider.Value;
 
 %Create text labels
-uicontrol(gcf,'style','text','string','Zoom','units','normalized','position', [0.0086 0.0071 0.0628 0.0449],'fontsize',12,'HorizontalAlignment','left','BackgroundColor',get(gcf,'Color'));
-uicontrol(gcf,'style','text','string','Pan','units','normalized','position', [0.0086 0.0071+shift 0.0628 0.0449],'fontsize',12,'HorizontalAlignment','left','BackgroundColor',get(gcf,'Color'));
+zlabel = uicontrol(fig_h,'style','text','string','Zoom','units','normalized','position', [0.0086 0.0071 0.0628 0.0449],'fontsize',12,'HorizontalAlignment','left','BackgroundColor',get(fig_h,'Color'));
+plabel = uicontrol(fig_h,'style','text','string','Pan','units','normalized','position', [0.0086 0.0071+shift 0.0628 0.0449],'fontsize',12,'HorizontalAlignment','left','BackgroundColor',get(fig_h,'Color'));
 
 
 %Add listeners for continuous value changes
-zl=addlistener(zslider,'ContinuousValueChange',@(src,evnt)zoom_slider(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn));
-pl=addlistener(pslider,'ContinuousValueChange',@(src,evnt)pan_slider(ax, pslider, pedit, dir, pan_fcn));
+zlstnr=addlistener(zslider,'ContinuousValueChange',@(src,evnt)zoom_slider(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn));
+plstnr=addlistener(pslider,'ContinuousValueChange',@(src,evnt)pan_slider(ax, pslider, pedit, dir, pan_fcn));
 set(fig_h,'WindowKeyPressFcn',{@handle_keys,ax, zslider, pslider, zedit, pedit, dir, zoom_fcn, pan_fcn},'WindowKeyReleaseFcn',@key_off);
 
 set(fig_h,'WindowScrollWheelFcn',{@figScroll,ax, zslider, pslider, zedit, pedit, dir, zoom_fcn, pan_fcn});

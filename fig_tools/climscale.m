@@ -118,7 +118,7 @@ if isa(hObj,'matlab.graphics.primitive.Image')
 else
     hAx = hObj;
     hIm = findall(hAx,'type','image');
-    assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');
+    assert(isscalar(hIm),'More than one image found in axis. Use specific image handle');
 end
 
 %Get color data
