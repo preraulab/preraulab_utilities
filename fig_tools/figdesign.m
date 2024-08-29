@@ -192,10 +192,13 @@ if ~isempty(merge)
         merge_axes(axis_handles(merge), mainfig_h);
     else
         for i=1:length(merge)
-            merge_axes(axis_handles(merge{i}), mainfig_h);
+            new_axis = merge_axes(axis_handles(merge{i}), mainfig_h);
+            axis_handles(end+1) = new_axis; %#ok<AGROW>
         end
     end
 
+    %Keep only active axes
+    axis_handles= axis_handles(ishandle(axis_handles));
     apos=get(axis_handles,'position');
     apos=reshape([apos{:}],4,numel([apos{:}])/4)';
 
@@ -430,7 +433,7 @@ slider_update(axs, slider_h, edit_h, value, mainfig_h_h, num_cols, num_rows,unit
 %*****************************************************
 %             MERGE SELECTED AXES
 %*****************************************************
-function merge_axes(merger_axes,mainfig_h)
+function new_axis = merge_axes(merger_axes,mainfig_h)
 %Interactive selection of merger axes
 if nargin==1 || isempty(merger_axes)
     %If interactive selection is on
