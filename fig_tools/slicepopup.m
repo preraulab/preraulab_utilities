@@ -74,7 +74,7 @@ pop_title=title('');
 %Get data if empty
 if isempty(data)
     hIm = findall(mainax_h,'type','image');
-    assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');
+    assert(isscalar(hIm),'More than one image found in axis. Use specific image handle');
     assert(~isempty(hIm),'No image found!');
     
     data = hIm.CData;
@@ -93,7 +93,7 @@ set(popax_h,'nextplot','replacechildren');
 if datadir
     set(popax_h,'xlim',[min(y_vals),max(y_vals)],'ylim',prctile(data(:),[.5 99.5]));
 else
-    set(popax_h,'ylim',[min(x_vals), max(y_vals)],'xlim',prctile(data(:),[.5 99.5]));
+    set(popax_h,'ylim',[min(x_vals), max(x_vals)],'xlim',prctile(data(:),[.5 99.5]));
 end
 
 %Set the appropriate labels for the popup
@@ -170,7 +170,7 @@ end
 %Handle change in data
 if isempty(data) || (~isempty(hIm) && ~all(size(hIm.CData) == size(data)))
     hIm = findall(mainax_h,'type','image');
-    assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');
+    assert(isscalar(hIm),'More than one image found in axis. Use specific image handle');
     
     data = hIm.CData;
     y_vals = hIm.YData;

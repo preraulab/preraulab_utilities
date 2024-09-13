@@ -1,12 +1,13 @@
 function new_axes = split_axis(varargin)
 %SPLIT_AXIS Split an axis into multiple axes
-%   new_axes = split_axis(hbreaks, vbreaks)
-%              split_axis(ax, hbreaks, vbreaks)
+%   new_axes = split_axis(hbreaks, vbreaks, gap, delete_ax)
+%              split_axis(ax, hbreaks, vbreaks, gap, delete_ax)
 %
 % Inputs:
 %   ax: handle to axis to split (default: current axis)
 %   hbreaks: 1xH vector - horizontal partitions in % (left to right), must sum to 1 --required
 %   vbreaks: 1xV vector -vertical partitions in % (top to bottom), must sum to 1 --required
+%   gap: double - gap between axes (default: 0)
 %   delete_ax: logical - delete original axis (default: true)
 %
 %   Run with no inputs or single axis for interactive mode
@@ -45,7 +46,7 @@ if nargin <= 1
     disp('Click to select horizontal slices, double-click/enter/escape');
     disp('then select vertical slices, double-click/enter/escape to complete.')
     disp(' ')
-    
+
     %Store slices as user data
     fh.UserData.y_slices = [];
     fh.UserData.x_slices = [];
@@ -57,7 +58,7 @@ if nargin <= 1
 
     %Run horizontal selection
     isHoriz = 1;
-    line_h = hline(ax, 0);
+    line_h = yline(ax, 0);
 
     %Function to check for escape/enter
     set(fh,'KeyPressFcn',@handle_keys);
@@ -70,7 +71,7 @@ if nargin <= 1
 
     %Run vertical selection
     isHoriz = 0;
-    line_h = vline(ax, 0);
+    line_h = xline(ax, 0);
     set(fh, 'WindowButtonDownFcn', {@pick_slice,  line_h, isHoriz, fh});
     set(fh, 'WindowButtonMotionFcn', {@select_slice, ax, line_h, isHoriz});
     uiwait(fh)
@@ -97,12 +98,17 @@ if nargin <= 1
         y_slices = y_slices/sum(y_slices);
     end
 
+    gap = getGapSize;
+    if isempty(gap)
+        gap = 0;
+    end
+
     disp('Command call:')
-    disp(regexprep(['   split_axis([' num2str(y_slices) '], [' num2str(x_slices) ']);'], '\s+', ' '));
+    disp(regexprep(['   split_axis([' num2str(y_slices) '], [' num2str(x_slices) '], ' num2str(gap) ');'], '\s+', ' '));
     disp(' ')
 
     %Split the axis and exit
-    split_axis(ax,y_slices,x_slices);
+    split_axis(ax,y_slices,x_slices, gap);
     return;
 end
 
@@ -121,6 +127,12 @@ hbreaks = args{1}(:);
 vbreaks = args{2}(:);
 
 if length(args)<3 || isempty(args{3})
+    gap = 0;
+else
+    gap = args{3};
+end
+
+if length(args)<4 || isempty(args{4})
     delete_ax = true;
 else
     delete_ax = args{3};
@@ -135,8 +147,8 @@ ax.Units = 'normalized';
 %This is due to inexact floating point representation of certain numbers,
 %the error which may or may not cancel out depending on order of operations
 %See: https://dl.acm.org/doi/pdf/10.1145/103162.103163 for more info
-assert(abs(sum(vbreaks)-1)<1e-15, 'Sum of vertical breaks must be equal to 1');
-assert(abs(sum(hbreaks)-1)<1e-15, 'Sum of horizontal breaks must be equal to 1');
+assert(abs(sum(vbreaks))-1<1e-15, 'Sum of vertical breaks must be equal to 1');
+assert(abs(sum(hbreaks))-1<1e-15, 'Sum of horizontal breaks must be equal to 1');
 
 vbreaks = vbreaks/sum(vbreaks);
 hbreaks = hbreaks/sum(hbreaks);
@@ -170,8 +182,8 @@ for hh = 1:Nh
         ax_new.Position(2) = ax_bottom+ax_height*sum(hbreaks(hh+1:end));
 
         %Update width/height
-        ax_new.Position(3) = ax_width*(vbreaks(vv));
-        ax_new.Position(4) = ax_height*(hbreaks(hh));
+        ax_new.Position(3) = ax_width*(vbreaks(vv))-gap/2;
+        ax_new.Position(4) = ax_height*(hbreaks(hh))-gap/2;
 
         %%Good for debugging
         % ax_new.Color = rand(1,3);
@@ -187,7 +199,7 @@ end
 if delete_ax
     delete(ax);
 end
-
+end
 
 function select_slice(~,~,ax, line_h, isHoriz)
 %Get the current point from the mouse
@@ -241,12 +253,11 @@ if isHoriz
         line_h.Color = 'k';
         py_close = py;
     end
-    px_close = px;
 
-    line_h.YData = [y y];
+    line_h.Value = y;
     title(ax, [num2str(py_close*100,3), '%'],'FontSize',15);
 else
-     %Check for lock
+    %Check for lock
     if dxkey<tol
         px_close = key_spots(closest_keyx);
         x = px_close*diff(xl)+xl(1);
@@ -259,32 +270,76 @@ else
         px_close = px;
     end
 
-    py_close = py;
-    line_h.XData = [x x];
+    line_h.Value = x;
     title(ax, [num2str(px_close*100,3), '%'],'FontSize',15);
+end
 end
 
 %Select and save the picked slice
 function pick_slice(~,~,line_h, isHoriz, fh)
 if isHoriz
-    y_val = line_h.YData(1);
+    y_val = line_h.Value(1);
     fh.UserData.y_slices = [fh.UserData.y_slices y_val];
-    hline(line_h.YData(1));
+    yline(line_h.Value(1));
 else
-    x_val = line_h.XData(1);
+    x_val = line_h.Value;
     fh.UserData.x_slices = [fh.UserData.x_slices x_val];
-    vline(line_h.XData(1));
+    xline(line_h.Value);
 end
 
 %Finds a double click
 if strcmpi(get(fh,'selectiontype'),'open')
     uiresume(fh);
 end
+end
 
 %Handle selection via enter/escape
 function handle_keys(~,event)
-   switch event.Key
-       case {'return','escape'}
-           uiresume(gcf);
-   end
+switch event.Key
+    case {'return','escape'}
+        uiresume(gcf);
+end
+end
 
+function gap = getGapSize
+% Create the figure for the popup window
+fig = uifigure('Name', 'Input Gap Size', 'Position', [500 500 300 150]);
+
+% Create the label for the input field
+lbl = uilabel(fig, 'Position', [20 90 100 30], 'Text', 'Gap Size (0-1):');
+
+% Create the edit field for entering the gap size
+gapInput = uieditfield(fig, 'numeric', 'Position', [130 95 100 30]);
+
+% Create a button to confirm the input
+btn = uibutton(fig, 'Text', 'Submit', 'Position', [100 40 100 30], ...
+    'ButtonPushedFcn', @(btn,event) checkGap(gapInput, fig));
+
+% Pause code execution until the figure is closed
+uiwait(fig);
+
+% Check if the figure was closed with a valid gap value assigned
+if isvalid(fig)
+    % Get the gap value from the figure’s UserData
+    gap = fig.UserData;
+    close(fig);  % Close the figure if valid input
+else
+    gap = NaN;  % Handle the case where the figure was closed without input
+end
+end
+
+function checkGap(gapInput, fig)
+% Get the value entered by the user
+gap = gapInput.Value;
+
+% Check if the value is between 0 and 1
+if gap >= 0 && gap <= 1 
+    % Store the gap value in the figure's UserData
+    fig.UserData = gap;
+    % Resume the execution of the main script
+    uiresume(fig);
+else
+    % If invalid, show an error message
+    uialert(fig, 'Please enter a value between 0 and 1.', 'Invalid Input');
+end
+end
