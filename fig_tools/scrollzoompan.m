@@ -61,12 +61,12 @@ end
 
 %Get full data limits depending on direction
 if strcmpi(dir,'x')
-    xl=xlim(ax);
+    xl=xlim(ax(1));
 
     amin=xl(1);
     amax=xl(2);
 else
-    yl=ylim(ax);
+    yl=ylim(ax(1));
 
     amin=yl(1);
     amax=yl(2);

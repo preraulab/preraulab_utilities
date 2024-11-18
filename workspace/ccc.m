@@ -8,4 +8,5 @@
 
 clear; %Clear all variables
 delete(get(0,'children')); %Delete all base objects
+close all hidden; %Clear hidden objects
 clc; %Clears the screen
