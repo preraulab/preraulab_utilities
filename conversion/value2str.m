@@ -27,7 +27,7 @@ if nargin<2
 end
 
 if isempty(value)
-    if isnumeric(value)
+    if isnumeric(value) || islogical(value)
         value_str = '[]'; % Empty numeric array
     elseif iscell(value)
         value_str = '{}'; % Empty cell array
