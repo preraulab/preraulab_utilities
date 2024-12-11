@@ -27,12 +27,14 @@ if nargin<2
 end
 
 if isempty(value)
-    if isnumeric(value) || islogical(value)
+    if isnumeric(value) 
         value_str = '[]'; % Empty numeric array
     elseif iscell(value)
         value_str = '{}'; % Empty cell array
     elseif ischar(value)
         value_str = ''''''; % Empty character array
+    else % Handle examples like logical([])
+        value_str = [class(value) '([])'];
     end
 elseif isnumeric(value) && numel(value) > 1
     value_str = mat2strsimplify(value); % Numeric array
