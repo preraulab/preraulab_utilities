@@ -69,8 +69,17 @@ elseif islogical(value)
 elseif iscell(value)
     % Recurse for all cell elements
     value_str = ['{' strjoin(cellfun(@value2str, value, 'UniformOutput', false), ', ') '}'];
-else
-    value_str = ['''' value '''']; % String scalar or other types
+elseif ischar(value)
+    value_str = ['''' value '''']; % Char
+elseif isstring(value)
+    if isStringScalar(value)
+     value_str = ['"' char(value) '"'];
+    else
+        str_str = sprintf('"%s" ',value);
+        value_str = ['[' str_str(1:end-1) ']'];
+    end
+else %Display the type of any unknown class
+    value_str = class(value);
 end
 end
 
