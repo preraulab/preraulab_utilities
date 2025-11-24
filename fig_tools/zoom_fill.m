@@ -8,8 +8,20 @@ function [h, fill_ax] = zoom_fill(ax_top, ax_bottom, top_range, bottom_range, va
 %   Output:
 %       h: handle to the fill object
 %       fill_ax: handle to the overlay axes
+%
+%   Example:
+%     ax_top = subplot(211);
+%     ax_bottom = subplot(212);
+% 
+%     imagesc(ax_top, linspace(50,100), linspace(0,100), peaks(500));
+%     imagesc(ax_bottom, linspace(3000,4100), linspace(-53,84), membrane(10,499));
+% 
+%     top_range    = [75 85];  % example top range
+%     bottom_range = [];       % entire bottom range
+% 
+%     [h, fill_ax] = zoom_fill(ax_top, ax_bottom, top_range, bottom_range, ...
+%         'FaceColor','cyan','EdgeColor','blue');
 
-% Demo mode
 if nargin == 0
     ax_top = subplot(211);
     ax_bottom = subplot(212);
