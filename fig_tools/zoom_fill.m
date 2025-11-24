@@ -11,9 +11,8 @@ function [h, fill_ax] = zoom_fill(ax_top, ax_bottom, top_range, bottom_range, va
 
 % Demo mode
 if nargin == 0
-    ax = figdesign(2,1);
-    ax_top = ax(1);
-    ax_bottom = ax(2);
+    ax_top = subplot(211);
+    ax_bottom = subplot(212);
 
     imagesc(ax_top, linspace(50,100), linspace(0,100), peaks(500));
     imagesc(ax_bottom, linspace(3000,4100), linspace(-53,84), membrane(10,499));
