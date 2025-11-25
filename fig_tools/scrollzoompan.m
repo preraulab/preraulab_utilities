@@ -112,9 +112,17 @@ end
 
 shift = 0.04;
 
+if isdatetime(amax)
+    amax = posixtime(amax);
+end
+
+if isdatetime(amin)
+    amin = posixtime(amin);
+end
+
 %Create zoom/pan sliders
-zslider = uicontrol('style','slider','units','normalized','position',[0.0702 0.0262 0.8273 0.0232],'min',1e-50,'max',amax,'value',amax);
-pslider = uicontrol('style','slider','units','normalized','position',[0.0702 0.0262+shift 0.8273 0.0232],'min',amin,'max',amax,'value',amax/2);
+zslider = uicontrol('style','slider','units','normalized','position',[0.0702 0.0262 0.8273 0.0232],'min',1e-50,'max',amax-amin,'value',amax-amin);
+pslider = uicontrol('style','slider','units','normalized','position',[0.0702 0.0262+shift 0.8273 0.0232],'min',amin,'max',amax,'value',(amax+amin)/2);
 
 %Create zoom/pan edit boxes
 zedit = uicontrol(fig_h,'style','edit','units','normalized','position',[0.9107 0.0147 0.0823 0.0422]);
@@ -126,10 +134,12 @@ set(pedit,'callback',@(src,evnt)pan_edit(ax, pslider, pedit, dir, pan_fcn));
 zedit.String = zslider.Value;
 pedit.String = pslider.Value;
 
+
 %Create text labels
 zlabel = uicontrol(fig_h,'style','text','string','Zoom','units','normalized','position', [0.0086 0.0071 0.0628 0.0449],'fontsize',12,'HorizontalAlignment','left','BackgroundColor',get(fig_h,'Color'));
 plabel = uicontrol(fig_h,'style','text','string','Pan','units','normalized','position', [0.0086 0.0071+shift 0.0628 0.0449],'fontsize',12,'HorizontalAlignment','left','BackgroundColor',get(fig_h,'Color'));
 
+%zoom_slider(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn);
 
 %Add listeners for continuous value changes
 zlstnr=addlistener(zslider,'ContinuousValueChange',@(src,evnt)zoom_slider(ax, zslider, pslider, zedit, pedit, dir,zoom_fcn));
@@ -169,24 +179,43 @@ if length(ax)>1
     ax = ax(1);
 end
 
-%Set sliderbounds so that you can't go past limits
-if get(pslider,'value')-abs(diff(xlim(ax)))/2<amin
-    newpos=amin+abs(diff(xlim(ax)))/2;
-    set(pslider,'value', newpos);
-    newlims(1)=amin;
-elseif get(pslider,'value')+abs(diff(xlim(ax)))/2>amax
-    newpos=amax-abs(diff(xlim(ax)))/2;
-    set(pslider,'value', newpos);
-    newlims(2)=amax;
+if isdatetime(ax.XLim(1))
+    xlims = posixtime(ax.XLim);
+else
+    xlims = ax.XLim;
+end
+
+curr_val = get(pslider,'value');
+
+% Set sliderbounds so that you can't go past limits
+% if curr_val-abs(diff(xlims))/2<amin
+%     newpos=amin+abs(diff(xlims))/2;
+%     set(pslider,'value', newpos);
+%     newlims(1)=amin;
+% elseif curr_val+abs(diff(xlims))/2>amax
+%     newpos=amax-abs(diff(xlims))/2;
+%     set(pslider,'value', newpos);
+%     newlims(2)=amax;
+% end
+
+if newlims(1)<get(pslider,'min')
+    newlims(1) = get(pslider,'min');
+end
+if newlims(2)>get(pslider,'max')
+    newlims(2) = get(pslider,'max');
+end
+
+if isdatetime(ax.XLim(1))
+    newlims = datetime(newlims,'ConvertFrom','posixtime');
 end
 
 %Compute the new limits
 if strcmpi(dir,'x')
     set(ax,'xlim',newlims);
-    set(pslider,'sliderstep',diff(xlim)/amax*[.5 1]);
+    set(pslider,'sliderstep',diff(xlims)/amax*[.5 1]);
 else
     set(ax,'ylim',newlims);
-    set(pslider,'sliderstep',diff(ylim)/amax*[.5 1]);
+    set(pslider,'sliderstep',diff(ylims)/amax*[.5 1]);
 end
 
 zedit.String = num2str(zslider.Value);
@@ -209,14 +238,27 @@ end
 
 %Set the limits to the slider value center
 if strcmpi(dir,'x')
-    %Set sliderbounds so that you can't go past limits
-    if get(pslider,'value')-abs(diff(xlim(ax)))/2<amin
-        set(pslider,'value',amin+abs(diff(xlim(ax)))/2);
-    elseif get(pslider,'value')+abs(diff(xlim(ax)))/2>amax
-        set(pslider,'value',amax-abs(diff(xlim(ax)))/2);
+    
+    if isdatetime(ax.XLim(1))
+        xlim = posixtime(ax.XLim);
+    else
+        xlim = ax.XLim;
     end
 
-    set(ax, 'xlim', get(pslider,'value')+[-1 1]*abs(diff(xlim(ax)))/2);
+    %Set sliderbounds so that you can't go past limits
+    if get(pslider,'value')-abs(diff(xlim))/2<amin
+        set(pslider,'value',amin+abs(diff(xlim))/2);
+    elseif get(pslider,'value')+abs(diff(xlim))/2>amax
+        set(pslider,'value',amax-abs(diff(xlim))/2);
+    end
+
+    if isdatetime(ax.XLim(1))
+        newlims = datetime(get(pslider,'value')+[-1 1]*abs(diff(xlim))/2,'ConvertFrom','posixtime');
+    else
+        newlims = get(pslider,'value')+[-1 1]*abs(diff(xlim))/2;
+    end
+
+    set(ax, 'xlim', newlims);
 else
     %Set sliderbounds so that you can't go past limits
     if get(pslider,'value')-abs(diff(ylim(ax)))/2<amin
