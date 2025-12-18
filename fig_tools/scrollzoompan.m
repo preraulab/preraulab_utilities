@@ -43,9 +43,9 @@ function [zslider, pslider, zedit, pedit, zlabel, plabel, zlstnr, plstnr] = scro
 %       scrollzoompan(gca,'x', zoomCB, panCB);
 %
 %   Notes:
-%       • Mouse wheel pans; Shift + wheel zooms.  
-%       • Arrow keys pan/zoom unless an edit box has focus.  
-%       • For datetime axes, pan edit uses MM/DD/YY HH:mm:ss format,  
+%       • Mouse wheel pans; Shift + wheel zooms.
+%       • Arrow keys pan/zoom unless an edit box has focus.
+%       • For datetime axes, pan edit uses MM/DD/YY HH:mm:ss format,
 %         and zoom edit uses HH:MM:SS duration.
 %
 %   Copyright Prerau Laboratory sleepEEG.org
@@ -74,11 +74,11 @@ end
 %% ------------------------- DETERMINE AXIS LIMITS -------------------------
 % Determine if the axis is time-based (datetime)
 if strcmpi(dir,'x')
-    val_min = ax.XLim(1); 
+    val_min = ax.XLim(1);
     val_max = ax.XLim(2);
     isdataax = isdatetime(ax.XLim(1));
 else
-    val_min = ax.YLim(1); 
+    val_min = ax.YLim(1);
     val_max = ax.YLim(2);
     isdataax = isdatetime(ax.YLim(1));
 end
@@ -155,11 +155,11 @@ fig_h.WindowScrollWheelFcn = @scroll_cb;
 
 %% ------------------------- CALLBACK FUNCTIONS -------------------------
 
-    % --------------------------------------------------------------
-    % Apply zoom when zoom slider moves
-    % width = zoom window width
-    % center = center of pan slider
-    % --------------------------------------------------------------
+% --------------------------------------------------------------
+% Apply zoom when zoom slider moves
+% width = zoom window width
+% center = center of pan slider
+% --------------------------------------------------------------
     function zoom_slider_cb()
         width = zslider.Value;
         center = pslider.Value;
@@ -190,9 +190,9 @@ fig_h.WindowScrollWheelFcn = @scroll_cb;
         if ~isempty(zoom_fcn), feval(zoom_fcn); end
     end
 
-    % --------------------------------------------------------------
-    % Apply pan when pan slider moves
-    % --------------------------------------------------------------
+% --------------------------------------------------------------
+% Apply pan when pan slider moves
+% --------------------------------------------------------------
     function pan_slider_cb()
         center = pslider.Value;
         width = zslider.Value;
@@ -226,14 +226,18 @@ fig_h.WindowScrollWheelFcn = @scroll_cb;
 %% ------------------------- ZOOM EDIT CALLBACK (WITH WARNING) -------------------------
     function zoom_edit_cb()
         str = zedit.String;
-        try
-            % Must be a duration string (HH:MM:SS)
-            dur = duration(str);
-            val = seconds(dur);
-        catch
-            warning(['Invalid Zoom value. ', ...
-                     'Zoom must be entered as a duration in the format HH:MM:SS.']);
-            val = prev_zval;
+        if isdatetime(ax.XLim)
+            try
+                % Must be a duration string (HH:MM:SS)
+                dur = duration(str);
+                val = seconds(dur);
+            catch
+                warning(['Invalid Zoom value. ', ...
+                    'Zoom must be entered as a duration in the format HH:MM:SS.']);
+                val = prev_zval;
+            end
+        else
+            val = str2double(str);
         end
 
         % Clamp and apply
@@ -246,14 +250,18 @@ fig_h.WindowScrollWheelFcn = @scroll_cb;
 %% ------------------------- PAN EDIT CALLBACK (WITH WARNING) -------------------------
     function pan_edit_cb()
         str = pedit.String;
-        try
-            % Must match exact datetime format
-            dt = datetime(str,'InputFormat','MM/dd/yy HH:mm:ss');
-            val = seconds(dt - dt_min);
-        catch
-            warning(['Invalid Pan value. ', ...
-                     'Pan must be entered in the format MM/DD/YY HH:mm:ss.']);
-            val = prev_pval;
+        if isdatetime(ax.XLim)
+            try
+                % Must match exact datetime format
+                dt = datetime(str,'InputFormat','MM/dd/yy HH:mm:ss');
+                val = seconds(dt - dt_min);
+            catch
+                warning(['Invalid Pan value. ', ...
+                    'Pan must be entered in the format MM/DD/YY HH:mm:ss.']);
+                val = prev_pval;
+            end
+        else
+            val = str2double(str);
         end
 
         % Clamp + apply
