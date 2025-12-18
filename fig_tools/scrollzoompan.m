@@ -95,6 +95,24 @@ if isdataax
     val_max = seconds(dt_max - dt_min);
 end
 
+%% ------------------------- ADD SPACE FOR SLIDERS -------------------------
+vspace = .5;
+fig = ax.Parent;
+fig.Units ="inches";
+children = fig.Children;
+set(children,'units','inches');
+fig.Position(4) = fig.Position(4) + vspace;
+
+for ii = 1:length(children) 
+    c = children(ii);
+    if isprop(c,'Position')
+        disp(c)
+    c.Position(2) = c.Position(2) + vspace;
+    end
+end
+
+fig.Units ="normalized";
+set(fig.Children,'units','normalized');
 %% ------------------------- CREATE SLIDERS -------------------------
 % Vertical offset between zoom and pan UI bars
 shift = 0.04;
