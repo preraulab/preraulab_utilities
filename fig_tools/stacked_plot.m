@@ -1,31 +1,41 @@
 function new_axes = stacked_plot(ax, data, x, varargin)
-%STACKED_PLOT  Plot multi-channel data as vertically stacked subplots with optional scale lines
+%STACKED_PLOT  Plot multi-channel data as vertically stacked subplots with optional scale lines and merged rows
 %
 %   Usage:
 %       new_axes = stacked_plot(ax, data)
 %       new_axes = stacked_plot(ax, data, x)
 %       new_axes = stacked_plot(..., 'ylabels', ylabels, 'skip', skip, 'colors', colors, ...
 %                               'xscale', xscale, 'xlabel', xlabel, ...
-%                               'yscale', yscale, 'ylabel', ylabel)
+%                               'yscale', yscale, 'ylabel', ylabel, ...
+%                               'merge', merge)
 %
-%   Required Inputs:
-%       ax: axes handle - parent axes to split (default: gca)
-%       data: R x C matrix - R channels (rows), C samples (columns)
-%       x: 1 x C vector - x-axis values (default: 1:C)
+%   Inputs:
+%       ax: axes handle (default: gca)
+%       data: R x C matrix (R channels, C samples)
+%       x: 1 x C vector (numeric or datetime)
 %
-%   Name-Value Pair Inputs:
-%       'ylabels': cell array/string array - y-axis labels (default: {'Channel 1', ...})
-%       'skip': positive integer - plot every nth sample (default: 1)
-%       'colors': R x 3 matrix - RGB colors for each data row (default: lines(R))
-%       'xscale': numeric scalar - length of x scale line (bottom axis only)
-%       'xlabel': string - label for x scale line
-%       'yscale': numeric vector - lengths of y scale lines for each row (optional)
-%       'ylabel': cell array/string array - labels for y scale lines (optional)
+%   Name-Value Pairs:
+%       'ylabels' - cell or string array of subplot labels
+%       'skip'    - plot every nth sample
+%       'colors'  - R x 3 RGB matrix
+%       'xscale'  - numeric scalar or datetime for x scale line
+%       'xlabel'  - label for x scale line
+%       'yscale'  - numeric vector for y scale lines
+%       'ylabel'  - cell or string array for y scale line labels
+%       'merge'   - cell array specifying which rows to merge for each subplot
 %
 %   Output:
-%       new_axes: R x 1 array of axes handles
-%
-%********************************************************************
+%       new_axes: array of axes handles
+% 
+%   Example: 
+%       data = randn(7, 100);                        % 7 channels x 100 samples
+%       x = datetime(2025,12,22,0,0,0) + minutes(1)*(0:99);
+%       merge = {[1 5], 2, 3, [4 7], 6};
+%       ylabels = {'Top', 'Second', 'Third', 'Fourth', 'Bottom'};
+% 
+%       figure;
+%       ax = axes;
+%       new_axes = stacked_plot(ax, data, x, 'merge', merge, 'ylabels', ylabels, 'skip', 2);
 
 %************************************************************
 %                   INPUT HANDLING
@@ -35,9 +45,6 @@ if nargin < 1 || isempty(ax) || ~ishandle(ax) || ~strcmp(get(ax, 'type'), 'axes'
 end
 
 [r, c] = size(data);
-if nargin < 2 || isempty(data)
-    error('Data input is required.');
-end
 
 if nargin < 3 || isempty(x)
     x = 1:c;
@@ -53,40 +60,87 @@ addParameter(p, 'xscale', []);
 addParameter(p, 'xlabel', '');
 addParameter(p, 'yscale', []);
 addParameter(p, 'ylabel', {});
+addParameter(p, 'merge', {});
 parse(p, varargin{:});
 
-ylabels = p.Results.ylabels;
+% Normalize ylabels and ylabel_lines to cell array of char
+ylabels_raw = p.Results.ylabels;
+if isstring(ylabels_raw)
+    ylabels = cellstr(ylabels_raw);
+elseif iscell(ylabels_raw)
+    ylabels = ylabels_raw;
+else
+    error('ylabels must be a string array or cell array of chars.');
+end
+
+ylabel_lines_raw = p.Results.ylabel;
+if isstring(ylabel_lines_raw)
+    ylabel_lines = cellstr(ylabel_lines_raw);
+elseif iscell(ylabel_lines_raw)
+    ylabel_lines = ylabel_lines_raw;
+else
+    ylabel_lines = {}; % fallback if empty or not provided
+end
+
 skip = p.Results.skip;
 colors = p.Results.colors;
 xscale = p.Results.xscale;
 xlabel_str = p.Results.xlabel;
 yscale = p.Results.yscale;
-ylabel_lines = p.Results.ylabel;
+merge = p.Results.merge;
 
-assert(numel(ylabels) == r, 'Number of ylabels must match number of data rows.');
+%************************************************************
+%               MERGE HANDLING (explicit)
+%************************************************************
+if isempty(merge)
+    % Default: each row is its own subplot
+    merge = num2cell(1:r);
+else
+    % Ensure each cell contains a row vector
+    merge = cellfun(@(v) v(:)', merge, 'UniformOutput', false);
+end
+
+n_plots = numel(merge);
+
+% Validate dependent inputs
+if ~isempty(ylabels)
+    assert(numel(ylabels) == n_plots, 'ylabels must match number of merged subplots.');
+end
 if ~isempty(yscale)
-    assert(numel(yscale) == r, 'Length of yscale must match number of data rows.');
+    assert(numel(yscale) == n_plots, 'yscale must match number of merged subplots.');
 end
 if ~isempty(ylabel_lines)
-    assert(numel(ylabel_lines) == r, 'Number of ylabel strings must match number of data rows.');
+    assert(numel(ylabel_lines) == n_plots, 'ylabel must match number of merged subplots.');
 end
 
 %************************************************************
 %                   AXIS CREATION
 %************************************************************
-new_axes = split_axis(ax, ones(1, r)/r, 1);
+new_axes = split_axis(ax, ones(1, n_plots)/n_plots, 1);
 
 %************************************************************
 %                   PLOTTING
 %************************************************************
 x_plot = x(1:skip:end);
 
-for ii = 1:r
+for ii = 1:n_plots
     ax_i = new_axes(ii);
-    plot(ax_i, x_plot, data(ii, 1:skip:end), 'Color', colors(ii,:));
-    ax_i.YLabel.String = ylabels{ii};
+    rows_to_plot = merge{ii};
+    hold(ax_i, 'on');
+    for r_idx = rows_to_plot
+        plot(ax_i, x_plot, data(r_idx, 1:skip:end), 'Color', colors(r_idx,:));
+    end
+    hold(ax_i, 'off');
     
-    if ii < r
+    % Set ylabel
+    if ~isempty(ylabels)
+        ax_i.YLabel.String = ylabels{ii};
+    else
+        ax_i.YLabel.String = ['Merged ' num2str(ii)];
+    end
+    
+    % Remove x-axis ticks for all but bottom plot
+    if ii < n_plots
         ax_i.XTick = [];
         ax_i.XColor = 'none';
     end
@@ -102,10 +156,23 @@ for ii = 1:r
 end
 
 %************************************************************
-%                   X-SCALE LINE
+%                   X-SCALE LINE (datetime safe)
 %************************************************************
 if ~isempty(xscale)
-    scaleline(new_axes(end), xscale, xlabel_str, 'x');
+    ax_bottom = new_axes(end);
+    
+    if isdatetime(x)
+        if isnumeric(xscale)
+            xscale_dt = x(end) + days(xscale);  % numeric interpreted as duration in days
+        elseif isdatetime(xscale)
+            xscale_dt = xscale;
+        else
+            error('xscale must be numeric or datetime when x is datetime.');
+        end
+        scaleline(ax_bottom, xscale_dt, xlabel_str, 'x');
+    else
+        scaleline(ax_bottom, xscale, xlabel_str, 'x');
+    end
 end
 
 %************************************************************
