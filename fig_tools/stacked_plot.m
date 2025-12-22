@@ -53,7 +53,7 @@ assert(numel(x) == c, 'Length of x must match number of data columns.');
 
 % Parse name-value pairs
 p = inputParser;
-addParameter(p, 'ylabels', strcat("Channel ", string(1:r)));
+addParameter(p, 'ylabels', []);
 addParameter(p, 'skip', 1, @(v) isnumeric(v) && v>=1 && mod(v,1)==0);
 addParameter(p, 'colors', lines(r), @(v) isnumeric(v) && size(v,1)==r && size(v,2)==3);
 addParameter(p, 'xscale', []);
@@ -63,17 +63,15 @@ addParameter(p, 'ylabel', {});
 addParameter(p, 'merge', {});
 parse(p, varargin{:});
 
-% Normalize ylabels and ylabel_lines to cell array of char
-ylabels_raw = p.Results.ylabels;
-if isstring(ylabels_raw)
-    ylabels = cellstr(ylabels_raw);
-elseif iscell(ylabels_raw)
-    ylabels = ylabels_raw;
-else
-    error('ylabels must be a string array or cell array of chars.');
-end
-
+skip = p.Results.skip;
+colors = p.Results.colors;
+xscale = p.Results.xscale;
+xlabel_str = p.Results.xlabel;
+yscale = p.Results.yscale;
 ylabel_lines_raw = p.Results.ylabel;
+merge = p.Results.merge;
+
+% Normalize ylabel lines
 if isstring(ylabel_lines_raw)
     ylabel_lines = cellstr(ylabel_lines_raw);
 elseif iscell(ylabel_lines_raw)
@@ -81,13 +79,6 @@ elseif iscell(ylabel_lines_raw)
 else
     ylabel_lines = {}; % fallback if empty or not provided
 end
-
-skip = p.Results.skip;
-colors = p.Results.colors;
-xscale = p.Results.xscale;
-xlabel_str = p.Results.xlabel;
-yscale = p.Results.yscale;
-merge = p.Results.merge;
 
 %************************************************************
 %               MERGE HANDLING (explicit)
@@ -102,10 +93,29 @@ end
 
 n_plots = numel(merge);
 
-% Validate dependent inputs
-if ~isempty(ylabels)
-    assert(numel(ylabels) == n_plots, 'ylabels must match number of merged subplots.');
+%************************************************************
+%           DEFAULT YLABELS BASED ON MERGE
+%************************************************************
+if isempty(p.Results.ylabels)
+    ylabels = cell(1, n_plots);
+    for ii = 1:n_plots
+        rows_str = sprintf('%d,', merge{ii});
+        rows_str(end) = []; % remove trailing comma
+        ylabels{ii} = ['Rows ' rows_str];
+    end
+else
+    % normalize input (string array or cell)
+    ylabels_raw = p.Results.ylabels;
+    if isstring(ylabels_raw)
+        ylabels = cellstr(ylabels_raw);
+    elseif iscell(ylabels_raw)
+        ylabels = ylabels_raw;
+    else
+        error('ylabels must be a string array or cell array of chars.');
+    end
 end
+
+% Validate dependent inputs
 if ~isempty(yscale)
     assert(numel(yscale) == n_plots, 'yscale must match number of merged subplots.');
 end
@@ -133,11 +143,7 @@ for ii = 1:n_plots
     hold(ax_i, 'off');
     
     % Set ylabel
-    if ~isempty(ylabels)
-        ax_i.YLabel.String = ylabels{ii};
-    else
-        ax_i.YLabel.String = ['Merged ' num2str(ii)];
-    end
+    ax_i.YLabel.String = ylabels{ii};
     
     % Remove x-axis ticks for all but bottom plot
     if ii < n_plots
