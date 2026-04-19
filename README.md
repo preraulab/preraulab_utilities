@@ -1,18 +1,20 @@
 # preraulab_utilities
 
-Meta-repository bundling the Prerau Lab's general-purpose MATLAB utilities — binning, conversions, figure layout, plotting primitives, statistics, and workspace management.
+Meta-repository bundling the Prerau Lab's general-purpose MATLAB utilities — binning, conversions, figure layout, plotting primitives, statistics, workspace management, EDF I/O, and HTML-backed UI controls.
 
 Each category is a standalone repository that can be used on its own. This repo aggregates them as git submodules so anyone who wants the whole toolbox can pull everything in one clone.
 
 ## Submodules
 
-| Submodule | What's in it | Example functions |
+| Submodule | What's in it | Example / main entry |
 |---|---|---|
 | [`binning`](https://github.com/preraulab/binning) | 1-D and N-D binning, sliding-window histograms | `create_bins`, `create_NDbins`, `hist_slide` |
 | [`conversion`](https://github.com/preraulab/conversion) | Type, format, and representation conversions | `struct2nvp`, `double2pifracstr`, `csv2table` |
+| [`CSSuicontrols`](https://github.com/preraulab/CSSuicontrols) | CSS-styled HTML-backed UI controls for `uifigure` apps | `CSSuiButton`, `CSSuiDropdown`, `CSSuiListBox`, `SmoothProgressBar` |
 | [`data_processing`](https://github.com/preraulab/data_processing) | Generic signal / index manipulation | `consecutive_runs`, `get_chunks`, `percentile_filt` |
 | [`fig_tools`](https://github.com/preraulab/fig_tools) | Figure layout, axes linking, interactive controls | `figdesign`, `scrollzoompan`, `letter_label` |
 | [`graphical`](https://github.com/preraulab/graphical) | Higher-level plot primitives | `shadebounds`, `gantt`, `phasehistogram` |
+| [`read_EDF`](https://github.com/preraulab/read_EDF) | EDF/EDF+ reader with MEX acceleration | `read_EDF`, `header_gui` |
 | [`stats`](https://github.com/preraulab/stats) | NaN-aware statistical helpers | `nanzscore`, `nanpow2db` |
 | [`workspace`](https://github.com/preraulab/workspace) | Workspace management | `ccc`, `clear_all_except`, `packagecode` |
 

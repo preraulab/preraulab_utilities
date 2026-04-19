@@ -85,6 +85,24 @@ Workspace management — clear, close, package.
 **Functions:** `ccc`, `clear_all_except`, `packagecode`
 :::
 
+:::{grid-item-card} CSSuicontrols
+:link: https://github.com/preraulab/CSSuicontrols
+:link-type: url
+
+CSS-styled HTML-backed UI controls for `uifigure` apps — modern animated components without writing JavaScript.
+
+**Classes:** `CSSuiButton`, `CSSuiDropdown`, `CSSuiListBox`, `SmoothProgressBar`, …
+:::
+
+:::{grid-item-card} read_EDF
+:link: https://github.com/preraulab/read_EDF
+:link-type: url
+
+EDF / EDF+ reader with MEX acceleration, A-B rereferencing, annotation parsing, and de-identification.
+
+**Functions:** `read_EDF`, `header_gui`
+:::
+
 ::::
 
 ## Quick examples

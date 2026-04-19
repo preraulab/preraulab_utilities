@@ -19,3 +19,9 @@
 [submodule "fig_tools"]
 	path = fig_tools
 	url = git@github.com:preraulab/fig_tools.git
+[submodule "CSSuicontrols"]
+	path = CSSuicontrols
+	url = git@github.com:preraulab/CSSuicontrols.git
+[submodule "read_EDF"]
+	path = read_EDF
+	url = git@github.com:preraulab/read_EDF.git
