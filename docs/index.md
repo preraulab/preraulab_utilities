@@ -22,7 +22,7 @@ codebase.
 :gutter: 3
 :class-container: sd-mb-4
 
-:::{grid-item-card} 📊 Binning
+:::{grid-item-card} Binning
 :link: categories/binning
 :link-type: doc
 
@@ -31,7 +31,7 @@ codebase.
 **Functions:** `create_bins`, `create_NDbins`, `hist_slide`
 :::
 
-:::{grid-item-card} 🔁 Conversion
+:::{grid-item-card} Conversion
 :link: categories/conversion
 :link-type: doc
 
@@ -40,7 +40,7 @@ Type, format, and representation conversions — numbers to strings, structs to 
 **11 functions**
 :::
 
-:::{grid-item-card} 🧮 Data Processing
+:::{grid-item-card} Data Processing
 :link: categories/data_processing
 :link-type: doc
 
@@ -49,7 +49,7 @@ Generic signal and index manipulation — consecutive runs, chunk detection, int
 **6 functions**
 :::
 
-:::{grid-item-card} 🖼️ Figure Tools
+:::{grid-item-card} Figure Tools
 :link: categories/fig_tools
 :link-type: doc
 
@@ -58,7 +58,7 @@ Figure layout, axes linking, interactive controls — the plumbing for good-look
 **23 functions**
 :::
 
-:::{grid-item-card} 📁 File
+:::{grid-item-card} File
 :link: categories/file
 :link-type: doc
 
@@ -67,7 +67,7 @@ File I/O helpers.
 **Functions:** `remove_copyright_lines`
 :::
 
-:::{grid-item-card} 📈 Graphical
+:::{grid-item-card} Graphical
 :link: categories/graphical
 :link-type: doc
 
@@ -76,7 +76,7 @@ Higher-level plot primitives — shaded bounds, Gantt charts, phase histograms, 
 **10 functions**
 :::
 
-:::{grid-item-card} 📐 Statistics
+:::{grid-item-card} Statistics
 :link: categories/stats
 :link-type: doc
 
@@ -85,7 +85,7 @@ NaN-aware statistical helpers.
 **Functions:** `nanzscore`, `nanpow2db`
 :::
 
-:::{grid-item-card} 🧹 Workspace
+:::{grid-item-card} Workspace
 :link: categories/workspace
 :link-type: doc
 
@@ -94,7 +94,7 @@ Workspace management — clear, close, package.
 **Functions:** `ccc`, `clear_all_except`, `packagecode`
 :::
 
-:::{grid-item-card} 📦 External Authors
+:::{grid-item-card} External Authors
 :link: categories/external_authors
 :link-type: doc
 

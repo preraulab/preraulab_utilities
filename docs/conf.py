@@ -29,6 +29,11 @@ autodoc_default_options = {
     "undoc-members": True,
 }
 
+# MATLAB folders aren't namespaced like Python packages — suppress the
+# synthetic "folder." prefix that matlabdomain prepends to signatures.
+add_module_names = False
+matlab_short_links = True
+
 myst_enable_extensions = [
     "colon_fence",
     "deflist",
