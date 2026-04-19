@@ -146,5 +146,3 @@ categories/workspace
 ## Repository
 
 Source code: <https://github.com/preraulab/utils>
-
-Parent codebase: <https://github.com/preraulab/labcode_main>

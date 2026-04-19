@@ -2,7 +2,7 @@
 
 Meta-repository bundling the Prerau Lab's general-purpose MATLAB utilities — binning, conversions, figure layout, plotting primitives, statistics, and workspace management.
 
-Each category is a standalone repository that can be used on its own. This repo aggregates them as git submodules so `labcode_main` (and anyone who wants the whole toolbox) can pull everything in one clone.
+Each category is a standalone repository that can be used on its own. This repo aggregates them as git submodules so anyone who wants the whole toolbox can pull everything in one clone.
 
 ## Submodules
 
@@ -41,7 +41,7 @@ addpath(genpath('/path/to/utils'));
 savepath;   % optional, persists across sessions
 ```
 
-When used as part of `labcode_main`, the top-level path setup handles this automatically.
+When used as part of a larger toolbox, the top-level path setup handles this automatically.
 
 ## Use a single category standalone
 
@@ -79,7 +79,7 @@ Before adding a new utility:
 
 ```
 Prerau Laboratory — MATLAB Analysis Codebase.
-https://github.com/preraulab/labcode_main
+https://sleepEEG.org
 ```
 
 ## License
