@@ -14,7 +14,6 @@ The repo is organized by function type. Each directory is a self-contained categ
 | [`conversion/`](#conversion) | Type, format, and representation conversions | `struct2nvp`, `double2pifracstr`, `csv2table` |
 | [`data_processing/`](#data-processing) | Generic signal / index manipulation | `consecutive_runs`, `get_chunks`, `percentile_filt` |
 | [`fig_tools/`](#fig-tools) | Figure layout, axes linking, interactive controls | `figdesign`, `scrollzoompan`, `letter_label` |
-| [`file/`](#file) | File I/O helpers | `remove_copyright_lines` |
 | [`graphical/`](#graphical) | Higher-level plot primitives | `shadebounds`, `gantt`, `phasehistogram` |
 | [`stats/`](#stats) | Statistical helpers robust to NaN | `nanzscore`, `nanpow2db` |
 | [`workspace/`](#workspace) | Workspace management | `ccc`, `clear_all_except`, `packagecode` |

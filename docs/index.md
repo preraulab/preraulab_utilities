@@ -58,15 +58,6 @@ Figure layout, axes linking, interactive controls — the plumbing for good-look
 **23 functions**
 :::
 
-:::{grid-item-card} File
-:link: categories/file
-:link-type: doc
-
-File I/O helpers.
-
-**Functions:** `remove_copyright_lines`
-:::
-
 :::{grid-item-card} Graphical
 :link: categories/graphical
 :link-type: doc
@@ -147,7 +138,6 @@ categories/binning
 categories/conversion
 categories/data_processing
 categories/fig_tools
-categories/file
 categories/graphical
 categories/stats
 categories/workspace
