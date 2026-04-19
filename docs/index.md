@@ -2,7 +2,7 @@
 hide-toc: false
 ---
 
-# utils
+# preraulab_utilities
 
 Meta-repository bundling the Prerau Lab's general-purpose MATLAB utilities — binning, conversions, figure layout, plotting primitives, statistics, and workspace management.
 
@@ -116,7 +116,7 @@ disp(struct2nvpstr(opts));
 ## Install
 
 ```{code-block} matlab
-addpath(genpath('/path/to/utils'));
+addpath(genpath('/path/to/preraulab_utilities'));
 savepath;   % optional
 ```
 
@@ -145,4 +145,4 @@ categories/workspace
 
 ## Repository
 
-Source code: <https://github.com/preraulab/utils>
+Source code: <https://github.com/preraulab/preraulab_utilities>

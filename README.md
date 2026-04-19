@@ -1,4 +1,4 @@
-# utils
+# preraulab_utilities
 
 Meta-repository bundling the Prerau Lab's general-purpose MATLAB utilities — binning, conversions, figure layout, plotting primitives, statistics, and workspace management.
 
@@ -25,7 +25,7 @@ Each sub-repo has its own README with function tables and usage examples — cli
 Clone recursively to pull all submodules:
 
 ```bash
-git clone --recursive git@github.com:preraulab/utils.git
+git clone --recursive git@github.com:preraulab/preraulab_utilities.git
 ```
 
 Or, if you've already cloned:
@@ -37,7 +37,7 @@ git submodule update --init --recursive
 Add everything to your MATLAB path:
 
 ```matlab
-addpath(genpath('/path/to/utils'));
+addpath(genpath('/path/to/preraulab_utilities'));
 savepath;   % optional, persists across sessions
 ```
 
