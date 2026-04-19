@@ -31,20 +31,18 @@
   letter-spacing: 0;
 }
 
-/* sleepEEG.org link below the project name */
+/* sleepEEG.org link — between the eyebrow and the project name */
 .prerau-lab-site-link {
-  display: inline-block;
-  margin-top: 0.35rem;
+  display: block;
+  margin-bottom: 0.55rem;
   font-size: 0.82rem;
   color: var(--color-foreground-muted);
   text-decoration: none;
-  border-bottom: 1px dotted var(--color-foreground-border);
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition: color 0.15s ease;
 }
 
 .prerau-lab-site-link:hover {
   color: var(--color-brand-primary);
-  border-bottom-color: var(--color-brand-primary);
 }
 
 /* Dark-mode tweaks */
