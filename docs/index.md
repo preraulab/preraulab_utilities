@@ -4,16 +4,16 @@ hide-toc: false
 
 # utils
 
-General-purpose MATLAB utilities used across the Prerau Lab codebase — binning, conversions, figure layout, plotting helpers, statistics, file and workspace management.
+Meta-repository bundling the Prerau Lab's general-purpose MATLAB utilities — binning, conversions, figure layout, plotting primitives, statistics, and workspace management.
 
-A toolbox of small, composable functions that smooth over MATLAB's rough edges and give us a consistent vocabulary across projects.
+Each category is its own standalone repository. This site is the aggregated reference pulled directly from docstrings in every sub-repo.
 
 ```{admonition} Standalone + bundled
 :class: tip
-This repository is a self-contained submodule of
-[`labcode_main`](https://github.com/preraulab/labcode_main). It can also be
-cloned and used on its own — it has no dependencies on the rest of the
-codebase.
+Each category below is a separate git repository that can be cloned and used
+on its own. This repo aggregates them as submodules, so a recursive clone
+(`git clone --recursive`) or `git submodule update --init --recursive`
+pulls everything.
 ```
 
 ## Browse by category
