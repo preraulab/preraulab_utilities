@@ -1,6 +1,5 @@
 function [h_scaleline, h_scalelabel] = scaleline(varargin)
-%SCALELINE  Adds a scale line to the x or y axis of a figure. Line scales
-%with zoom.
+%SCALELINE  Add a scale bar (with label) to an x- or y-axis; scales with zoom
 %
 %   Usage:
 %       [h_scaleline, h_scalelabel] = scaleline(ax, time)
@@ -8,16 +7,21 @@ function [h_scaleline, h_scalelabel] = scaleline(varargin)
 %       [h_scaleline, h_scalelabel] = scaleline(ax, time, label, line_axis)
 %       [h_scaleline, h_scalelabel] = scaleline(ax, time, label, line_axis, gap)
 %
-%   Input:
-%   ax: Axis to which to add the line (default: gca)
-%   time: Scale line length (in plot units)
-%   label: Label text for scale line (default: blank)
-%   line_axis: Axis to which the line is attached, 'x' or 'y' (default: 'x')
-%   gap: Gap between line and axis in normalized units (default: .01)
+%   Inputs:
+%       ax        : axes handle (default: gca)
+%       time      : double - scale length in plot units -- required
+%       label     : char - label text (default: '<time> units')
+%       line_axis : 'x' or 'y' - which axis the bar attaches to (default: 'x')
+%       gap       : double - gap between bar and axis in normalized units (default: 0.01)
 %
-%   Output:
-%   h_scaleline: Handle to the scale line
-%   h_scalelabel: Handle to the scale label
+%   Outputs:
+%       h_scaleline  : annotation handle for the scale bar
+%       h_scalelabel : annotation handle for the label textbox
+%
+%   See also: annotation, stacked_plot
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 %************************************************************
 %                   PARSE INPUTS

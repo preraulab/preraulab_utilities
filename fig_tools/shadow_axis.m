@@ -1,38 +1,29 @@
 function [axis_handle, shadow_handle] = shadow_axis(varargin)
-% SHADOW_AXIS creates an axis with a shadow effect.
+%SHADOW_AXIS  Create an axis with a soft drop-shadow behind it
 %
-% Syntax:
-%   [axis_handle, shadow_handle] = shadow_axis
-%   [axis_handle, shadow_handle] = shadow_axis('Name', Value)
+%   Usage:
+%       [axis_handle, shadow_handle] = shadow_axis()
+%       [axis_handle, shadow_handle] = shadow_axis('Name', Value, ...)
 %
-% Description:
-%   SHADOW_AXIS creates an axis with a shadow effect. The position,
-%   size, distance, angle, opacity, and resolution of the shadow can be
-%   customized using the optional name-value pairs.
+%   Name-Value Pairs:
+%       'position'   : 1x4 double - axis position (default: [0.13 0.11 0.775 0.815])
+%       'size'       : double - shadow spread in pixels (default: 10)
+%       'distance'   : double - offset between axis and shadow in normalized units (default: 0.03)
+%       'angle'      : double - shadow angle in degrees (default: -45)
+%       'opacity'    : double in [0,1] - shadow opacity (default: 0.5)
+%       'resolution' : double - pixel resolution of the shadow image (default: 500)
 %
-% Input Arguments:
-%   - position (optional): Position of the axis. Default is [0.1300 0.1100
-%     0.7750 0.8150].
-%   - size (optional): Size of the shadow effect. Default is 10.
-%   - distance (optional): Distance between the axis and the shadow.
-%     Default is 0.03.
-%   - angle (optional): Angle of the shadow in degrees. Default is -45.
-%   - opacity (optional): Opacity of the shadow. Default is 0.5.
-%   - resolution (optional): Resolution of the shadow image. Default is 500.
+%   Outputs:
+%       axis_handle   : axes handle - the axis for plotting
+%       shadow_handle : axes handle - the shadow axis (behind)
 %
-% Output Arguments:
-%   - axis_handle: Handle to the actual axis for plotting.
-%   - shadow_handle: Handle to the shadow axis.
+%   Example:
+%       [ax, sh] = shadow_axis('size', 15, 'opacity', 0.7);
 %
-% Examples:
-%   % Create a shadow axis with default settings
-%   [axis_handle, shadow_handle] = shadow_axis
+%   See also: fspecial, imfilter
 %
-%   % Create a shadow axis with custom settings
-%   [axis_handle, shadow_handle] = shadow_axis('size', 15, 'opacity', 0.7)
-%
-% See also:
-%   inputParser, axes, get, set, fspecial, imfilter, image
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 % Parse all the inputs
 p = inputParser;

@@ -1,28 +1,29 @@
-%PAGEFIG  Generates letter-sized figure
+function h=pagefig(varargin)
+%PAGEFIG  Generate a paper-sized figure (default: US-letter, portrait)
 %
 %   Usage:
-%   h=pagefig(h)
+%       h = pagefig()
+%       h = pagefig(fig_handle)
+%       h = pagefig(fig_handle, 'Name', Value, ...)
 %
-%   Input:
-%   h: optional figure handle
+%   Inputs:
+%       fig_handle : figure handle (default: new figure)
+%
+%   Name-Value Pairs:
+%       'orient' : 'portrait' or 'landscape' (default: 'portrait')
+%       'type'   : char - paper type (default: 'usletter')
+%
+%   Outputs:
+%       h : figure handle
 %
 %   Example:
-%       % Generate portrait-oriented letter-sized figure
 %       pfigh = pagefig;
-%       % Change orientation to landscape
-%       pagefig(pfigh,'landscape')
-%       % Plot on figure
-%       plot(randn(1000,1));
+%       pagefig(pfigh, 'orient', 'landscape');
 %
-%   See also fullfig, mtit, myaa
+%   See also: fullfig, figure
 %
-%   Copyright 2011
-%
-%   Last revised 09/26/2011
-%
-%********************************************************************
-
-function h=pagefig(varargin)
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 %Set optional direction input
 p=inputParser;
 p.addOptional('orient', 'portrait', @(x)any(validatestring(x,{'portrait','landscape'})));

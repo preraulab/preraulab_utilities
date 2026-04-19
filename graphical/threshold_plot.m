@@ -1,46 +1,29 @@
 function area_handles = threshold_plot(x, y, threshes, colors)
-% THRESHOLD_PLOT plots a curve with thresholds under it using varying colors.
+%THRESHOLD_PLOT  Plot a curve with shaded regions below each threshold
 %
-% Syntax:
-%   area_handles = threshold_plot(x, y, threshes, colors)
+%   Usage:
+%       area_handles = threshold_plot(x, y, threshes)
+%       area_handles = threshold_plot(x, y, threshes, colors)
 %
-% Description:
-%   THRESHOLD_PLOT takes an input curve defined by the x and y vectors and
-%   plots it on a 2D plot. Thresholds are specified in the threshes vector
-%   and are visualized by shading the area below the curve up to each
-%   threshold. The colors of the shaded areas can be specified using the
-%   colors vector.
+%   Inputs:
+%       x        : 1xN double - x-axis values -- required
+%       y        : 1xN double - y-axis values -- required
+%       threshes : 1xK double - threshold levels to shade under -- required
+%       colors   : Kx3 double or char - colors for shaded regions
+%                  (default: repmat(get(gca,'ColorOrder'),5,1))
 %
-% Input Arguments:
-%   - x: Independent variable vector defining the x-axis of the plot.
-%   - y: Dependent variable vector defining the y-axis of the plot.
-%   - threshes: Vector of threshold values for the shaded areas.
-%   - colors (optional): Matrix or vector specifying the colors of the
-%     shaded areas. By default, the colors will follow the default color
-%     order of the current axes.
+%   Outputs:
+%       area_handles : 1xK array of handles to the shaded area patches
 %
-% Output Argument:
-%   - area_handles: Array of handles to the shaded area patches.
+%   Example:
+%       x = linspace(0, 10, 100);
+%       y = sin(x).^2;
+%       threshold_plot(x, y, [0.75 0.5 0.25]);
 %
-% Examples:
-%   % Plot a curve with default thresholds and colors
-%   x = linspace(0, 10, 100);
-%   y = sin(x);
-%   threshes = [0.5, 0.25, 0];
-%   area_handles = threshold_plot(x, y, threshes)
+%   See also: area, sort, colormap
 %
-%   % Plot a curve with custom thresholds and colors
-%   x = linspace(0, 10, 100);
-%   y = sin(x);
-%   threshes = [0.5, 0.25, 0];
-%   colors = ['r', 'g', 'b'];
-%   area_handles = threshold_plot(x, y, threshes, colors)
-%
-% See also:
-%   area, sort, get, colormap
-% 
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 % Create test data if no input arguments are provided
 if nargin == 0

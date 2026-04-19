@@ -1,34 +1,29 @@
 function str = struct2nvpstr(myStruct)
-%STRUCT2NVP Converts a structure to name-value pairs string.
+%STRUCT2NVPSTR  Convert a structure to a name-value pairs string
 %
-%   STR = STRUCT2NVP(MYSTRUCT) converts the fields and values of the input
-%   structure MYSTRUCT into a name-value pairs string and returns it as STR.
-%   The fields are separated by commas and each name-value pair is of the
-%   form 'fieldname, value'. The values are converted to strings according
-%   to their data type.
+%   Usage:
+%       str = struct2nvpstr(myStruct)
 %
 %   Inputs:
-%   - myStruct: Input structure to convert to name-value pairs string.
+%       myStruct : struct - input structure -- required
 %
-%   Output:
-%   - str: Name-value pairs string representing the input structure.
+%   Outputs:
+%       str : char - comma-separated name-value pairs 'field', value, ...
+%
+%   Notes:
+%       Similar to struct2nvp but uses a simpler value encoder (does not
+%       support non-char/numeric scalar fallbacks via value2str).
 %
 %   Example:
-%         myStruct.field1 = 23;
-%         myStruct.field2 = 1:5;
-%         myStruct.field3 = 'Testing123';
-%         myStruct.field4 = {'apple', 42, [], {'a','b','c'}};
-%         myStruct.field5 = [];
-%         myStruct.field6 = {};
-% 
-%         struct_str = struct2nvp(myStruct);
-%         disp(struct_str)
+%       s.field1 = 23;
+%       s.field2 = 1:5;
+%       s.field3 = 'Testing123';
+%       str = struct2nvpstr(s);
 %
-%   See also FIELDNAMES, MAT2STR, NUM2STR, CELLFUN, STRJOIN.
-% 
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
-
+%   See also: struct2nvp, struct2codestr, namedargs2cell
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 fields = fieldnames(myStruct);
 str = '';
 for ii = 1:numel(fields)

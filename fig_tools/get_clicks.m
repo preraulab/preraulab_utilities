@@ -1,44 +1,26 @@
 function pos = get_clicks(varargin)
-% GET_CLICKS captures mouse clicks on a figure axis.
+%GET_CLICKS  Capture mouse click coordinates on a figure axis
 %
-% Syntax:
-%   pos = get_clicks
-%   pos = get_clicks(num_clicks)
-%   pos = get_clicks(h_ax)
-%   pos = get_clicks(h_ax, num_clicks)
+%   Usage:
+%       pos = get_clicks()
+%       pos = get_clicks(num_clicks)
+%       pos = get_clicks(h_ax)
+%       pos = get_clicks(h_ax, num_clicks)
 %
-% Description:
-%   GET_CLICKS captures the coordinates of mouse clicks on a specified
-%   figure axis. The function allows capturing a specified number of
-%   clicks or a default of one click if no input arguments are provided.
+%   Inputs:
+%       h_ax       : axes handle (default: gca)
+%       num_clicks : integer - number of clicks to capture (default: 1)
 %
-% Input Arguments:
-%   - num_clicks (optional): Number of clicks to capture. Default is 1.
-%   - h_ax (optional): Handle to the axis where mouse clicks are captured.
-%     Default is the current axis (gca).
+%   Outputs:
+%       pos : num_clicks x 2 double - (x, y) coordinates per click
 %
-% Output Arguments:
-%   - pos: Matrix of size num_clicks-by-2, containing the coordinates of
-%     each mouse click. The first column represents the x-coordinates, and
-%     the second column represents the y-coordinates.
+%   Example:
+%       pos = get_clicks(3);
 %
-% Examples:
-%   % Capture one mouse click on the current axis
-%   pos = get_clicks
+%   See also: ginput, waitforbuttonpress, iptPointerManager
 %
-%   % Capture three mouse clicks on a specific axis
-%   h_fig = figure;
-%   h_ax = axes('Parent', h_fig);
-%   pos = get_clicks(h_ax, 3)
-%
-%   % Capture two mouse clicks using the default axis
-%   pos = get_clicks(2)
-%
-% See also:
-%   gca, waitforbuttonpress, iptPointerManager, iptSetPointerBehavior
-% 
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 % Set default values for input arguments
 if nargin == 0

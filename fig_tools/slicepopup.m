@@ -1,53 +1,31 @@
-%SLICEPOPUP   For an image of 2D data, creates a popup window to explore slices. Creates menus for changing popup visibility and axes.
+function [popfig_h, popax_h]=slicepopup(mainfig_h, mainax_h, x_vals, y_vals, data, x_label, y_label, z_label, slicedir, vis_on, popax_h)
+%SLICEPOPUP  Create an interactive popup window that shows 2-D image slices on mouse hover
 %
 %   Usage:
-%   [popfig_h, popax_h]=slicepopup(mainfig_h, mainax_h, x_vals, y_vals, data, x_label, y_label, z_label, slicedir, vis_on, popax_h)
+%       [popfig_h, popax_h] = slicepopup(mainfig_h, mainax_h, x_vals, y_vals, data, ...
+%                                        x_label, y_label, z_label, slicedir, vis_on, popax_h)
 %
-%   Input:
-%   mainfig_h: handle to main figure
-%   mainax_h: handle to axis on main figure containing the 2D data
-%   x_vals: 1XM list of data x-value (relating to cols)
-%   y_vals: 1XN list of data y-value (relating to rows)
-%   data: NxM matrix of data, if no data is specified it tries to find the image
-%   x_label,y_label,z_label: Strings for the axis labels
-%   slicedir: direction the data will be sliced, 'x' or 'y'
-%   vis_on: sets initial popup visibility, 1=visible 0=invisible (default 1)
-%   popax_h: handle for axis on an existing figure (default: new figure and axis)
+%   Inputs:
+%       mainfig_h : figure handle - main figure -- required
+%       mainax_h  : axes handle - axis on main figure containing the 2-D image -- required
+%       x_vals    : 1xM double - x coordinates (columns) -- required
+%       y_vals    : 1xN double - y coordinates (rows) -- required
+%       data      : NxM double - image data; if empty, read from the axis image -- required
+%       x_label   : char - x-axis label -- required
+%       y_label   : char - y-axis label -- required
+%       z_label   : char - z / popup data label -- required
+%       slicedir  : 'x' or 'y' - slice direction -- required
+%       vis_on    : logical - initial popup visibility (default: true)
+%       popax_h   : axes handle - popup axis (default: creates new figure)
 %
-%   Output:
-%   popfig_h: handle to the popup figure
-%   popax_h: new handle to the axis on the popup figure
+%   Outputs:
+%       popfig_h : figure handle - popup figure
+%       popax_h  : axes handle - popup axis
 %
-%   Example:
+%   See also: imagesc, windowbuttonmotionfcn
 %
-%       %Create data
-%       data=peaks(200);
-%       data=data(1:180,:);
-%       x_vals=(1:length(data(1,:)))*.01;
-%       y_vals=(1:length(data(:,1)))*.01;
-%
-%       %Get figure handle
-%       figh=figure;
-%
-%       %Plot image
-%       imagesc(x_vals,y_vals,data);
-%       axis xy
-%       xlabel('X-Pos');
-%       ylabel('Y-Pos');
-%
-%       %Get axis handle
-%       axh=gca;
-%
-%       %Activate slice popups
-%       [popfig_h, popax_h]=slicepopup(figh, axh, x_vals, y_vals, data, ...
-%                                      'X-Pos','Y-Pos','Height', 'y', 1);
-%
-%       msgbox('Use "Popop Tools" window to toggle popup menu and to change popup axes.');
-% 
-%  Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
-
-function [popfig_h, popax_h]=slicepopup(mainfig_h, mainax_h, x_vals, y_vals, data, x_label, y_label, z_label, slicedir, vis_on, popax_h)
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 %-----------------------------------------------------------
 %                    SETUP POPUP WINDOW
 %-----------------------------------------------------------

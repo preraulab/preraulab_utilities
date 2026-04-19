@@ -1,41 +1,39 @@
 function new_axes = stacked_plot(ax, data, x, varargin)
-%STACKED_PLOT  Plot multi-channel data as vertically stacked subplots with optional scale lines and merged rows
+%STACKED_PLOT  Plot multi-channel data as vertically stacked subplots with scale bars and optional row merging
 %
 %   Usage:
 %       new_axes = stacked_plot(ax, data)
 %       new_axes = stacked_plot(ax, data, x)
-%       new_axes = stacked_plot(..., 'ylabels', ylabels, 'skip', skip, 'colors', colors, ...
-%                               'xscale', xscale, 'xlabel', xlabel, ...
-%                               'yscale', yscale, 'ylabel', ylabel, ...
-%                               'merge', merge)
+%       new_axes = stacked_plot(ax, data, x, 'Name', Value, ...)
 %
 %   Inputs:
-%       ax: axes handle (default: gca)
-%       data: R x C matrix (R channels, C samples)
-%       x: 1 x C vector (numeric or datetime)
+%       ax   : axes handle (default: gca)
+%       data : RxC double - R channels, C samples -- required
+%       x    : 1xC numeric or datetime - sample positions (default: 1:C)
 %
 %   Name-Value Pairs:
-%       'ylabels' - cell or string array of subplot labels
-%       'skip'    - plot every nth sample
-%       'colors'  - R x 3 RGB matrix
-%       'xscale'  - numeric scalar or datetime for x scale line
-%       'xlabel'  - label for x scale line
-%       'yscale'  - numeric vector for y scale lines
-%       'ylabel'  - cell or string array for y scale line labels
-%       'merge'   - cell array specifying which rows to merge for each subplot
+%       'ylabels' : cell or string array - subplot labels (default: auto from merge)
+%       'skip'    : integer - plot every nth sample (default: 1)
+%       'colors'  : Rx3 double - per-channel RGB (default: lines(R))
+%       'xscale'  : numeric scalar or datetime - x-axis scale bar length (default: [])
+%       'xlabel'  : char - x scale bar label (default: '')
+%       'yscale'  : numeric vector - per-subplot y scale bar length (default: [])
+%       'ylabel'  : cell or string array - y scale bar labels (default: {})
+%       'merge'   : cell array - rows to merge per subplot (default: each row its own subplot)
 %
-%   Output:
-%       new_axes: array of axes handles
-% 
-%   Example: 
-%       data = randn(7, 100);                        % 7 channels x 100 samples
+%   Outputs:
+%       new_axes : array of axes handles
+%
+%   Example:
+%       data = randn(7, 100);
 %       x = datetime(2025,12,22,0,0,0) + minutes(1)*(0:99);
 %       merge = {[1 5], 2, 3, [4 7], 6};
-%       ylabels = {'Top', 'Second', 'Third', 'Fourth', 'Bottom'};
-% 
-%       figure;
-%       ax = axes;
-%       new_axes = stacked_plot(ax, data, x, 'merge', merge, 'ylabels', ylabels, 'skip', 2);
+%       new_axes = stacked_plot(gca, data, x, 'merge', merge, 'skip', 2);
+%
+%   See also: split_axis, scaleline
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 %************************************************************
 %                   INPUT HANDLING

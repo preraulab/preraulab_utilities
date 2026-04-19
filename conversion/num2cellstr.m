@@ -1,36 +1,23 @@
 function out = num2cellstr(s)
-% NUM2CELLSTR converts a numeric array into a cell array of strings.
+%NUM2CELLSTR  Convert a numeric array into a cell array of strings
 %
-% Syntax:
-%   out = num2cellstr(s)
+%   Usage:
+%       out = num2cellstr(s)
 %
-% Description:
-%   NUM2CELLSTR takes a numeric array as input and converts it into a cell
-%   array of strings, where each element of the array is converted into a
-%   separate string. The resulting cell array has the same size as the
-%   input array.
+%   Inputs:
+%       s : numeric - array to convert -- required
 %
-% Input Arguments:
-%   - s: Numeric array to be converted into a cell array of strings.
+%   Outputs:
+%       out : cell - cell array of char, same size as s, with each cell
+%                    containing the string representation of the corresponding element
 %
-% Output Arguments:
-%   - out: Cell array of strings, where each element corresponds to a
-%     converted string representation of the input array elements.
+%   Example:
+%       out = num2cellstr([1 2 3; 4 5 6]);
 %
-% Examples:
-%   % Convert a numeric array into a cell array of strings
-%   s = [1, 2, 3; 4, 5, 6];
-%   out = num2cellstr(s)
+%   See also: cellstr, num2str, strtrim
 %
-%   % Convert a single value into a cell array of strings
-%   s = 42;
-%   out = num2cellstr(s)
-%
-% See also:
-%   strtrim, cellstr, num2str
-% 
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 % Convert the numeric array into a cell array of strings
 out = reshape(strtrim(cellstr(num2str(s(:)))'), size(s));

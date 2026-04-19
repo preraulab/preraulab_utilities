@@ -1,38 +1,34 @@
-%OUTERLABELS  Plot big labels on the outside of an axis grid
+function [h_xl, h_yl, h_axbig] = outerlabels(ax,xlabel_str,ylabel_str, varargin)
+%OUTERLABELS  Add big x/y labels on the outside of an axis grid
 %
 %   Usage:
-%       [h_xl, h_yl, h_axbig] = outerlabels(axs, xlabel_str, ylabel_str, axdir, <label options>)
+%       [h_xl, h_yl, h_axbig] = outerlabels(axs, xlabel_str, ylabel_str, 'Name', Value, ...)
+%       outerlabels()    % runs demo
 %
-%   Input:
-%       axs: vector of axes in figure
-%       x/ylabel_str: string for label text
-%       adir: 1x2 logical for x and y label locations to be reversed (default: [false false])
-%   Optional inputs:
-%       XAxisLocation: 'bottom' (default) or 'top'
-%       YAxisLocation: 'left' (default) or 'right'
-%       <label options>: paired valued options for label class
+%   Inputs:
+%       axs        : array of axes handles -- required
+%       xlabel_str : char - outer x-label text -- required
+%       ylabel_str : char - outer y-label text -- required
 %
-%   Output:
-%       h_xl: outer xlim handle
-%       h_yl: outer ylim handle
-%       h_axbig: parent axis handle 
+%   Name-Value Pairs:
+%       'XAxisLocation' : 'bottom' or 'top' (default: 'bottom')
+%       'YAxisLocation' : 'left' or 'right' (default: 'left')
+%       <label options> : any additional name-value pairs forwarded to xlabel/ylabel
+%                         (default: {'FontSize',17,'FontWeight','bold'})
+%
+%   Outputs:
+%       h_xl    : xlabel handle
+%       h_yl    : ylabel handle
+%       h_axbig : parent (overlay) axes handle
 %
 %   Example:
-%         %Create Figure
-%         figure
-%         ax = figdesign(3,2,'type','usletter','margins',[.1 .1 .14 .1 .08]);
-% 
-%         %Outer label strings
-%         xlabel_str = 'My X-Label';
-%         ylabel_str = 'My Y-Label';
-% 
-%         %Create outer labels
-%         [~,~,ax_big] =outerlabels(ax,xlabel_str,ylabel_str);
-% 
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
-
-function [h_xl, h_yl, h_axbig] = outerlabels(ax,xlabel_str,ylabel_str, varargin)
+%       ax = figdesign(3,2);
+%       [~,~,ax_big] = outerlabels(ax,'My X-Label','My Y-Label');
+%
+%   See also: outertitle, figdesign, xlabel, ylabel
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 if nargin == 0
     figure

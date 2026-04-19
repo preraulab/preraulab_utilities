@@ -1,45 +1,41 @@
 function [h_box, pvals] = group_boxchart(data, groupid, feature_labels, group_labels, group_gap, feature_gap, markers, marker_colors, pvals, varargin)
-%GROUP_BOXCHART  Creates a grouped boxchart
+%GROUP_BOXCHART  Draw a grouped boxchart with per-pair significance stars
 %
 %   Usage:
-%   h_box = group_boxchart(data, groupid, feature_names, group_names, group_gap, feature_gap, markers, marker_colors, <boxchart_params>)
+%       [h_box, pvals] = group_boxchart(data, groupid, feature_labels, ...
+%           group_labels, group_gap, feature_gap, markers, marker_colors, pvals, ...)
 %
-%   Input:
-%   data: NxF data with F features and N observations across all groups
-%   groupid: Nx1 column vector with group ids
-%   feature_labels: 1xF cell of chars with feature lables (default: {'Feature 1',...'Feature N'})
-%   group_labels: 1xG cell of chars with group labels (default: {'Group 1',...'Group N'})
-%   group_gap: double - the spacing within groups boxplot (default: .5)
-%   feature_gap: double - the spacing between each boxplot group between features (default: 1)
-%   markers: 1xG char - markers for each group (default: 'o^sdvph>')
-%   marker_colors: chars or Nx3 matrix of colors (default: matlab color order)
-%   pvals: precomputed p-values. If empty, ttest2 will be computed. 
-%   boxchart_params: optional parameters to the boxchart function
+%   Inputs:
+%       data           : NxF double - F features over N observations -- required
+%       groupid        : Nx1 double - group id per observation -- required
+%       feature_labels : 1xF cell of char - feature labels
+%                        (default: {'Feature 1', ..., 'Feature F'})
+%       group_labels   : 1xG cell of char - group labels
+%                        (default: {'Group 1', ..., 'Group G'})
+%       group_gap      : double - spacing within a group (default: 0.5)
+%       feature_gap    : double - spacing between features (default: 1)
+%       markers        : 1xG char - marker glyphs per group (default: 'o^sdvph>o^sdvph>o^sdvph>')
+%       marker_colors  : char or Nx3 double - colors
+%                        (default: repmat(get(gca,'colororder'),5,1))
+%       pvals          : FxK double - precomputed p-values;
+%                        if empty, pairwise ttest2 is used (default: [])
 %
-%   Output:
-%   h_box: handle to boxchart objects
+%   Name-Value Pairs:
+%       Any name-value pair accepted by boxchart is forwarded.
+%
+%   Outputs:
+%       h_box : 1xF array of boxchart handles
+%       pvals : FxK double of pairwise p-values
 %
 %   Example:
-%     figure
-%     %% Generate Data
-% 
-%     N1 = 10; %Number in group 1
-%     N2 = 12; %Number in group 2
-%     N3 = 15; %Number in group 3
-% 
-%     data1 = [randn(N1,1) randn(N1,1)+2 randn(N1,1)*2-3];
-%     data2 = [randn(N2,1)-1 randn(N2,1)-2 randn(N2,1)/2+3];
-%     data3 = [randn(N3,1)+.5 randn(N3,1)+3 randn(N3,1)-1];
-% 
-%     data = [data1; data2; data3];
-% 
-%     %Group id
-%     groupid = [ones(N1,1)*0; ones(N2,1)*1; ones(N3,1)*2];
-% 
-%     group_boxchart(data,groupid);
-% 
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%       data = [randn(10,3); randn(12,3)+1; randn(15,3)-1];
+%       groupid = [zeros(10,1); ones(12,1); 2*ones(15,1)];
+%       group_boxchart(data, groupid);
+%
+%   See also: boxchart, ttest2, sigstar
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 if nargin == 0
     %% Generate Data

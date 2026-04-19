@@ -1,26 +1,38 @@
 function [h, fill_ax] = zoom_fill(ax_top, ax_bottom, top_range, bottom_range, varargin)
-%ZOOM_FILL  Create a connecting zoom polygon between two axes using FILL
+%ZOOM_FILL  Draw a connecting zoom polygon between two axes
 %
-%   [h, fill_ax] = zoom_fill(ax_top, ax_bottom, top_range, bottom_range, ...)
-%   creates a filled quadrilateral connecting the x-ranges of the two axes.
-%   Optional name-value arguments are applied to the fill object using SET.
+%   Usage:
+%       [h, fill_ax] = zoom_fill(ax_top, ax_bottom, top_range, bottom_range, ...)
 %
-%   Output:
-%       h: handle to the fill object
-%       fill_ax: handle to the overlay axes
+%   Inputs:
+%       ax_top       : axes handle - top axes -- required
+%       ax_bottom    : axes handle - bottom axes -- required
+%       top_range    : 1x2 double - x-range on top axes (default: ax_top.XLim)
+%       bottom_range : 1x2 double - x-range on bottom axes (default: ax_bottom.XLim)
+%
+%   Name-Value Pairs:
+%       Any name-value pair accepted by the fill object is forwarded via SET.
+%
+%   Outputs:
+%       h       : handle to the fill object
+%       fill_ax : handle to the overlay axes
+%
+%   Notes:
+%       The overlay axes auto-update when either source axes' XLim changes
+%       (scroll, zoom, pan, programmatic).
 %
 %   Example:
-%     ax_top = subplot(211);
-%     ax_bottom = subplot(212);
-% 
-%     imagesc(ax_top, linspace(50,100), linspace(0,100), peaks(500));
-%     imagesc(ax_bottom, linspace(3000,4100), linspace(-53,84), membrane(10,499));
-% 
-%     top_range    = [75 85];  % example top range
-%     bottom_range = [];       % entire bottom range
-% 
-%     [h, fill_ax] = zoom_fill(ax_top, ax_bottom, top_range, bottom_range, ...
-%         'FaceColor','cyan','EdgeColor','blue');
+%       ax_top    = subplot(211);
+%       ax_bottom = subplot(212);
+%       imagesc(ax_top,    linspace(50,100),   linspace(0,100),  peaks(500));
+%       imagesc(ax_bottom, linspace(3000,4100),linspace(-53,84), membrane(10,499));
+%       [h, fill_ax] = zoom_fill(ax_top, ax_bottom, [75 85], [], ...
+%           'FaceColor','cyan','EdgeColor','blue');
+%
+%   See also: fill, axes, addlistener
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 if nargin == 0
     ax_top = subplot(211);

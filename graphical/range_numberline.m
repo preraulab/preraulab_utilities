@@ -1,21 +1,27 @@
 classdef range_numberline < handle
-% RANGENUMBERLINE Class for creating and updating a number line with a range and position indicator.
+%RANGE_NUMBERLINE  Number-line widget with a shaded range and a position indicator
 %
-% This class provides a visual representation of a number line with a
-% range and position indicator. The range is represented by a
-% rectangle, and the position is represented by a line. The class
-% allows updating the position and range dynamically.
+%   Usage:
+%       obj = range_numberline(ax, limits, pos, range)
+%       obj.update_range(pos, range)
 %
-% Example usage:
-%   ax = axes;
-%   limits = [0 100];
-%   pos = 5;
-%   range = [0 10];
-%   numline = range_numberline(ax, limits, pos, range);
-%   numline.update_range(8, [2 12]);
+%   Inputs:
+%       ax     : axes handle - target axes (default: gca)
+%       limits : 1x2 double - x-axis limits (default: [0 100])
+%       pos    : double - middle position indicator (default: 5)
+%       range  : 1x2 double - shaded range (default: [0 10])
 %
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   Outputs:
+%       obj : range_numberline handle
+%
+%   Example:
+%       numline = range_numberline(gca, [0 100], 5, [0 10]);
+%       numline.update_range(8, [2 12]);
+%
+%   See also: rectangle, line
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
     properties
         ax % Axis for plot

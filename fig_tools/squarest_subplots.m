@@ -1,38 +1,26 @@
 function [rows, cols] = squarest_subplots(num, landscape)
-% SQUAREST_SUBPLOTS determines the best row and column configuration for
-% subplots based on the number of plots.
+%SQUAREST_SUBPLOTS  Return the most-square rows/cols for N subplots
 %
-% Syntax:
-%   [rows, cols] = squarest_subplots(num)
-%   [rows, cols] = squarest_subplots(num, landscape)
+%   Usage:
+%       [rows, cols] = squarest_subplots(num)
+%       [rows, cols] = squarest_subplots(num, landscape)
 %
-% Description:
-%   SQUAREST_SUBPLOTS calculates the optimal number of rows and columns
-%   for subplots based on the given number of plots (num). By default, the
-%   function assumes a landscape orientation, but the landscape parameter
-%   can be set to false to use a portrait orientation instead.
+%   Inputs:
+%       num       : integer - number of plots -- required
+%       landscape : logical - landscape (wider than tall) if true (default: true)
 %
-% Input Arguments:
-%   - num: Number of plots.
-%   - landscape (optional): Logical value indicating the orientation of
-%     the subplots. Default is true (landscape).
+%   Outputs:
+%       rows : integer - number of rows
+%       cols : integer - number of columns
 %
-% Output Arguments:
-%   - rows: Number of rows for the subplot configuration.
-%   - cols: Number of columns for the subplot configuration.
+%   Example:
+%       [r, c] = squarest_subplots(6);         % 2, 3
+%       [r, c] = squarest_subplots(9, false);  % portrait
 %
-% Examples:
-%   % Determine subplot configuration for 6 plots (default landscape)
-%   num = 6;
-%   [rows, cols] = squarest_subplots(num)
+%   See also: subplot, figdesign
 %
-%   % Determine subplot configuration for 9 plots (portrait)
-%   num = 9;
-%   landscape = false;
-%   [rows, cols] = squarest_subplots(num, landscape)
-%
-% See also:
-%   ceil, sqrt, min, max
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 if nargin == 1
     landscape = true;  % Default to landscape orientation

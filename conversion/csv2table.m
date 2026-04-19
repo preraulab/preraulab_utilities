@@ -1,15 +1,26 @@
 function T = csv2table(filename)
-%CSV2TABLE  Load CSV saved by table2csv and decode values with type/precision preservation
+%CSV2TABLE  Load a CSV saved by table2csv, decoding values with type/precision preservation
 %
-% Usage:
-%   T = csv2table(filename)
+%   Usage:
+%       T = csv2table(filename)
 %
-% Features:
-%   - Double and single precision restored
-%   - Numeric vectors/matrices auto-collapsed
-%   - Mixed-type columns remain as cells
-%   - Parallel decoding for large tables
-%   - Single precision detected per column heuristically
+%   Inputs:
+%       filename : char - path to CSV file -- required
+%
+%   Outputs:
+%       T : table - decoded MATLAB table
+%
+%   Notes:
+%       - Double and single precision restored
+%       - Numeric vectors/matrices auto-collapsed
+%       - Mixed-type columns remain as cells
+%       - Parallel decoding (parfor) for large tables
+%       - Single precision detected per column heuristically
+%
+%   See also: table2csv, value2str, readtable
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 %% ------------------- Read CSV as raw text -------------------
 opts = detectImportOptions(filename);

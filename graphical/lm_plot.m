@@ -1,41 +1,33 @@
 function tbox = lm_plot(varargin)
-
-% lm_plot - Plot linear regression results with an annotation textbox.
+%LM_PLOT  Plot linear regression results with an annotation textbox
 %
-%   tbox_h = lm_plot(mdl) plots the linear regression results represented by
-%   the LinearModel object 'mdl'. The function generates a scatter plot of
-%   the data points and overlays the fitted regression line. It also
-%   displays model information in an annotation textbox. Returns the handle
-%   to the annotation textbox, tbox_h.
+%   Usage:
+%       tbox = lm_plot(mdl)
+%       tbox = lm_plot(ax, mdl)
+%       tbox = lm_plot(..., 'Display', value, 'Location', value)
 %
-%   tbox_h = lm_plot(ax, mdl) plots the linear regression results on the
-%   specified axes object 'ax'. Returns the handle to the annotation
-%   textbox, tbox_h.
+%   Inputs:
+%       ax  : axes handle - target axes (default: gca)
+%       mdl : LinearModel - model to plot -- required
 %
-%   tbox_h = lm_plot(..., 'display', displayOption) specifies the display
-%   option for the model information. displayOption can be 'coeffs' to show
-%   only the model coefficients or 'full' to show detailed model
-%   information. The default value is 'full'.
+%   Name-Value Pairs:
+%       'Display'  : char - 'coeffs' or 'full' (default: 'full')
+%       'Location' : char - 'northwest', 'northeast', 'southwest',
+%                    'southeast', or 'center' (default: 'southwest')
 %
-%   tbox_h = lm_plot(..., 'Location', LocationOption) specifies the Location
-%   of the annotation textbox. LocationOption can be 'northwest', 'northeast',
-%   'southwest', 'southeast', or 'center'. The default value is 'southwest'.
+%   Outputs:
+%       tbox : handle to the annotation textbox
 %
-% Example:
-%     x = rand(1,1000)*10;
-%     z = -3*x + 23 + randn(size(x))*2;
-%     tbl = table(z',x');
-%     mdl = fitlm(tbl,'Var1 ~ Var2');
-%     lm_plot(mdl,'Location', 'southwest');
-%     title('Regression Plot')
-%     xlabel('Var 1')
-%     ylabel('Var 2')
-% 
-% See also:
-%   fitlm, annotation
+%   Example:
+%       x = rand(1,1000)*10;
+%       z = -3*x + 23 + randn(size(x))*2;
+%       mdl = fitlm(table(z', x'), 'Var1 ~ Var2');
+%       lm_plot(mdl, 'Location', 'southwest');
 %
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   See also: fitlm, annotation, plotAdded
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 if nargin == 0
     close all;

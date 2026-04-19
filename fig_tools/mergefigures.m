@@ -1,38 +1,26 @@
 function fh_new = mergefigures(fh1,fh2, ratio, stacking, textshrink)
-%MERGEFIGURES  Merges two existing figures into one figure with specified
-%direction and ratio
+%MERGEFIGURES  Merge two existing figures into one along a chosen axis and ratio
 %
 %   Usage:
-%   fh_new = mergefigures (RUNS DEMO)
-%   fh_new = mergefigures(fh1, fh2, ratio, stacking)
+%       fh_new = mergefigures()                            % runs demo
+%       fh_new = mergefigures(fh1, fh2, ratio, stacking, textshrink)
 %
-%   Input:
-%   fh1 and fh2: handles to two figures
-%   ratio: Ratio of fh1 to fh2 size in the merged figure (default: .5)
-%   stacking: Stacking direction 'LR' (left right) or 'UD' (up down) (default: LR)
+%   Inputs:
+%       fh1, fh2   : figure handles - source figures -- required
+%       ratio      : double in (0,1) - size fraction for fh1 (default: 0.5)
+%       stacking   : char - 'LR' (left/right) or 'UD' (up/down) (default: 'LR')
+%       textshrink : double - font scale factor applied to copied children (default: 0.8)
 %
-%   Output:
-%   fh_new: Handle to new figure
+%   Outputs:
+%       fh_new : figure handle - merged figure
 %
 %   Example:
+%       mergefigures(fh1, fh2, 0.6, 'LR');
 %
-%     close all;
-%     fh1 = figure;
-%     imagesc(peaks(500));
-%     fh2 = figure;
-%     plot(randn(1,1000));
+%   See also: figdesign, copyobj
 %
-%     %60/40 left right split
-%     mergefigures(fh1, fh2, .6, 'LR');
-%     %20/80 left right split
-%     mergefigures(fh1, fh2, .2, 'LR');
-%     %60/40 up down split
-%     mergefigures(fh1, fh2, .6, 'UD');
-%     %20/80 up down split
-%     mergefigures(fh1, fh2, .2, 'UD');
-%
-%   Copyright 2024 Michael J. Prerau Laboratory - http://www.sleepEEG.org
-%**************************************************************************
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 if nargin == 0
     close all;

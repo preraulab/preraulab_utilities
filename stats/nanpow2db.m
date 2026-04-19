@@ -1,5 +1,5 @@
 function ydB = nanpow2db(y)
-%POW2DB   Power to dB conversion, setting all bad values to nan
+%NANPOW2DB   Power to dB conversion, setting all bad values to nan
 %   YDB = POW2DB(Y) convert the data Y into its corresponding dB value YDB
 %
 %   % Example:
@@ -9,6 +9,9 @@ function ydB = nanpow2db(y)
 
 %   Copyright 2006-2014 The MathWorks, Inc.
 % EDITED BY MJP 2/7/2020
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 %ydB = 10*log10(y);
 %ydB = db(y,'power');
@@ -18,5 +21,6 @@ function ydB = nanpow2db(y)
 
 ydB = (10.*log10(y)+300)-300;
 ydB(y(:)<=0) = nan;
+
 
 % [EOF]

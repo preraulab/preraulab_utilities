@@ -1,23 +1,22 @@
 function result = double2expstr(value)
-%EXP_RATIONAL_STRING  Convert a value to a string in terms of exp() and a simple rational fraction
+%DOUBLE2EXPSTR  Convert a value to a string in terms of exp() and a simple rational fraction
 %
 %   Usage:
-%       result = exp_rational_string(value)
+%       result = double2expstr(value)
 %
-%   Input:
-%       value: double - the numerical value to be converted -- required
+%   Inputs:
+%       value : double - the numerical value to convert -- required
 %
-%   Output:
-%       result: char array - the resulting string representation
+%   Outputs:
+%       result : char - string representation as 'n/d*exp(k)', or '' if no match
 %
 %   Example:
-%       value = 81.897225049716354;
-%       result = exp_rational_string(value); % Returns '3/2*exp(4)'
+%       result = double2expstr(81.897225049716354);   % returns '3/2*exp(4)'
 %
-%   See also:
-%       exp, rat
+%   See also: double2estr, double2fracstr, double2pifracstr, rat
 %
-%   Copyright 2024 Your Name. All rights reserved.
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 % Decompose the value into a factor and an exponential part
 tol = 1e-5;

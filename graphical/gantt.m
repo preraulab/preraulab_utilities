@@ -1,28 +1,35 @@
-%GANTT  Creates a simple Gantt chart
+function handles = gantt(data, labels, color, varargin)
+%GANTT  Draw a simple Gantt chart from grouped (start, end) intervals
 %
 %   Usage:
-%         gantt(data, labels, color, <color options>)
+%       handles = gantt(data, labels, color, ...)
 %
-%   Input:
-%         data: 1 x <number of groups> cell array. Each element of the cell is a
-%         N x 2 matrix of (start, end) ordered pairs -- required
-%         labels: 1 x <number of groups> cell array of strings of group names
-%         colors: <number of groups> x 3 matrix of RGB colors for each group
-%         <color options>: add in additional property/value pairs for the rectangle object
+%   Inputs:
+%       data   : 1xG cell - each element is an Nx2 matrix of (start, end)
+%                pairs for a group -- required
+%       labels : 1xG cell of char - group names
+%                (default: {'Group 1', ..., 'Group G'})
+%       color  : Gx3 double - RGB rows per group
+%                (default: tiled current axes ColorOrder)
+%
+%   Name-Value Pairs:
+%       Any name-value pair accepted by rectangle is forwarded.
+%
+%   Outputs:
+%       handles : 1xG cell of rectangle handles, one per group
 %
 %   Example:
-%         g1 = [1 3; 7 12; 24 29];
-%         g2 = [.234 5.6; 15.234 18.4; 19.5 25.3; 27.34 30];
-%         g3 = 3 +[1 3; 7 12; 24 29];
+%       g1 = [1 3; 7 12; 24 29];
+%       g2 = [.234 5.6; 15.234 18.4; 19.5 25.3; 27.34 30];
+%       g3 = 3 + [1 3; 7 12; 24 29];
+%       gantt({g1 g2 g3}, {'Task 1','Task 2','Task 3'}, ...
+%             [1 .8 .8; .5 .5 1; .3 1 .3], 'edgecolor','none');
 %
-%         data = {g1 g2 g3};
+%   See also: rectangle
 %
-%         gantt(data,{'Task 1','Task 2','Task 3'},[1 .8 .8; .5 .5 1; .3 1 .3],'edgecolor','none')
-%
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
-function handles = gantt(data, labels, color, varargin)
 if nargin == 0 || isempty(data)
     g1 = [1 3; 7 12; 24 29];
     g2 = [.234 5.6; 15.234 18.4; 19.5 25.3; 27.34 30];

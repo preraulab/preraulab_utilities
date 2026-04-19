@@ -1,28 +1,26 @@
-%DOUBLE2ESTR Convert a double to a string representation in terms of a fraction times an exponential
+function e_str = double2estr(val, tol)
+%DOUBLE2ESTR  Convert a double to a string as a simple fraction times an exponential
 %
 %   Usage:
+%       e_str = double2estr(val)
 %       e_str = double2estr(val, tol)
 %
-%   Input:
-%       val: double - the value to convert to a string representation -- required
-%       tol: double - the tolerance for determining the closeness to a simple fraction (default: 1e-10)
+%   Inputs:
+%       val : double - the value to convert -- required
+%       tol : double - closeness tolerance for simple fraction match (default: 1e-10)
 %
-%   Output:
-%       e_str: char - the string representation of the input value as a fraction times an exponential
+%   Outputs:
+%       e_str : char - string representation as 'n/d * exp(b)', or '' if no match
 %
 %   Example:
-%   In this example, we convert a value close to e and a value that is not close to any simple fraction of e.
-%       val1 = 2/4*exp(5); % Value close to e
-%       tol = 1e-10;
-%       e_str = double2estr(val1, tol);
+%       e_str = double2estr(2/4*exp(5));   % returns '1/2 * exp(5)'
+%       e_str = double2estr(4.7);          % returns ''
 %
-%       val2 = 4.7; % Value not close to any simple fraction of e
-%       e_str = double2estr(val2); % Should return ''
+%   See also: double2fracstr, double2pifracstr, double2expstr, value2str
 %
-%   Copyright 2024 Prerau Laboratory - sleepEEG.org
-%% ********************************************************************
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
-function e_str = double2estr(val, tol)
 if nargin < 2
     tol = 1e-10;
 end

@@ -1,17 +1,28 @@
 function remove_copyright_lines(directory)
-    %REMOVE_COPYRIGHT_LINES Recursively removes specified copyright lines from .m files
-    %   This function searches for all .m files in the given directory and its
-    %   subdirectories, removing specific copyright lines if they are present.
-    %
-    %   Usage:
-    %       remove_copyright_lines('/path/to/directory');
-    %
-    %   Input:
-    %       directory: string - path to the directory to process
-    %
-    %   Example:
-    %       remove_copyright_lines('/Users/username/Documents/MATLAB');
-    %
+%REMOVE_COPYRIGHT_LINES  Recursively remove specified copyright lines from .m files
+%
+%   Usage:
+%       remove_copyright_lines(directory)
+%
+%   Inputs:
+%       directory : char - directory to process recursively (default: pwd)
+%
+%   Outputs:
+%       none (rewrites .m files in place)
+%
+%   Notes:
+%       Strips the two-line Creative Commons BY-NC-SA 4.0 block from any .m
+%       file found under the given directory. Intended for cleaning licence
+%       boilerplate out of third-party contributions.
+%
+%   Example:
+%       remove_copyright_lines('/Users/username/Documents/MATLAB');
+%
+%   See also: dir, textscan
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
+
     
     if nargin < 1
         directory = pwd;

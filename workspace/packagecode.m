@@ -1,42 +1,26 @@
 function packagecode(fname, dest, toponly)
-% PACKAGECODE copies the required files and products of a MATLAB function
-% into a specified destination folder.
+%PACKAGECODE  Copy a MATLAB function's required files into a destination folder
 %
-% Syntax:
-%   packagecode(fname, dest)
-%   packagecode(fname, dest, toponly)
+%   Usage:
+%       packagecode(fname, dest)
+%       packagecode(fname, dest, toponly)
 %
-% Description:
-%   PACKAGECODE scans the MATLAB function specified by fname and retrieves
-%   the list of files and products it depends on. It then copies those
-%   files and products into the specified destination folder. By default,
-%   only the top-level files and products are considered. Use the optional
-%   argument toponly to include all dependencies.
+%   Inputs:
+%       fname   : char - name of the MATLAB function to package -- required
+%       dest    : char - destination folder to copy files into -- required
+%       toponly : logical - copy only top-level dependencies (default: true)
 %
-% Input Arguments:
-%   - fname: Name of the MATLAB function to be packaged.
-%   - dest: Destination folder where the required files and products will
-%     be copied to.
-%   - toponly (optional): Logical value indicating whether only the
-%     top-level files and products should be considered. Default is true.
+%   Outputs:
+%       none (side effects only)
 %
-% Examples:
-%   % Package the required files and products of a MATLAB function
-%   fname = 'myFunction';
-%   dest = 'C:\Packages\MyFunctionPackage';
-%   packagecode(fname, dest)
+%   Example:
+%       packagecode('myFunction', 'C:\Packages\MyFunctionPackage');
+%       packagecode('myFunction', 'C:\Packages\MyFunctionPackage', false);
 %
-%   % Package all dependencies of a MATLAB function
-%   fname = 'myFunction';
-%   dest = 'C:\Packages\MyFunctionPackage';
-%   toponly = false;
-%   packagecode(fname, dest, toponly)
+%   See also: matlab.codetools.requiredFilesAndProducts, mkdir, copyfile
 %
-% See also:
-%   matlab.codetools.requiredFilesAndProducts, mkdir, copyfile
-% 
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 if nargin < 3
     toponly = true;  % Consider only top-level files by default

@@ -2,20 +2,21 @@ function intersections = interval_intersect(intervals_1, intervals_2)
 %INTERVAL_INTERSECT  Compute an intersection matrix for two lists of intervals
 %
 %   Usage:
-%   Direct input:
-%   intersections = interval_intersect(intervals_1, intervals_2)
+%       intersections = interval_intersect(intervals_1, intervals_2)
+%       intersections = interval_intersect()   % runs demo
 %
-%   Input:
-%   intervals_1: Nx2 list of start/end bounds
-%   intervals_2: Mx2 list of start/end bounds
+%   Inputs:
+%       intervals_1 : Nx2 double - [start end] bounds -- required
+%       intervals_2 : Mx2 double - [start end] bounds -- required
 %
-%   Output:
-%   intersections: MxN binary matrix of intersections
-%   Example:
-%     intersections = interval_intersect() %Demo shows all intersection possibilities
+%   Outputs:
+%       intersections : NxM logical - intersections(i,j) is true when
+%                       intervals_1(i,:) overlaps intervals_2(j,:)
 %
-%   Copyright 2024 Michael J. Prerau Laboratory - http://www.sleepEEG.org
-%**************************************************************************
+%   See also: pick_from_time_segments
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 %Create sets that have all possible types of intersections:
 % Left, Right, Inner, Outer, No-intersection
@@ -38,6 +39,6 @@ intersections = zeros(length(s1_starts), length(s2_starts));
 %Compute intersections
 for ii = 1:length(s1_starts)
     %For two intervals [A B) and [X Y) intersection is:
-    % intersect = X<A & B<Y
+    % intersect = X<B & A<Y
     intersections(ii,:) = s2_starts<s1_ends(ii) & s1_starts(ii)<s2_ends;
 end

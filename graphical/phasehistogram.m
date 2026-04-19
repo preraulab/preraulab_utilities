@@ -1,31 +1,34 @@
-%PHASEHISTOGRAM  Draw a polar histogram with mean arrow for phase data
+function [theta_mean, rho_mean, h_phist, h_pax, h_ml] = phasehistogram(phases, amps, varargin)
+%PHASEHISTOGRAM  Draw a polar histogram with mean-vector arrow for phase data
 %
 %   Usage:
-%   [theta_mean, rho_mean, h_phist, h_pax, h_ml] = phasehistogram(phases, amps, <phasehistogram inputs>)
-% 
-%   Input:
-%   phases: 1xN vector of phase values
-%   amps: 1xN vector of amplitudes (default: 1)
-% 
-%   Output:
-%   theta_mean: mean angle
-%   rho_mean: mean magnitude
-%   h_phist: handle for phase histogram
-%   h_pax: handle for polar axis
-%   h_ml: handle for mean line
-% 
+%       [theta_mean, rho_mean, h_phist, h_pax, h_ml] = phasehistogram(phases, amps, ...)
+%
+%   Inputs:
+%       phases : 1xN double - phase values in radians -- required
+%       amps   : 1xN double - amplitudes per phase (default: ones(size(phases)))
+%
+%   Name-Value Pairs:
+%       Any name-value pair accepted by polarhistogram is forwarded.
+%       Normalization defaults to 'pdf' if not specified.
+%
+%   Outputs:
+%       theta_mean : double - mean angle of the resultant vector
+%       rho_mean   : double - mean magnitude of the resultant vector
+%       h_phist    : handle to the polarhistogram
+%       h_pax      : handle to the polar axes
+%       h_ml       : handle to the mean-vector line
+%
 %   Example:
-%         % Generate some phases
-%         phases = mod(randn(1,1000) + pi/2, 2*pi);
+%       phases = mod(randn(1,1000) + pi/2, 2*pi);
+%       figure;
+%       phasehistogram(phases, 1, 'NumBins', 25, 'FaceColor', 'blue', 'FaceAlpha', .3);
 %
-%         %Create the plot
-%         figure;
-%         phasehistogram(phases, 1,'NumBins',25,'FaceColor','blue','FaceAlpha',.3);
+%   See also: polarhistogram, polarplot
 %
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
-function [theta_mean, rho_mean, h_phist, h_pax, h_ml] = phasehistogram(phases, amps, varargin)
 if nargin==0
     error('Must input phases');
 end

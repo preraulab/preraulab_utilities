@@ -1,31 +1,28 @@
 function lab_handle = letter_label(fig_h, ax_h, labstr, labdir, fontsize, gaps)
-%LETTER_LABEL  Make a figure label letter annotation for an axis
+%LETTER_LABEL  Add a figure-label letter annotation next to an axis
 %
 %   Usage:
-%   lab_handle = letter_label(fig_h, ax_h, labstr, labdir, fontsize)
+%       lab_handle = letter_label()
+%       lab_handle = letter_label(fig_h, ax_h, labstr, labdir, fontsize, gaps)
 %
-%   Input:
-%   fig_h: figure handle (default: gcf)
-%   ax_h: axis handle (default: gca)
-%   labstr: char/string - figure labele string (default: 'A')
-%   labdir: 'l'/'left' or 'r'/'right' - the side of the axis the label is on (default: 'left')
-%   fontsize: double - font size (default: 30)
-%   gaps: 1x2 double - gaps between bottom and side of the axis in normalized units (default: [.03 .03])
-% 
-%   Output:
-%   lab_handle: handle for the label annotation
-% 
+%   Inputs:
+%       fig_h    : figure handle (default: gcf)
+%       ax_h     : axes handle (default: gca)
+%       labstr   : char - label text (default: 'A')
+%       labdir   : char - 'left'/'l' or 'right'/'r' side of the axis (default: 'l')
+%       fontsize : double - font size (default: 30)
+%       gaps     : 1x2 double - [vertical horizontal] gaps in normalized units (default: [.03 .03])
+%
+%   Outputs:
+%       lab_handle : annotation handle for the textbox
+%
 %   Example:
-%         % Create a new figure
-%         figure;
+%       letter_label(gcf, gca, 'B', 'left', 25);
 %
-%         %Create an axis
-%         ax = gca;
-%         ax.Position(4) = .6;
-%         letter_label(gcf,ax,'B','left',25);
+%   See also: annotation, outertitle
 %
-%  Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 %Set defaults
 if nargin < 1

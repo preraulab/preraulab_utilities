@@ -1,41 +1,27 @@
-% topcolorbar(width,height,vgap)
 function [lab, c] = topcolorbar(w, h, vgap)
-% TOPCOLORBAR creates a colorbar positioned at the top of the plot.
+%TOPCOLORBAR  Create a colorbar positioned at the top of the current axes
 %
-% Syntax:
-%   [lab, c] = topcolorbar
-%   [lab, c] = topcolorbar(w, h)
-%   [lab, c] = topcolorbar(w, h, vgap)
+%   Usage:
+%       [lab, c] = topcolorbar
+%       [lab, c] = topcolorbar(w, h)
+%       [lab, c] = topcolorbar(w, h, vgap)
 %
-% Description:
-%   TOPCOLORBAR creates a colorbar positioned at the top of the current
-%   plot. By default, the width (w) and height (h) of the colorbar are set
-%   to 0.2 and 0.01, respectively. The vertical gap (vgap) between the plot
-%   and the colorbar is set to 0.01 by default. The function returns the
-%   handle to the colorbar (c) and the handle to its label (lab).
+%   Inputs:
+%       w    : double - colorbar width in normalized units (default: 0.2)
+%       h    : double - colorbar height in normalized units (default: 0.01)
+%       vgap : double - vertical gap between plot and colorbar (default: 0.01)
 %
-% Input Arguments:
-%   - w (optional): Width of the colorbar. Default is 0.2.
-%   - h (optional): Height of the colorbar. Default is 0.01.
-%   - vgap (optional): Vertical gap between the plot and the colorbar.
-%     Default is 0.01.
+%   Outputs:
+%       lab : handle to the colorbar label
+%       c   : handle to the colorbar
 %
-% Output Arguments:
-%   - lab: Handle to the label of the colorbar.
-%   - c: Handle to the colorbar.
+%   Example:
+%       [lab, c] = topcolorbar(0.3, 0.02, 0.02);
 %
-% Examples:
-%   % Create a colorbar at the top with default settings
-%   [lab, c] = topcolorbar
+%   See also: colorbar, get, set
 %
-%   % Create a colorbar with custom width, height, and vertical gap
-%   [lab, c] = topcolorbar(0.3, 0.02, 0.02)
-%
-% See also:
-%   colorbar, get, set
-% 
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 colorbar('off');  % Remove any existing colorbars
 axpos = get(gca, 'Position');  % Get the position of the current axes

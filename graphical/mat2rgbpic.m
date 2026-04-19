@@ -1,42 +1,31 @@
-%MAT2RGBPIC Converts a scaled image matrix into an RGB image file
+function RGBimage = mat2rgbpic(varargin)
+%MAT2RGBPIC  Convert a scaled image matrix into an RGB image and optionally write it
 %
 %   Usage:
-%       RGBimage=mat2rgbpic(data, file_name)
-%       RGBimage=mat2rgbpic(data, file_name, clims)
-%       RGBimage=mat2rgbpic(data, file_name, color_map)
-%       RGBimage=mat2rgbpic(data, file_name, color_map, clims)
+%       RGBimage = mat2rgbpic(data, file_name)
+%       RGBimage = mat2rgbpic(data, file_name, clims)
+%       RGBimage = mat2rgbpic(data, file_name, color_map)
+%       RGBimage = mat2rgbpic(data, file_name, color_map, clims)
 %
-%   Input:
-%       data: MxN matrix of data
-%       file_name: string for output file name (if [], will not write)
-%       colormap: input colormap for the data (default: current map)
-%       clims: color limits (default: current limits)
+%   Inputs:
+%       data      : MxN double - data to convert -- required
+%       file_name : char - output file name ([] to skip writing) -- required
+%       color_map : Kx3 double - colormap for mapping (default: current colormap)
+%       clims     : 1x2 double - color limits (default: current CLim)
 %
-%   Output:
-%       RGBimage: MxNx3 RGB image
+%   Outputs:
+%       RGBimage : MxNx3 RGB image
 %
 %   Example:
-%         %Set the color map
-%         colormap(jet(1024));
+%       colormap(jet(1024));
+%       imagesc(peaks(1000), [-4 6]);
+%       mat2rgbpic(peaks(1000), 'test.tiff');
 %
-%         %Create a scaled image
-%         subplot(211)
-%         imagesc(peaks(1000), [-4 6]);
+%   See also: imwrite, colormap, ind2rgb
 %
-%         %Write the file
-%         mat2rgbpic(peaks(1000),'test.tiff');
-%
-%         %Read the file
-%         RGBimage=imread('test.tiff');
-%
-%         %Plot the results
-%         subplot(212)
-%         image(RGBimage)
-%
-%  Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
-function RGBimage=mat2rgbpic(varargin)
 data=flipud(varargin{1});
 file_name=varargin{2};
 

@@ -1,10 +1,18 @@
-%CCC Clears the variables, screen, and commandl ine
+%CCC  Clear variables, close figures, and clear the command window
 %
 %   Usage:
-%      ccc
+%       ccc
 %
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   Inputs:
+%       none
+%
+%   Outputs:
+%       none (side effects only)
+%
+%   See also: clear, close, clc
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 clear; %Clear all variables
 delete(get(0,'children')); %Delete all base objects

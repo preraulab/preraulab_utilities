@@ -1,42 +1,29 @@
+function [h_title, axbig] = outertitle(ax, title_str, varargin)
 %OUTERTITLE  Plot a big title on the outside of an axis grid
 %
 %   Usage:
-%       [h_title, h_axbig] = outertitle(axs, title_str, <label options>)
+%       [h_title, axbig] = outertitle(axs, title_str, 'Name', Value, ...)
+%       outertitle()   % runs demo
 %
-%   Input:
-%       axs: vector of axes in figure
-%       title_str: string for title text
-%   Optional inputs:
-%       <title options>: paired valued options for title class
+%   Inputs:
+%       axs       : array of axes handles -- required
+%       title_str : char - title text -- required
 %
-%   Output:
-%       h_title: outer title handle
-%       h_axbig: parent axis handle 
+%   Name-Value Pairs:
+%       <title options> : any additional name-value pairs forwarded to title()
+%                         (default: {'FontSize',20,'FontWeight','bold'})
+%
+%   Outputs:
+%       h_title : title handle
+%       axbig   : parent (overlay) axes handle
 %
 %   Example:
-%     %Create Figure
-%     figure
-%     ax = figdesign(3,2,'type','usletter','margins',[.1 .1 .14 .1 .08],'numberaxes',true);
-% 
-%     %Outer label strings
-%     title_str = 'My Title';
-%     xlabel_str = 'My X-Label';
-%     ylabel_str = 'My Y-Label';
-% 
-%     %Create outer labels
-%     [~,~,ax_big] =outerlabels(ax,xlabel_str,ylabel_str);
-% 
-%     %Create outer title
-%     outertitle(ax,title_str,'fontsize',30);
-
+%       outertitle(ax, 'My Title', 'fontsize', 30);
 %
+%   See also: outerlabels, figdesign, title
 %
-%   Copyright 2024 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
-%
-%   last modified 12/01/2021
-%********************************************************************
-
-function [h_title, axbig] = outertitle(ax, title_str, varargin)
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 if nargin == 0
     figure

@@ -1,58 +1,29 @@
 function equalize_axes(ax, varargin)
-%EQUALIZE_AXES Equalize the axes limits across multiple axes.
-%   EQUALIZE_AXES(AX) equalizes the axes limits across multiple axes. The
-%   function sets each axis to the tightest range and adjusts the color
-%   limits if there are images present. The axes limits can be equalized
-%   along the x, y, z, and/or c (color) dimensions.
+%EQUALIZE_AXES  Equalize axis limits across multiple axes along selected dimensions
 %
-%   EQUALIZE_AXES(AX, 'Name', Value) specifies optional name-value pairs:
-%       - 'dimension': Specifies the dimensions along which the axes limits
-%         should be equalized. It is a string that can contain the letters
-%         'x', 'y', 'z', and 'c' (color), in any order or combination.
-%         Default value is 'xyzc', meaning equalization across all
-%         dimensions.
-%       - 'linked': Specifies whether the axes should be linked or not. It
-%         is a logical value (true or false). When set to true, the axes are
-%         linked based on the specified dimensions. Default value is true.
+%   Usage:
+%       equalize_axes(ax)
+%       equalize_axes(ax, 'Name', Value, ...)
+%       equalize_axes()                  % runs demo
+%
+%   Inputs:
+%       ax : array of axes handles (length >= 2) -- required
+%
+%   Name-Value Pairs:
+%       'dimension' : char - any combination of 'x','y','z','c' (default: 'xyzc')
+%       'linked'    : logical - also link the listed axes (default: true)
+%
+%   Outputs:
+%       none (mutates axis limits in place)
 %
 %   Example:
-%       % Create a figure with images and plots
-%       figure
-%       ax = figdesign(3, 2);
-%
-%       axes(ax(1))
-%       imagesc(peaks(100) + 5)
-%       colorbar
-%
-%       axes(ax(3))
-%       imagesc(peaks(200) - 5)
-%       colorbar
-%
-%       axes(ax(5))
-%       imagesc(peaks(300))
-%       colorbar
-%
-%       axes(ax(2))
-%       N = 100;
-%       t = 1:N;
-%       plot(t, t * 3 - 4 + randn(size(t)) * 50, '.')
-%
-%       axes(ax(4))
-%       N = 200;
-%       t = 1:N;
-%       plot(t, t * -3 + 6 + randn(size(t)) * 80, '.')
-%
-%       axes(ax(6))
-%       N = 300;
-%       t = 1:N;
-%       plot(t, t * 4 - 12 + randn(size(t)) * 20, '.')
-%
 %       equalize_axes(ax([1 3 5]), 'c');
 %       equalize_axes(ax([2 4 6]), 'xy');
 %
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
-
+%   See also: linkaxes, linkprop, linkcaxes
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 if nargin == 0
     %Create a figure with images and plots
     figure
@@ -163,7 +134,5 @@ if linked
         hlink = linkprop(ax, 'CLim');
     end
 end
-
-
 
 

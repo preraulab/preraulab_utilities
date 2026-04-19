@@ -1,20 +1,24 @@
-%FULLFIG Generates full-screen figure
+function h=fullfig(h)
+%FULLFIG  Generate a full-screen figure
 %
 %   Usage:
-%   fullfig(h)
+%       h = fullfig()
+%       h = fullfig(h)
 %
-%   Input:
-%   h: optional figure handle
+%   Inputs:
+%       h : figure handle (default: new figure)
+%
+%   Outputs:
+%       h : figure handle
 %
 %   Example:
-%       % Generate full-screen figure
 %       fullfig;
-%       % Plot on figure
 %       plot(randn(1000,1));
 %
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
-function h=fullfig(h)
+%   See also: pagefig, figure
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 if nargin==0
     h=figure;

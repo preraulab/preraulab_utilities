@@ -1,34 +1,30 @@
 function new_axes = split_axis(varargin)
-%SPLIT_AXIS Split an axis into multiple axes
-%   new_axes = split_axis(hbreaks, vbreaks, gap, delete_ax)
-%              split_axis(ax, hbreaks, vbreaks, gap, delete_ax)
+%SPLIT_AXIS  Split an axis into a grid of smaller axes by fractional breaks
 %
-% Inputs:
-%   ax: handle to axis to split (default: current axis)
-%   hbreaks: 1xH vector - horizontal partitions in % (left to right), must sum to 1 --required
-%   vbreaks: 1xV vector -vertical partitions in % (top to bottom), must sum to 1 --required
-%   gap: double - gap between axes (default: 0)
-%   delete_ax: logical - delete original axis (default: true)
+%   Usage:
+%       new_axes = split_axis(hbreaks, vbreaks)
+%       new_axes = split_axis(hbreaks, vbreaks, gap, delete_ax)
+%       new_axes = split_axis(ax, hbreaks, vbreaks, gap, delete_ax)
+%       new_axes = split_axis()         % interactive mode
+%       new_axes = split_axis(ax)       % interactive on specific axis
 %
-%   Run with no inputs or single axis for interactive mode
+%   Inputs:
+%       ax        : axes handle to split (default: gca)
+%       hbreaks   : 1xH double - horizontal partitions summing to 1 -- required
+%       vbreaks   : 1xV double - vertical partitions summing to 1 -- required
+%       gap       : double - gap between new axes in normalized units (default: 0)
+%       delete_ax : logical - delete the original axis (default: true)
 %
-% Outputs:
-%   new_axes: array of handles to the new axis objects
+%   Outputs:
+%       new_axes : array of axes handles for the new subaxes
 %
 %   Example:
+%       new_axes = split_axis([.1 .2 .4 .3], [.6 .2 .1 .1]);
 %
-%     figure
-%     new_axes = split_axis([.1 .2 .4 .3], [.6 .2 .1 .1], true);
+%   See also: figdesign, stacked_plot
 %
-%     for ii = 1:length(new_axes)
-%         new_axes(ii).Color = rand(1,3);
-%     end
-%
-%     figure
-%     split_axis(); %Run in interactive mode
-%
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 %Run interactive mode
 if nargin <= 1
