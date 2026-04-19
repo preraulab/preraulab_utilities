@@ -1,45 +1,37 @@
-function handles = wireframe2(X, Y, Z, varargin)
-%WIREFRAME Generates a wireframe plot of a surface.
+function handles = wireframe(X, Y, Z, varargin)
+%WIREFRAME  Draw a wireframe plot of a surface
 %
-%   handles = WIREFRAME(X, Y, Z, N) 
-%   handles = WIREFRAME(X, Y, Z, xbins, xvals, ybins, yvals) 
+%   Usage:
+%       handles = wireframe(X, Y, Z, N)
+%       handles = wireframe(X, Y, Z, xbins, xvals, ybins, yvals)
 %
 %   Inputs:
-%       X: Matrix of x-coordinates
-%       Y: Matrix of y-coordinates
-%       Z: Matrix of z-coordinates
+%       X      : MxN double - x-coordinates -- required
+%       Y      : MxN double - y-coordinates -- required
+%       Z      : MxN double - z-coordinates -- required
+%       N      : double or 1x2 double - number of divisions per dim (default: 10)
+%       X_bins : 1xK double - full set of x indices (alternative signature)
+%       X_vals : 1xK double - x indices to plot (alternative signature)
+%       Y_bins : 1xK double - full set of y indices (alternative signature)
+%       Y_vals : 1xK double - y indices to plot (alternative signature)
 %
-%       N': Number of divisions (default: 10)
-%   or
-%       X_bins: Vector of available x indices
-%       X_vals: Vector of x indices to plot
-%       Y_bins: Vector of available y indices
-%       Y_vals: Vector of y indices to plot
+%   Name-Value Pairs:
+%       'Surface' : logical - plot an underlying surface (default: true)
 %
-%   Optional name-value pair:
-%       'Surface': Logical flag to plot surface (default: true)
-%
-%   Output:
-%       handles: Handles to the wireframe plot lines or surface
+%   Outputs:
+%       handles : cell array of handles to wireframe lines (and surface, if drawn)
 %
 %   Example:
 %       [X, Y, Z] = peaks(500);
-%       
-%       figure
-%       subplot(121)
-%       %Wireframe by divisions
+%       figure; subplot(121);
 %       wireframe(X, Y, Z, [10 20]);
-%       
-%       subplot(122)
-%       %Wireframe by values
-%       xbins = 1:250;
-%       ybins = 1:250;
-%       xvals = [1 34 69 100 248];
-%       yvals = [10:10:50 200:10:250];
-%       wireframe(X, Y, Z, xbins, xvals, ybins, yvals);
+%       subplot(122);
+%       wireframe(X, Y, Z, 1:250, [1 34 69 100 248], 1:250, [10:10:50 200:10:250]);
 %
-%   Copyright 2024 Michael J. Prerau Laboratory - http://www.sleepEEG.org
-%**************************************************************************
+%   See also: surface, plot3
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 if nargin == 0
     [X, Y, Z] = peaks(500);

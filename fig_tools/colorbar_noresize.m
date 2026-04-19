@@ -1,35 +1,31 @@
 function c = colorbar_noresize(varargin)
-% COLORBAR_NORESIZE creates a colorbar that does not resize the axis.
+%COLORBAR_NORESIZE  Add a colorbar without resizing the parent axes
 %
-% Syntax:
-%   c = colorbar_noresize
-%   c = colorbar_noresize(ax, <colorbar arguments>)
+%   Usage:
+%       c = colorbar_noresize()
+%       c = colorbar_noresize(ax, ...)
+%       c = colorbar_noresize(..., colorbar_args)
 %
-% Description:
-%   COLORBAR_NORESIZE creates a colorbar associated with the current axis
-%   (gca) or the specified axis (ax). By default, the colorbar will retain
-%   the same size as the axis and will not cause any resizing. Additional
-%   colorbar arguments can be provided.
+%   Inputs:
+%       ax            : axes handle (default: gca)
+%       colorbar_args : any additional args passed to colorbar()
 %
-% Input Arguments:
-%   - ax (optional): Handle to the axis for which the colorbar will be
-%     created. Default is the current axis (gca).
-%   - <colorbar arguments>: Additional arguments to customize the colorbar.
+%   Outputs:
+%       c : colorbar handle
 %
-% Output Argument:
-%   - c: Handle to the created colorbar.
+%   See also: colorbar, topcolorbar
 %
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
-
-if nargin == 0 || ~isa(varargin{1},'matlab.graphics.axis.Axes')
-    ax = gca;   % Use the current axis if no input argument is provided
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
+if nargin==0 || ~strcmpi(class(varargin{1}),'matlab.graphics.axis.Axes')
+    ax=gca;
 else
-    ax = varargin{1};
+    ax=varargin{1};
 end
 
-pos = ax.Position;  % Save the current position of the axis
-c = colorbar(ax, varargin{2:end});  % Create the colorbar
-ax.Position = pos;  % Restore the original position of the axis
+pos = ax.Position;
+c = colorbar(ax, varargin{2:end});
+ax.Position = pos;
 
 end
+

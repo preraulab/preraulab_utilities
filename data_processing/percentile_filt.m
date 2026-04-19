@@ -1,22 +1,24 @@
 function filtered_data = percentile_filt(data, ptile, window_size)
-%PERCENTILE_FILT  Compute a running percentile filter
+%PERCENTILE_FILT  Compute a running percentile filter along rows
 %
 %   Usage:
-%   Direct input:
-%   [filtered_data = percentile_filt(data, ptile, window_size)
+%       filtered_data = percentile_filt(data, ptile, window_size)
 %
-%   Input:
-%   data: N x T matrix - time series data, runs on rows, columns = time -- required
-%   ptile: double - percentile value  -- required
-%   window_size: sliding window size in samples -- required
+%   Inputs:
+%       data        : NxT double - time series data (rows = series, cols = time) -- required
+%       ptile       : double - percentile value in [0,100] -- required
+%       window_size : integer - sliding window size in samples -- required
 %
-%   Output:
-%   filtered_data: MxT matrix of percentile filtered data
+%   Outputs:
+%       filtered_data : NxT double - percentile-filtered data, same size as data
 %
-%   Example:
-% 
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   Notes:
+%       Requires the Image Processing Toolbox (ordfilt2).
+%
+%   See also: ordfilt2, prctile
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 %Make sure inputs are valid
 % p = inputParser;
@@ -26,6 +28,11 @@ function filtered_data = percentile_filt(data, ptile, window_size)
 % addRequired(p,'window_size',@(x)validateattributes(x,'numeric',{'scalar','nonempty'}))
 % 
 % parse(p,data,ptile,window_size);
+
+if ~exist('ordfilt2', 'file')
+    error('percentile_filt:missingDep', ...
+        'percentile_filt requires the Image Processing Toolbox (for ordfilt2).');
+end
 
 %Create a row filter
 filt_mat = ones(1, window_size);

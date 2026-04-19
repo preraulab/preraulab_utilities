@@ -1,22 +1,24 @@
 function clim_h = clims(ax)
-% CLIMS - Launches a gui for scaling color axes
+%CLIMS  Launch a GUI for scaling color axes
 %
 %   Usage:
+%       clim_h = clims()
 %       clim_h = clims(ax)
 %
-%   Input:
-%       ax: handle to axis -- required (default: gca)
+%   Inputs:
+%       ax : axes handle or array of axes handles (default: gca)
 %
-%   Output:
-%       clim_h: handle to the clim figure
+%   Outputs:
+%       clim_h : figure handle - the GUI figure
 %
 %   Example:
-%      ax = gca;
-%      imagesc(peaks(500);
-%      clims;
+%       imagesc(peaks(500));
+%       clims;
 %
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   See also: climscale, caxis, linkcaxes
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 if nargin==0
     ax=gca;
@@ -48,11 +50,11 @@ maxslider_h = uicontrol(clim_h,'units','pixel','Style','slider',...
 sliders=[maxslider_h minslider_h];
 
 %Create the edit boxes for manual entry of parameter values
-minedit_h=uicontrol(clim_h,'units','pixel','Style','edit','string',get(maxslider_h,'value'),'Position',[120 47 70 20],'backgroundcolor',get(gcf,'color'),'horizontalalign','right');
-maxedit_h=uicontrol(clim_h,'units','pixel','Style','edit','string',get(minslider_h,'value'),'Position',[120 97 70 20],'backgroundcolor',get(gcf,'color'),'horizontalalign','right');
+maxedit_h=uicontrol(clim_h,'units','pixel','Style','edit','string',get(maxslider_h,'value'),'Position',[120 47 70 20],'backgroundcolor',get(gcf,'color'),'horizontalalign','right');
+minedit_h=uicontrol(clim_h,'units','pixel','Style','edit','string',get(minslider_h,'value'),'Position',[120 97 70 20],'backgroundcolor',get(gcf,'color'),'horizontalalign','right');
 
-%Array of all edit box handles
-editboxes=[maxedit_h minedit_h];
+%Array of all edit box handles (order: [min, max] to match slider_update/edit_update usage)
+editboxes=[minedit_h maxedit_h];
 
 %Set continuous callbaxs for the sliders
 addlistener(maxslider_h,'ContinuousValueChange',@(src,evnt)slider_update(sliders,editboxes,ax));

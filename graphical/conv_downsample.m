@@ -1,53 +1,27 @@
 function img_downsampled = conv_downsample(img, scale_factor, method, plot_on)
-%CONV_IMRESIZE  Downsamples indexed images through convolution and decimation
+%CONV_DOWNSAMPLE  Downsample an image via convolution and decimation
 %
 %   Usage:
-%   Direct input:
 %       img_downsampled = conv_downsample(img, scale_factor, method, plot_on)
 %
-%   Input:
-%       img: MxN matrix - image data-- required
-%       scale_factor: 1x2 vector - downsample ratio, must be integer valued  -- required
-%       method: filter for convolution - 'mean' (default), 'median', 'max', <element order number>
-%       plot_on: boolean to plot results (default: false)
+%   Inputs:
+%       img          : MxN double - image data -- required
+%       scale_factor : 1x2 double - integer downsample ratio per dimension -- required
+%       method       : char or double - filter type: 'mean', 'median', 'max',
+%                      'min', or an order number (default: 'mean')
+%       plot_on      : logical - plot original vs downsampled (default: false)
 %
-%   Output:
-%       img_downsampled: downsampled image
-%  
+%   Outputs:
+%       img_downsampled : downsampled image
+%
 %   Example:
-%         %Create image
-%         img = peaks(200)+randn(200)/5;
-%         
-%         %Downsample by 4x6 factor
-%         scale_factor = [4 6];
-%         
-%         %Use different methods for downsampling
-%         figure
-%         subplot(221)
-%         imagesc(img);
-%         cx = caxis;
-%         title(['Original: ' sprintf('%d x %d', size(img))])
-%         
-%         subplot(222)
-%         img_downsampled = conv_downsample(img, scale_factor, 'mean');
-%         imagesc(img_downsampled);
-%         title(['Mean Downsampled: ' sprintf('%d x %d', size(img_downsampled))])
-%         caxis(cx);
-%         
-%         subplot(223)
-%         img_downsampled = conv_downsample(img, scale_factor, 'median');
-%         imagesc(img_downsampled);
-%         title(['Median Downsampled: ' sprintf('%d x %d', size(img_downsampled))])
-%         caxis(cx);
-%         
-%         subplot(224)
-%         img_downsampled = conv_downsample(img, scale_factor, 'max');
-%         imagesc(img_downsampled);
-%         title(['Max Downsampled: ' sprintf('%d x %d', size(img_downsampled))])
-%         caxis(cx);
-% 
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%       img = peaks(200) + randn(200)/5;
+%       img_downsampled = conv_downsample(img, [4 6], 'mean');
+%
+%   See also: conv2, ordfilt2, imresize
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 %Set example data
 if nargin == 0
@@ -98,12 +72,12 @@ if plot_on
     figure
     subplot(211)
     imagesc(img);
-    cx = caxis; %#ok<*CAXIS>
+    cx = get(gca,'CLim');
     title(['Original: ' sprintf('%d x %d', size(img))])
 
     subplot(212)
     imagesc(img_downsampled);
-    caxis(cx);
+    set(gca,'CLim',cx);
     title(['Downsampled: ' sprintf('%d x %d', size(img_downsampled))])
 end
 

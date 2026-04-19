@@ -1,92 +1,39 @@
-%FIGDESIGN  Simple, interactive design tool for figure and axes. Can format grids of axes,
-%           as well as merge existing axes.
+function axis_handles=figdesign(varargin)
+%FIGDESIGN  Interactive design tool for axis grids with merging and page layout
 %
 %   Usage:
-%       axis_handles=figdesign(num_rows, num_cols, options)
-%       axis_handles=figdesign(fig_handle, num_rows, num_cols, options)
-%       axis_handles=figdesign() %Run with no parameters for design mode
-%       axis_handles=figdesign('demo') %Run demo
+%       axis_handles = figdesign(num_rows, num_cols, 'Name', Value, ...)
+%       axis_handles = figdesign(fig_handle, num_rows, num_cols, ...)
+%       axis_handles = figdesign()         % design mode
+%       figdesign('demo')                  % run demo
 %
-%   Input:
-%   num_rows: the number of rows in the subplot
-%   num_cols: the number of columns in the subplot
-%   fig_handle: handle to parent figure
+%   Inputs:
+%       num_rows   : integer - number of rows in the grid -- required (when not in design mode)
+%       num_cols   : integer - number of columns in the grid -- required (when not in design mode)
+%       fig_handle : figure handle - parent figure (default: gcf)
 %
-%   Options:
-%   iteract: a boolean, which enables/disables grid interaction window (default: false).
-%            Closing the interaction window actives interactive merging.
-%            menu option on main figure.
+%   Name-Value Pairs:
+%       'margins'    : 1x5 or 1x6 double - [top bottom left right column row]
+%                      in normalized units (default: [.05 .05 .08 .05 .08 .08])
+%       'interact'   : logical - enable interactive margin/merge window (default: false)
+%       'merge'      : numeric or cell - indices of axes to merge
+%       'orient'     : 'portrait', 'landscape', or 'full' (default: 'portrait')
+%       'type'       : paper type (default: 'usletter')
+%       'numberaxes' : logical - title each axis with its number (default: false)
+%       <figure opts>: any valid figure name-value pair (units forced normalized)
 %
-%            To get new figure handles after interactive mergine, use:
-%               axes_handles=figdesign('handles');
-%   margins: a vector of margin size defined in normalized units as [top bottom left right column row]
-%            (default: [.1 .05 .08 .05 .08 .08])
-%   merge: an array or cell array, with indices of axes to merge
-%   numberaxes: logical, titles each axis with the axis number (default: false)
-%   <figure options>: list of name-value pairs of valid options for figure
-%   class. Units are forced to be normalized
+%   Outputs:
+%       axis_handles : 1xN axes handles for the created grid
 %
-%   Output:
-%   axis_handles: 1x(num_rows*numcols) vector of axis handles
+%   Example:
+%       figure; ax = figdesign(2,2);
+%       figdesign(4,4,'type','usletter','orient','portrait', ...
+%                'merge',{1:3,[5 6 9 10],[4 8 12 16],[7 11],[14 15]});
 %
-%   TO RUN DESIGN MODE:
-%       ax = figdesign();
+%   See also: subplot, linkaxes, outerlabels, outertitle
 %
-%   TO RUN DEMO:
-%       figdesign('demo');
-%
-%   Examples:
-%         EXAMPLE 1:
-%             %Simple instantiation
-%             figure
-%             ax=figdesign(2,2);
-%             for i=1:length(ax)
-%                 plot(ax(i), randn(1,1000));
-%             end
-%             linkaxes(ax,'x');
-%
-%         EXAMPLE 2:
-%             %Define custom margins
-%             top=.05;
-%             bottom=.05;
-%             left=.08;
-%             right=.05;
-%             column=.2;
-%             row=.3;
-%
-%             %Create subplot
-%             figdesign(2,2,'margins',[top bottom left right column row]);
-%
-%         EXAMPLE 3:
-%             %Define specific page size and orient
-%             figure
-%             figdesign(2,3,'type','usletter','orient','landscape');
-%
-%         EXAMPLE 4:
-%             %Merge axes
-%             figure
-%             figdesign(4,4,'type','usletter','orient','portrait','merge',{1:3,[5 6 9 10],[4 8 12 16], [7 11],[14 15]});
-%
-%         EXAMPLE 5:
-%             %Interactive merge figures
-%             figure
-%             figdesign(3,3,'type','usletter','orient','portrait');
-%             msgbox('Under the figure menu, select FigDesign>Merge. Single click on axes to merge. Double click on the last axis to complete merger.');
-%
-%         EXAMPLE 6:
-%             %Interactive adjust page margins
-%             figure
-%             figdesign(3,3,'type','usletter','orient','portrait','units','inches','margins',[.5 .5 1 1 .5],'interact',1);
-%             msgbox('Move sliders to adjust axes parameters. Type in the edit boxes to enter specific numerical values. When the adjustment window is closed, interactive figure merging is enabled on the main figure.');
-%
-%             %Call with handles operator to get new axes handles
-%             axs=figdesign('handles');
-%             linkaxes(axs,'x');
-%
-%   Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
-
-function axis_handles=figdesign(varargin)
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 %Run demo
 if (nargin==1 && strcmpi(varargin{1},'demo'))
     demo();
@@ -113,7 +60,9 @@ else
 end
 
 %Parse input options
-p=inputParser;
+p = inputParser;
+p.KeepUnmatched = true;
+
 p.addOptional('numrows',@(x)validateattributes(x,{'numeric'},{'positive','integer'}));
 p.addOptional('numcols',@(x)validateattributes(x,{'numeric'},{'positive','integer'}));
 p.addOptional('margins',[.05 .05 .08 .05 .08 .08],@(x)validateattributes(x,{'numeric','1d','vector'},{'positive','<=',1}));
@@ -122,7 +71,6 @@ p.addOptional('merge','');
 p.addOptional('orient','portrait', @(x)any(validatestring(x,{'portrait','landscape','full'})));
 p.addOptional('type', 'usletter');
 p.addOptional('numberaxes', false);
-p.KeepUnmatched = true;
 
 p.parse(varargin{:});
 
@@ -793,7 +741,7 @@ params = mainfig_h.UserData.params;
 fig_pos = get(mainfig_h,'Position');
 
 %Create the call string
-call_str = ['ax = figdesign(' num2str(params.num_rows) ', ' num2str(params.num_cols) ', ''PaperType'', ''' params.type ''', ''orient'', ''' params.orient ''' , ''margins'', [' num2str(params.margins) ']'];
+call_str = ['ax = figdesign(' num2str(params.num_rows) ', ' num2str(params.num_cols) ', ''type'', ''' params.type ''', ''orient'', ''' params.orient ''' , ''margins'', [' num2str(params.margins) ']'];
 
 %Add any mergers
 if ~isempty(mainfig_h.UserData.merged)

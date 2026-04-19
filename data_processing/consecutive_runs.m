@@ -1,39 +1,33 @@
 function [run_lengths, run_inds, filtered_vector] = consecutive_runs(data, min_len, max_len, value)
-% CONSECUTIVE_RUNS Extract consecutive runs of a specified value from a binary
-% vector.
+%CONSECUTIVE_RUNS  Extract consecutive runs of a specified value from a vector
 %
-% [run_lengths, run_inds, filtered_vector] = CONSECUTIVE_RUNS(data, min_len, max_len, value)
+%   Usage:
+%       [run_lengths, run_inds, filtered_vector] = consecutive_runs(data)
+%       [run_lengths, run_inds, filtered_vector] = consecutive_runs(data, min_len, max_len, value)
 %
-% Inputs:
-% - data: a binary vector.
-% - min_len: minimum length of consecutive runs.
-% - max_len: maximum length of consecutive runs.
-% - value: the value to extract consecutive runs of. If not provided, the
-% function will extract consecutive runs of ones.
+%   Inputs:
+%       data    : 1xN numeric or logical - input vector -- required
+%       min_len : double - minimum run length (default: 1)
+%       max_len : double - maximum run length (default: inf)
+%       value   : scalar - value whose runs to extract (default: ones / truthy)
 %
-% Outputs:
-% - run_lengths: vector containing the length of each consecutive run.
-% - run_inds: cell array containing the start and end indices of each consecutive run.
-% - filtered_vector: binary vector with ones at the positions of the extracted
-% consecutive runs.
+%   Outputs:
+%       run_lengths     : 1xK double - length of each qualifying run
+%       run_inds        : 1xK cell - index ranges for each run
+%       filtered_vector : logical, same size as data - true at positions inside a run
 %
-% If min_len and max_len are not specified, all consecutive runs of the
-% specified value are returned. If only min_len is specified, all runs of
-% length min_len or longer are returned. If both min_len and max_len are
-% specified, runs with length between min_len and max_len (inclusive) are
-% returned.
+%   Notes:
+%       Only runs with length in [min_len, max_len] are returned. If value is
+%       omitted, runs of ones (or truthy elements) are returned.
 %
-% If the value argument is not specified, the function extracts consecutive
-% runs of ones.
+%   Example:
+%       lengths = consecutive_runs([1 0 1 1 0 1 1 1 0 0]);             % [1 3]
+%       [lengths, runs] = consecutive_runs([0 0 1 1 0 1 1 1 0 0 1], 2, 4, 1);
 %
-% Examples:
-%   lengths = consecutive_runs([1 0 1 1 0 1 1 1 0 0])
-%   % returns [1 3]
-%   [lengths, run_inds] = consecutive_runs([0 0 1 1 0 1 1 1 0 0 1], 2, 4, 1)
-%   % returns lengths = [2 3] and run_inds = {[3 4], [6 8]}.
+%   See also: get_chunks, consecutive
 %
-%   Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
 %Default lengths impose no filtering
 if nargin <2
@@ -45,8 +39,8 @@ if nargin <3
 end
 
 %Check for valid lengths
-if min_len>=max_len
-    error('Min size must be less than max size');
+if min_len>max_len
+    error('Min size must be less than or equal to max size');
 end
 
 %Select a single value if necessary

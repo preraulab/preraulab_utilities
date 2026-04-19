@@ -1,21 +1,26 @@
 function clear_all_except(varargin)
-%CLEAR_ALL_EXCEPT Clear all local variables except those specified
+%CLEAR_ALL_EXCEPT  Clear all caller-workspace variables except those specified
 %
 %   Usage:
-%       clear_all_except(VAR1,VAR2,VAR3,...)
+%       clear_all_except(VAR1, VAR2, VAR3, ...)
+%       clear_all_except({VAR1, VAR2, VAR3, ...})
 %
-%   Input:
-%   VARN: Multiple string inputs of variable names or single cell of
-%   variable names as strings
+%   Inputs:
+%       varargin : char list or cell of char - variable names to keep -- required
+%
+%   Outputs:
+%       none (side effects only)
 %
 %   Example:
-%       a=3;b=4;c=4;d=234;e={1234.1234,234,234,546546};
+%       a=3; b=4; c=4; d=234; e={1234.1234,234,234,546546};
 %       clear_all_except({'a','b'})
 %
-%   Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
+%   See also: clear, evalin, whos
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
-if iscell(varargin) && length(varargin)==1
+if length(varargin)==1 && iscell(varargin{1})
     varargin=varargin{1};
 end
 

@@ -1,56 +1,41 @@
 function [zslider, pslider, zedit, pedit, zlabel, plabel, zlstnr, plstnr] = scrollzoompan(ax, dir, zoom_fcn, pan_fcn, bounds)
-%SCROLLZOOMPAN  Adds interactive scroll-wheel and keyboard pan/zoom controls to an axis
+%SCROLLZOOMPAN  Add interactive scroll-wheel and keyboard pan/zoom controls to an axis
 %
 %   Usage:
 %       [zslider, pslider, zedit, pedit, zlabel, plabel, zlstnr, plstnr] = ...
 %           scrollzoompan(ax, dir, zoom_fcn, pan_fcn, bounds)
 %
-%   Input:
-%       ax: axis handle – axis to apply pan and zoom (default: gca)
-%       dir: char – pan/zoom direction: 'x' or 'y' (default: 'x')
-%       zoom_fcn: function handle – optional callback called after zooming
-%       pan_fcn:  function handle – optional callback called after panning
-%       bounds: 1x2 numeric or datetime – optional data limits [min max]
+%   Inputs:
+%       ax       : axes handle (default: gca)
+%       dir      : char - 'x' or 'y' pan/zoom direction (default: 'x')
+%       zoom_fcn : function handle - optional callback after zooming (default: [])
+%       pan_fcn  : function handle - optional callback after panning (default: [])
+%       bounds   : 1x2 numeric or datetime - optional [min max] data limits (default: [nan nan])
 %
-%   Output:
-%       zslider: handle – slider controlling zoom width
-%       pslider: handle – slider controlling pan center
-%       zedit:   handle – edit box showing/setting zoom value
-%       pedit:   handle – edit box showing/setting pan value
-%       zlabel:  handle – label for zoom UI
-%       plabel:  handle – label for pan UI
-%       zlstnr:  handle – listener for zoom slider continuous updates
-%       plstnr:  handle – listener for pan slider continuous updates
-%
-%   Example:
-%       % Example using numeric X-axis
-%       x = linspace(0,100,10000);
-%       y = sin(x);
-%       plot(x,y);
-%       scrollzoompan(gca,'x');
-%
-%   Example:
-%       % Example using datetime X-axis
-%       t0 = datetime('now');
-%       t = t0 + seconds(0:0.5:5000);
-%       plot(t,randn(size(t)));
-%       scrollzoompan(gca,'x');
-%
-%   Example:
-%       % Adding callbacks
-%       zoomCB = @() disp('Zoom updated');
-%       panCB  = @() disp('Pan updated');
-%       scrollzoompan(gca,'x', zoomCB, panCB);
+%   Outputs:
+%       zslider : slider handle - zoom width
+%       pslider : slider handle - pan center
+%       zedit   : edit-box handle - zoom value display/input
+%       pedit   : edit-box handle - pan value display/input
+%       zlabel  : text handle - 'Zoom' label
+%       plabel  : text handle - 'Pan' label
+%       zlstnr  : listener handle - continuous updates for zoom slider
+%       plstnr  : listener handle - continuous updates for pan slider
 %
 %   Notes:
-%       • Mouse wheel pans; Shift + wheel zooms.
-%       • Arrow keys pan/zoom unless an edit box has focus.
-%       • For datetime axes, pan edit uses MM/DD/YY HH:mm:ss format,
+%       - Mouse wheel pans; Shift + wheel zooms.
+%       - Arrow keys pan/zoom unless an edit box has focus.
+%       - For datetime axes, pan edit uses MM/DD/YY HH:mm:ss format,
 %         and zoom edit uses HH:MM:SS duration.
 %
-%   Copyright Prerau Laboratory sleepEEG.org
-%% ********************************************************************
-
+%   Example:
+%       x = linspace(0,100,10000); plot(x, sin(x));
+%       scrollzoompan(gca,'x');
+%
+%   See also: zoom, pan, addlistener
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 %% ------------------------- DEFAULT ARGUMENT HANDLING -------------------------
 % If no axis is provided, default to current axis
 if nargin==0, ax = gca; end
@@ -74,11 +59,11 @@ end
 %% ------------------------- DETERMINE AXIS LIMITS -------------------------
 % Determine if the axis is time-based (datetime)
 if strcmpi(dir,'x')
-    val_min = ax.XLim(1);
+    val_min = ax.XLim(1); 
     val_max = ax.XLim(2);
     isdataax = isdatetime(ax.XLim(1));
 else
-    val_min = ax.YLim(1);
+    val_min = ax.YLim(1); 
     val_max = ax.YLim(2);
     isdataax = isdatetime(ax.YLim(1));
 end
@@ -95,23 +80,6 @@ if isdataax
     val_max = seconds(dt_max - dt_min);
 end
 
-%% ------------------------- ADD SPACE FOR SLIDERS -------------------------
-vspace = .5;
-fig = ax.Parent;
-fig.Units ="inches";
-children = fig.Children;
-inds = isprop(children,'Position') & isprop(children,'units');
-children = children(inds);
-set(children,'units','inches');
-fig.Position(4) = fig.Position(4) + vspace;
-
-for ii = 1:length(children) 
-    c = children(ii);
-    c.Position(2) = c.Position(2) + vspace;
-end
-
-fig.Units ="normalized";
-set(children,'units','normalized');
 %% ------------------------- CREATE SLIDERS -------------------------
 % Vertical offset between zoom and pan UI bars
 shift = 0.04;
@@ -172,11 +140,11 @@ fig_h.WindowScrollWheelFcn = @scroll_cb;
 
 %% ------------------------- CALLBACK FUNCTIONS -------------------------
 
-% --------------------------------------------------------------
-% Apply zoom when zoom slider moves
-% width = zoom window width
-% center = center of pan slider
-% --------------------------------------------------------------
+    % --------------------------------------------------------------
+    % Apply zoom when zoom slider moves
+    % width = zoom window width
+    % center = center of pan slider
+    % --------------------------------------------------------------
     function zoom_slider_cb()
         width = zslider.Value;
         center = pslider.Value;
@@ -207,9 +175,9 @@ fig_h.WindowScrollWheelFcn = @scroll_cb;
         if ~isempty(zoom_fcn), feval(zoom_fcn); end
     end
 
-% --------------------------------------------------------------
-% Apply pan when pan slider moves
-% --------------------------------------------------------------
+    % --------------------------------------------------------------
+    % Apply pan when pan slider moves
+    % --------------------------------------------------------------
     function pan_slider_cb()
         center = pslider.Value;
         width = zslider.Value;
@@ -243,18 +211,14 @@ fig_h.WindowScrollWheelFcn = @scroll_cb;
 %% ------------------------- ZOOM EDIT CALLBACK (WITH WARNING) -------------------------
     function zoom_edit_cb()
         str = zedit.String;
-        if isdatetime(ax.XLim)
-            try
-                % Must be a duration string (HH:MM:SS)
-                dur = duration(str);
-                val = seconds(dur);
-            catch
-                warning(['Invalid Zoom value. ', ...
-                    'Zoom must be entered as a duration in the format HH:MM:SS.']);
-                val = prev_zval;
-            end
-        else
-            val = str2double(str);
+        try
+            % Must be a duration string (HH:MM:SS)
+            dur = duration(str);
+            val = seconds(dur);
+        catch
+            warning(['Invalid Zoom value. ', ...
+                     'Zoom must be entered as a duration in the format HH:MM:SS.']);
+            val = prev_zval;
         end
 
         % Clamp and apply
@@ -267,18 +231,14 @@ fig_h.WindowScrollWheelFcn = @scroll_cb;
 %% ------------------------- PAN EDIT CALLBACK (WITH WARNING) -------------------------
     function pan_edit_cb()
         str = pedit.String;
-        if isdatetime(ax.XLim)
-            try
-                % Must match exact datetime format
-                dt = datetime(str,'InputFormat','MM/dd/yy HH:mm:ss');
-                val = seconds(dt - dt_min);
-            catch
-                warning(['Invalid Pan value. ', ...
-                    'Pan must be entered in the format MM/DD/YY HH:mm:ss.']);
-                val = prev_pval;
-            end
-        else
-            val = str2double(str);
+        try
+            % Must match exact datetime format
+            dt = datetime(str,'InputFormat','MM/dd/yy HH:mm:ss');
+            val = seconds(dt - dt_min);
+        catch
+            warning(['Invalid Pan value. ', ...
+                     'Pan must be entered in the format MM/DD/YY HH:mm:ss.']);
+            val = prev_pval;
         end
 
         % Clamp + apply
@@ -330,8 +290,12 @@ handle = struct('shift_down',false);
             zslider.Value = min(max(val,zslider.Min),zslider.Max);
             zoom_slider_cb();
         else
-            % Pan normally
-            val = pslider.Value*(1 - 0.025*evt.VerticalScrollCount);
+            % Pan normally — additive step proportional to zoom width so
+            % sensitivity is constant across the axis (multiplicative step
+            % would trap the user at pslider.Value = 0 and give nonlinear
+            % sensitivity everywhere else)
+            step = 0.025*zslider.Value;
+            val = pslider.Value - step*evt.VerticalScrollCount;
             pslider.Value = min(max(val,pslider.Min),pslider.Max);
             pan_slider_cb();
         end

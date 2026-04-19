@@ -1,34 +1,28 @@
 function vargout = struct2nvp(myStruct)
-%STRUCT2NVP Converts a structure to name-value pairs string.
+%STRUCT2NVP  Convert a structure to a name-value pairs string
 %
-%   STR = STRUCT2NVP(MYSTRUCT) converts the fields and values of the input
-%   structure MYSTRUCT into a name-value pairs string and returns it as STR.
-%   The fields are separated by commas and each name-value pair is of the
-%   form 'fieldname, value'. The values are converted to strings according
-%   to their data type.
+%   Usage:
+%       str = struct2nvp(myStruct)
 %
 %   Inputs:
-%     myStruct: Input structure to convert to name-value pairs string.
+%       myStruct : struct - input structure -- required
 %
-%   Output:
-%     str: Name-value pairs string representing the input structure.
+%   Outputs:
+%       str : char - comma-separated name-value pairs 'field', value, 'field', value, ...
 %
 %   Example:
-%         myStruct.field1 = 23;
-%         myStruct.field2 = 1:5;
-%         myStruct.field3 = 'Testing123';
-%         myStruct.field4 = {'apple', 42, [], {'a','b','c'}};
-%         myStruct.field5 = [];
-%         myStruct.field6 = {};
-% 
-%         struct_str = struct2nvp(myStruct);
-%         disp(struct_str)
+%       s.field1 = 23;
+%       s.field2 = 1:5;
+%       s.field3 = 'Testing123';
+%       s.field4 = {'apple', 42, [], {'a','b','c'}};
+%       s.field5 = [];
+%       s.field6 = {};
+%       str = struct2nvp(s);
 %
-%   See also NAMEDARGS2CELL
-% 
-% Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%**************************************************************************
-
+%   See also: struct2nvpstr, struct2codestr, namedargs2cell, value2str
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 fields = fieldnames(myStruct);
 vargout = '';
 for ii = 1:numel(fields)
@@ -58,8 +52,13 @@ end
         elseif iscell(value)
             % Recurse for all cell elements
             value_str = ['{' strjoin(cellfun(@value2str, value, 'UniformOutput', false), ', ') '}'];
+        elseif ischar(value)
+            value_str = ['''' value ''''];
+        elseif isstring(value) && isscalar(value)
+            value_str = ['"' char(value) '"'];
         else
-            value_str = ['''' value '''']; % String scalar or other types
+            error('struct2nvp:unsupportedType', ...
+                'Unsupported value type ''%s'' for field.', class(value));
         end
     end
 end

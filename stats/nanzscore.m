@@ -1,30 +1,40 @@
-% nanzscore - Computes z-scores for data with NaN values
-%
-% Syntax:
-%   [zscored, mu, sigma] = nanzscore(data, varargin)
-%
-% Inputs:
-%   - data: Input data array with NaN values
-%   - varargin: Additional arguments passed to the zscore function
-%
-% Outputs:
-%   - zscored: Z-scored data array
-%   - mu: Mean of the non-NaN values in data
-%   - sigma: Standard deviation of the non-NaN values in data
-%
-% Example:
-%   data = [1, 2, NaN, 4, 5];
-%   [zscored, mu, sigma] = nanzscore(data);
-%
-%   Copyright 2024 Michael J. Prerau Laboratory - http://www.sleepEEG.org
-%********************************************************************
-
 function [zscored, mu, sigma] = nanzscore(data, varargin)
-    % Find non-NaN indices in the data
-    inds = ~isnan(data);
-    
-    % Compute z-scores for non-NaN values
-    [zscored, mu, sigma] = zscore(data(inds), varargin{:});
-end
+%NANZSCORE  Compute z-scores ignoring NaN values
+%
+%   Usage:
+%       [zscored, mu, sigma] = nanzscore(data, ...)
+%
+%   Inputs:
+%       data     : numeric array - data to z-score (NaNs are ignored) -- required
+%       varargin : additional arguments forwarded to zscore()
+%
+%   Outputs:
+%       zscored : numeric array - z-scored data (same size as data)
+%       mu      : double - mean used for z-scoring (non-NaN values only)
+%       sigma   : double - standard deviation used for z-scoring
+%
+%   Notes:
+%       Only non-NaN elements of data are used to compute the z-score. The
+%       resulting zscored array matches the size of data, with NaN preserved
+%       at every position where data was NaN.
+%
+%   See also: zscore, isnan
+%
+%   ∿∿∿  Prerau Laboratory MATLAB Codebase · sleepEEG.org  ∿∿∿
+%        Source: https://github.com/preraulab/labcode_main
 
+inds = ~isnan(data);
+zscored = nan(size(data));
+[zscored(inds), mu, sigma] = zscore(data(inds),varargin{:});
+
+% %NANZSCORE compute zscores ignoring nans
+% if any(isnan(data))
+%     mu = mean(data,'all','omitnan');
+%     sigma = std(data,0,'all','omitnan');
+%     zscored = (data-mu)./sigma;
+% else
+%     [zscored, mu, sigma] = zscore(data(:));
+% end
+
+end
 
