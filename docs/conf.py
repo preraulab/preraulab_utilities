@@ -6,7 +6,6 @@ author = "Michael J. Prerau Laboratory"
 copyright = "2011-present, Michael J. Prerau Laboratory"
 release = ""
 
-# Path setup for matlabdomain -- points to repo root so it finds .m files.
 REPO_ROOT = Path(__file__).resolve().parent.parent
 matlab_src_dir = str(REPO_ROOT)
 primary_domain = "mat"
@@ -29,8 +28,6 @@ autodoc_default_options = {
     "undoc-members": True,
 }
 
-# MATLAB folders aren't namespaced like Python packages — suppress the
-# synthetic "folder." prefix that matlabdomain prepends to signatures.
 add_module_names = False
 matlab_short_links = True
 
@@ -53,14 +50,17 @@ source_suffix = {
 }
 
 # ---------- HTML / theme ----------
+# Basic Furo with just enough styling for Prerau Lab branding.
 
 html_theme = "furo"
 html_static_path = ["_static"]
-html_css_files = ["custom.css"]
+html_css_files = [
+    "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
+    "prerau.css",
+]
 html_title = "preraulab_utilities"
 html_short_title = "preraulab_utilities"
 
-# Furo theme tuning — modern, professional look with a lab-blue accent.
 html_theme_options = {
     "sidebar_hide_name": False,
     "navigation_with_keys": True,
@@ -68,22 +68,6 @@ html_theme_options = {
     "source_repository": "https://github.com/preraulab/preraulab_utilities/",
     "source_branch": "master",
     "source_directory": "docs/",
-    "light_css_variables": {
-        "color-brand-primary":   "#0b6aa2",
-        "color-brand-content":   "#0b6aa2",
-        "color-brand-visited":   "#6b3fa0",
-        "color-admonition-title-background--note": "#e3f2fd",
-        "color-admonition-title--note":            "#1565c0",
-        "color-admonition-title-background--tip":  "#e8f5e9",
-        "color-admonition-title--tip":             "#2e7d32",
-        "font-stack":       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-        "font-stack--monospace": "'JetBrains Mono', 'Fira Code', SFMono-Regular, Consolas, Menlo, monospace",
-    },
-    "dark_css_variables": {
-        "color-brand-primary":  "#58a6ff",
-        "color-brand-content":  "#58a6ff",
-        "color-brand-visited":  "#bc8cff",
-    },
     "footer_icons": [
         {
             "name": "GitHub",
@@ -97,19 +81,10 @@ html_theme_options = {
 html_show_sourcelink = True
 html_show_sphinx = False
 
-# Favicon / logo — omitted for now (add when there's a lab SVG).
-
-# ---------- Intersphinx ----------
-
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
 }
 
-# ---------- Misc ----------
-
-# Copy-button: strip MATLAB prompt and ellipsis continuation
 copybutton_prompt_text = r">> |\.\.\. "
 copybutton_prompt_is_regexp = True
-
-# Make matlabdomain tolerant of non-standard headers / missing docstrings
 matlab_show_property_default_value = True
