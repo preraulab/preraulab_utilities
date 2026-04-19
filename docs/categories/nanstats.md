@@ -1,4 +1,4 @@
-# Statistics
+# nanstats
 
 NaN-aware statistical helpers.
 
