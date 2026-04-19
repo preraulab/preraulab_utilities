@@ -18,7 +18,8 @@ The repo is organized by function type. Each directory is a self-contained categ
 | [`graphical/`](#graphical) | Higher-level plot primitives | `shadebounds`, `gantt`, `phasehistogram` |
 | [`stats/`](#stats) | Statistical helpers robust to NaN | `nanzscore`, `nanpow2db` |
 | [`workspace/`](#workspace) | Workspace management | `ccc`, `clear_all_except`, `packagecode` |
-| [`external_authors/`](#external-authors) | Vendored third-party File Exchange utilities | `suptitle`, `progressbar`, `sigstar` |
+
+> **Third-party utilities.** File Exchange / community utilities that `utils` code depends on (e.g., `suptitle`, `progressbar`, `sigstar`) live in the private [`external_utils`](https://github.com/preraulab/external_utils) repo to keep this repo entirely lab-owned BSD-3. If `suptitle` is missing when you call a lab function, add `external_utils` to your path.
 
 ## Install
 

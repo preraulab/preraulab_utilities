@@ -94,15 +94,6 @@ Workspace management — clear, close, package.
 **Functions:** `ccc`, `clear_all_except`, `packagecode`
 :::
 
-:::{grid-item-card} External Authors
-:link: categories/external_authors
-:link-type: doc
-
-Vendored third-party utilities from MATLAB File Exchange.
-
-**10 functions**
-:::
-
 ::::
 
 ## Quick examples
@@ -160,7 +151,6 @@ categories/file
 categories/graphical
 categories/stats
 categories/workspace
-categories/external_authors
 ```
 
 ## Repository
