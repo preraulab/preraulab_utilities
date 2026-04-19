@@ -68,15 +68,6 @@ See the individual sub-repo README for category-specific usage.
 - **Small, composable.** Each function does one thing.
 - **No hidden state.** Interactive controls store state in `appdata` on the target axes/figure, not in globals.
 
-## Contributing
-
-Before adding a new utility:
-
-1. **Pick the right sub-repo.** `fig_tools` is for axes/figure plumbing; `graphical` is for plot primitives a user calls directly. `data_processing` is for index/array manipulation; `conversion` is for format conversions.
-2. **Start from the lab template.** Use [`templates/newfunction.m`](https://github.com/preraulab/templates) to get the canonical docstring structure.
-3. **Commit to the appropriate sub-repo**, not this meta-repo. Then bump the submodule pointer here.
-4. **Add a `See also:` line** linking to related functions in the same category.
-
 ## Citation
 
 ```
