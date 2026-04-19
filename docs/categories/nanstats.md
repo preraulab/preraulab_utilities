@@ -4,9 +4,9 @@ NaN-aware statistical helpers.
 
 ## Reference
 
-```{eval-rst}
-.. mat:module:: stats
+```{toctree}
+:maxdepth: 1
 
-.. mat:autofunction:: nanpow2db
-.. mat:autofunction:: nanzscore
+nanstats/nanpow2db
+nanstats/nanzscore
 ```

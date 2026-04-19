@@ -18,18 +18,18 @@ Type, format, and representation conversions — numbers to strings, structs to 
 
 ## Reference
 
-```{eval-rst}
-.. mat:module:: conversion
+```{toctree}
+:maxdepth: 1
 
-.. mat:autofunction:: csv2table
-.. mat:autofunction:: double2estr
-.. mat:autofunction:: double2expstr
-.. mat:autofunction:: double2fracstr
-.. mat:autofunction:: double2pifracstr
-.. mat:autofunction:: num2cellstr
-.. mat:autofunction:: struct2codestr
-.. mat:autofunction:: struct2nvp
-.. mat:autofunction:: struct2nvpstr
-.. mat:autofunction:: table2csv
-.. mat:autofunction:: value2str
+conversion/csv2table
+conversion/double2estr
+conversion/double2expstr
+conversion/double2fracstr
+conversion/double2pifracstr
+conversion/num2cellstr
+conversion/struct2codestr
+conversion/struct2nvp
+conversion/struct2nvpstr
+conversion/table2csv
+conversion/value2str
 ```

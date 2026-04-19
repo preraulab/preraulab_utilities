@@ -12,10 +12,10 @@ Bin values or events onto regular grids, in 1-D or N-D, with fixed edges or a sl
 
 ## Reference
 
-```{eval-rst}
-.. mat:module:: binning
+```{toctree}
+:maxdepth: 1
 
-.. mat:autofunction:: create_bins
-.. mat:autofunction:: create_NDbins
-.. mat:autofunction:: hist_slide
+binning/create_bins
+binning/create_NDbins
+binning/hist_slide
 ```

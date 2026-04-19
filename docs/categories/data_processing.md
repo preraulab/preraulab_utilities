@@ -15,13 +15,13 @@ Generic signal and index manipulation — consecutive runs, chunk detection, int
 
 ## Reference
 
-```{eval-rst}
-.. mat:module:: data_processing
+```{toctree}
+:maxdepth: 1
 
-.. mat:autofunction:: consecutive_runs
-.. mat:autofunction:: findclosest
-.. mat:autofunction:: get_chunks
-.. mat:autofunction:: interval_intersect
-.. mat:autofunction:: percentile_filt
-.. mat:autofunction:: pick_from_time_segments
+data_processing/consecutive_runs
+data_processing/findclosest
+data_processing/get_chunks
+data_processing/interval_intersect
+data_processing/percentile_filt
+data_processing/pick_from_time_segments
 ```

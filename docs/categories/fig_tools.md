@@ -46,30 +46,30 @@ Figure layout, axes linking, interactive controls — the plumbing for good-look
 
 ## Reference
 
-```{eval-rst}
-.. mat:module:: fig_tools
+```{toctree}
+:maxdepth: 1
 
-.. mat:autofunction:: clims
-.. mat:autofunction:: climscale
-.. mat:autofunction:: colorbar_noresize
-.. mat:autofunction:: equalize_axes
-.. mat:autofunction:: figdesign
-.. mat:autofunction:: fullfig
-.. mat:autofunction:: get_clicks
-.. mat:autofunction:: letter_label
-.. mat:autofunction:: linkaxes3d
-.. mat:autofunction:: linkcaxes
-.. mat:autofunction:: mergefigures
-.. mat:autofunction:: outerlabels
-.. mat:autofunction:: outertitle
-.. mat:autofunction:: pagefig
-.. mat:autofunction:: scaleline
-.. mat:autofunction:: scrollzoompan
-.. mat:autofunction:: shadow_axis
-.. mat:autofunction:: slicepopup
-.. mat:autofunction:: split_axis
-.. mat:autofunction:: squarest_subplots
-.. mat:autofunction:: stacked_plot
-.. mat:autofunction:: topcolorbar
-.. mat:autofunction:: zoom_fill
+fig_tools/clims
+fig_tools/climscale
+fig_tools/colorbar_noresize
+fig_tools/equalize_axes
+fig_tools/figdesign
+fig_tools/fullfig
+fig_tools/get_clicks
+fig_tools/letter_label
+fig_tools/linkaxes3d
+fig_tools/linkcaxes
+fig_tools/mergefigures
+fig_tools/outerlabels
+fig_tools/outertitle
+fig_tools/pagefig
+fig_tools/scaleline
+fig_tools/scrollzoompan
+fig_tools/shadow_axis
+fig_tools/slicepopup
+fig_tools/split_axis
+fig_tools/squarest_subplots
+fig_tools/stacked_plot
+fig_tools/topcolorbar
+fig_tools/zoom_fill
 ```

@@ -17,10 +17,10 @@ for interactive sessions, not scripts or functions that other code depends on.
 
 ## Reference
 
-```{eval-rst}
-.. mat:module:: workspace
+```{toctree}
+:maxdepth: 1
 
-.. mat:autofunction:: ccc
-.. mat:autofunction:: clear_all_except
-.. mat:autofunction:: packagecode
+workspace/ccc
+workspace/clear_all_except
+workspace/packagecode
 ```

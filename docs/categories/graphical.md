@@ -19,17 +19,17 @@ Higher-level plot primitives — line + shaded bounds, Gantt charts, phase histo
 
 ## Reference
 
-```{eval-rst}
-.. mat:module:: graphical
+```{toctree}
+:maxdepth: 1
 
-.. mat:autofunction:: conv_downsample
-.. mat:autofunction:: gantt
-.. mat:autofunction:: group_boxchart
-.. mat:autofunction:: lm_plot
-.. mat:autofunction:: mat2rgbpic
-.. mat:autofunction:: phasehistogram
-.. mat:autofunction:: range_numberline
-.. mat:autofunction:: shadebounds
-.. mat:autofunction:: threshold_plot
-.. mat:autofunction:: wireframe
+graphical/conv_downsample
+graphical/gantt
+graphical/group_boxchart
+graphical/lm_plot
+graphical/mat2rgbpic
+graphical/phasehistogram
+graphical/range_numberline
+graphical/shadebounds
+graphical/threshold_plot
+graphical/wireframe
 ```
