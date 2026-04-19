@@ -15,7 +15,7 @@ Each category is a standalone repository that can be used on its own. This repo 
 | [`fig_tools`](https://github.com/preraulab/fig_tools) | Figure layout, axes linking, interactive controls | `figdesign`, `scrollzoompan`, `letter_label` |
 | [`graphical`](https://github.com/preraulab/graphical) | Higher-level plot primitives | `shadebounds`, `gantt`, `phasehistogram` |
 | [`read_EDF`](https://github.com/preraulab/read_EDF) | EDF/EDF+ reader with MEX acceleration | `read_EDF`, `header_gui` |
-| [`stats`](https://github.com/preraulab/stats) | NaN-aware statistical helpers | `nanzscore`, `nanpow2db` |
+| [`nanstats`](https://github.com/preraulab/nanstats) | NaN-aware statistical helpers | `nanzscore`, `nanpow2db` |
 | [`workspace`](https://github.com/preraulab/workspace) | Workspace management | `ccc`, `clear_all_except`, `packagecode` |
 
 Each sub-repo has its own README with function tables and usage examples — click any submodule name above.

@@ -10,9 +10,9 @@
 [submodule "graphical"]
 	path = graphical
 	url = git@github.com:preraulab/graphical.git
-[submodule "stats"]
-	path = stats
-	url = git@github.com:preraulab/stats.git
+[submodule "nanstats"]
+	path = nanstats
+	url = git@github.com:preraulab/nanstats.git
 [submodule "workspace"]
 	path = workspace
 	url = git@github.com:preraulab/workspace.git

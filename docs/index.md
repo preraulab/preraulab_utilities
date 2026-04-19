@@ -67,8 +67,8 @@ Higher-level plot primitives — shaded bounds, Gantt charts, phase histograms, 
 **10 functions**
 :::
 
-:::{grid-item-card} Statistics
-:link: categories/stats
+:::{grid-item-card} nanstats
+:link: categories/nanstats
 :link-type: doc
 
 NaN-aware statistical helpers.
@@ -157,7 +157,7 @@ categories/conversion
 categories/data_processing
 categories/fig_tools
 categories/graphical
-categories/stats
+categories/nanstats
 categories/workspace
 ```
 
