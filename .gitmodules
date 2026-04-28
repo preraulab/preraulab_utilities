@@ -22,6 +22,6 @@
 [submodule "CSSuicontrols"]
 	path = CSSuicontrols
 	url = git@github.com:preraulab/CSSuicontrols.git
-[submodule "read_EDF"]
-	path = read_EDF
-	url = git@github.com:preraulab/read_EDF.git
+[submodule "EDF_toolbox"]
+	path = EDF_toolbox
+	url = git@github.com:preraulab/EDF_toolbox.git
