@@ -63,7 +63,7 @@ See the individual sub-repo README for category-specific usage.
 ## Design conventions (shared across all sub-repos)
 
 - **Canonical docstring format.** Every function has `Usage`, `Inputs`, `Name-Value Pairs`, `Outputs`, `See also` sections. Run `help <function_name>`.
-- **R2020a-compatible.** No `arguments` blocks, no name=value call syntax, no `dictionary`. Input validation uses `inputParser`.
+- **Prefer the portable equivalent.** No hard minimum release, but where two constructs are equivalent, the more widely-supported one wins: `'name', value` over `name=value`, `containers.Map` over `dictionary`. Input validation defaults to `inputParser`; `CSSuicontrols` constructors use `arguments` blocks where type coercion earns its keep. Features with a version dependency are noted in the function's `Notes:`.
 - **NaN-aware where sensible.** Anything named `nan*` handles NaN input gracefully.
 - **Small, composable.** Each function does one thing.
 - **No hidden state.** Interactive controls store state in `appdata` on the target axes/figure, not in globals.

@@ -140,7 +140,7 @@ savepath;   % optional
 
 ## Design principles
 
-- **R2020a-compatible.** No `arguments` blocks, no name=value syntax, no `dictionary`.
+- **Prefer the portable equivalent.** No hard minimum release; where two constructs do the same job, the more widely-supported one wins (`'name', value` over `name=value`; `containers.Map` over `dictionary`). Input validation defaults to `inputParser`.
 - **Small, composable.** Each function does one thing; complex behavior comes from combinations.
 - **NaN-aware where sensible.** Anything named `nan*` handles NaN gracefully.
 - **No hidden state.** Interactive controls store per-axes `appdata`, never globals.
