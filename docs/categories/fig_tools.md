@@ -32,6 +32,7 @@ Figure layout, axes linking, interactive controls — the plumbing for good-look
 | Add a colorbar along the top | {mat:func}`topcolorbar` |
 | Draw a scale bar on an axis | {mat:func}`scaleline` |
 | Rotate 3-D axis labels parallel to their axes | {mat:func}`align_axis_labels` |
+| On-screen angle of an axes' x/y/z direction | {mat:func}`axis_screen_angle` |
 | Add a shadow / secondary axis | {mat:func}`shadow_axis` |
 | Split an axis into multiple panels | {mat:func}`split_axis` |
 
@@ -51,6 +52,7 @@ Figure layout, axes linking, interactive controls — the plumbing for good-look
 :maxdepth: 1
 
 fig_tools/align_axis_labels
+fig_tools/axis_screen_angle
 fig_tools/clims
 fig_tools/climscale
 fig_tools/colorbar_noresize
