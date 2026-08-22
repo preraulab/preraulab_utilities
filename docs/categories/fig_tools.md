@@ -31,6 +31,7 @@ Figure layout, axes linking, interactive controls — the plumbing for good-look
 | Add a colorbar that doesn't resize the parent axes | {mat:func}`colorbar_noresize` |
 | Add a colorbar along the top | {mat:func}`topcolorbar` |
 | Draw a scale bar on an axis | {mat:func}`scaleline` |
+| Rotate 3-D axis labels parallel to their axes | {mat:func}`align_axis_labels` |
 | Add a shadow / secondary axis | {mat:func}`shadow_axis` |
 | Split an axis into multiple panels | {mat:func}`split_axis` |
 
@@ -49,6 +50,7 @@ Figure layout, axes linking, interactive controls — the plumbing for good-look
 ```{toctree}
 :maxdepth: 1
 
+fig_tools/align_axis_labels
 fig_tools/clims
 fig_tools/climscale
 fig_tools/colorbar_noresize
